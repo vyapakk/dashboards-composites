@@ -72,26 +72,29 @@ const SignUp = () => {
         <BackgroundPattern />
         
         <div className="relative z-10 flex flex-col justify-between p-12 xl:p-16 w-full">
-          {/* Logo */}
-          <div className="animate-fade-in-up">
-            <img 
-              src={stratviewLogo} 
-              alt="Stratview Research" 
-              className="h-16 xl:h-20 w-auto brightness-0 invert"
-            />
-          </div>
+          {/* Logo and Main content grouped together */}
+          <div className="space-y-8">
+            {/* Logo */}
+            <div className="animate-fade-in-up">
+              <img 
+                src={stratviewLogo} 
+                alt="Stratview Research" 
+                className="h-16 xl:h-20 w-auto brightness-0 invert"
+              />
+            </div>
 
-          {/* Main content */}
-          <div className="space-y-6 animate-fade-in-up" style={{ animationDelay: "0.2s" }}>
-            <div className="space-y-4">
-              <h1 className="text-4xl xl:text-5xl font-bold text-primary-foreground leading-tight">
-                Join
-                <span className="block text-stratview-mint">Stratview One</span>
-              </h1>
-              <p className="text-lg xl:text-xl text-primary-foreground/80 max-w-lg leading-relaxed">
-                Get access to comprehensive market research data, industry insights, 
-                and strategic intelligence tailored to your business needs.
-              </p>
+            {/* Main content */}
+            <div className="space-y-6 animate-fade-in-up" style={{ animationDelay: "0.2s" }}>
+              <div className="space-y-4">
+                <h1 className="text-4xl xl:text-5xl font-bold text-primary-foreground leading-tight">
+                  Join
+                  <span className="block text-stratview-mint">Stratview One</span>
+                </h1>
+                <p className="text-lg xl:text-xl text-primary-foreground/80 max-w-lg leading-relaxed">
+                  Get access to comprehensive market research data, industry insights, 
+                  and strategic intelligence tailored to your business needs.
+                </p>
+              </div>
             </div>
           </div>
 

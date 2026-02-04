@@ -18,17 +18,19 @@ const Index = () => {
         <BackgroundPattern />
         
         <div className="relative z-10 flex flex-col justify-between p-12 xl:p-16 w-full">
-          {/* Logo */}
-          <div className="animate-fade-in-up">
-            <img 
-              src={stratviewLogo} 
-              alt="Stratview Research" 
-              className="h-16 xl:h-20 w-auto brightness-0 invert"
-            />
-          </div>
+          {/* Logo and Main content grouped together */}
+          <div className="space-y-12">
+            {/* Logo */}
+            <div className="animate-fade-in-up">
+              <img 
+                src={stratviewLogo} 
+                alt="Stratview Research" 
+                className="h-16 xl:h-20 w-auto brightness-0 invert"
+              />
+            </div>
 
-          {/* Main content */}
-          <div className="space-y-8 animate-fade-in-up" style={{ animationDelay: "0.2s" }}>
+            {/* Main content */}
+            <div className="space-y-8 animate-fade-in-up" style={{ animationDelay: "0.2s" }}>
             <div className="space-y-4">
               <h1 className="text-4xl xl:text-5xl font-bold text-primary-foreground leading-tight">
                 Welcome to
@@ -57,6 +59,7 @@ const Index = () => {
                 </div>
               ))}
             </div>
+          </div>
           </div>
 
           {/* Footer */}
