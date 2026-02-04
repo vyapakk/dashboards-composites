@@ -101,8 +101,8 @@ const LoginForm = () => {
 
       <p className="text-center text-sm text-muted-foreground">
         Don't have an account?{" "}
-        <a href="#" className="font-medium text-secondary hover:text-stratview-mint transition-colors">
-          Request access
+        <a href="/signup" className="font-medium text-secondary hover:text-stratview-mint transition-colors">
+          Sign up now
         </a>
       </p>
     </form>
