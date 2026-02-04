@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
-import { ArrowRight, Loader2, ArrowLeft } from "lucide-react";
+import { ArrowRight, Loader2, ArrowLeft, Eye, EyeOff, Check, X } from "lucide-react";
 import BackgroundPattern from "@/components/BackgroundPattern";
 import stratviewLogo from "@/assets/stratview-logo.png";
 
@@ -32,10 +32,25 @@ const SignUp = () => {
     designation: "",
     phone: "",
     email: "",
+    password: "",
+    confirmPassword: "",
   });
   const [selectedIndustries, setSelectedIndustries] = useState<string[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+
+  const passwordRules = [
+    { label: "At least 8 characters", test: (p: string) => p.length >= 8 },
+    { label: "One uppercase letter", test: (p: string) => /[A-Z]/.test(p) },
+    { label: "One lowercase letter", test: (p: string) => /[a-z]/.test(p) },
+    { label: "One number", test: (p: string) => /[0-9]/.test(p) },
+    { label: "One special character (!@#$%^&*)", test: (p: string) => /[!@#$%^&*]/.test(p) },
+  ];
+
+  const isPasswordValid = passwordRules.every((rule) => rule.test(formData.password));
+  const passwordsMatch = formData.password === formData.confirmPassword && formData.confirmPassword !== "";
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -54,6 +69,16 @@ const SignUp = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
+    if (!isPasswordValid) {
+      setError("Please ensure your password meets all requirements.");
+      return;
+    }
+
+    if (!passwordsMatch) {
+      setError("Passwords do not match.");
+      return;
+    }
+
     if (selectedIndustries.length === 0) {
       setError("Please select at least one industry of interest.");
       return;
@@ -223,6 +248,90 @@ const SignUp = () => {
                 className="h-12 bg-background border-border focus:border-secondary focus:ring-secondary/20 transition-all duration-200"
                 required
               />
+            </div>
+
+            {/* Password */}
+            <div className="space-y-2">
+              <Label htmlFor="password" className="text-sm font-medium text-foreground">
+                Create Password
+              </Label>
+              <div className="relative">
+                <Input
+                  id="password"
+                  name="password"
+                  type={showPassword ? "text" : "password"}
+                  placeholder="Create a strong password"
+                  value={formData.password}
+                  onChange={handleInputChange}
+                  className="h-12 bg-background border-border focus:border-secondary focus:ring-secondary/20 transition-all duration-200 pr-12"
+                  required
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword(!showPassword)}
+                  className="absolute right-4 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors"
+                >
+                  {showPassword ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
+                </button>
+              </div>
+              {/* Password Rules */}
+              {formData.password && (
+                <div className="mt-2 space-y-1">
+                  {passwordRules.map((rule, index) => (
+                    <div key={index} className="flex items-center gap-2 text-sm">
+                      {rule.test(formData.password) ? (
+                        <Check className="h-4 w-4 text-success" />
+                      ) : (
+                        <X className="h-4 w-4 text-muted-foreground" />
+                      )}
+                      <span className={rule.test(formData.password) ? "text-success" : "text-muted-foreground"}>
+                        {rule.label}
+                      </span>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+
+            {/* Confirm Password */}
+            <div className="space-y-2">
+              <Label htmlFor="confirmPassword" className="text-sm font-medium text-foreground">
+                Confirm Password
+              </Label>
+              <div className="relative">
+                <Input
+                  id="confirmPassword"
+                  name="confirmPassword"
+                  type={showConfirmPassword ? "text" : "password"}
+                  placeholder="Confirm your password"
+                  value={formData.confirmPassword}
+                  onChange={handleInputChange}
+                  className="h-12 bg-background border-border focus:border-secondary focus:ring-secondary/20 transition-all duration-200 pr-12"
+                  required
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                  className="absolute right-4 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors"
+                >
+                  {showConfirmPassword ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
+                </button>
+              </div>
+              {formData.confirmPassword && (
+                <div className="flex items-center gap-2 text-sm mt-1">
+                  {passwordsMatch ? (
+                    <>
+                      <Check className="h-4 w-4 text-success" />
+                      <span className="text-success">Passwords match</span>
+                    </>
+                  ) : (
+                    <>
+                      <X className="h-4 w-4 text-destructive" />
+                      <span className="text-destructive">Passwords do not match</span>
+                    </>
+                  )}
+                </div>
+              )}
             </div>
 
             {/* Industries */}
