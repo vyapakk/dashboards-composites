@@ -18,43 +18,43 @@ const Index = () => {
       <div className="hidden lg:flex lg:w-1/2 xl:w-3/5 relative">
         <BackgroundPattern />
         
-        <div className="relative z-10 flex flex-col justify-between p-12 xl:p-16 w-full">
+        <div className="relative z-10 flex flex-col justify-between p-10 xl:p-14 w-full">
           {/* Logo and Main content grouped together */}
-          <div className="space-y-12">
+          <div className="space-y-8">
             {/* Logo */}
             <div className="animate-fade-in-up">
               <img 
                 src={stratviewLogoWhite} 
                 alt="Stratview Research" 
-                className="h-20 xl:h-28 w-auto"
+                className="h-14 xl:h-16 w-auto"
               />
             </div>
 
             {/* Main content */}
-            <div className="space-y-8 animate-fade-in-up" style={{ animationDelay: "0.2s" }}>
-            <div className="space-y-4">
-              <h1 className="text-4xl xl:text-5xl font-bold text-primary-foreground leading-tight">
+            <div className="space-y-6 animate-fade-in-up" style={{ animationDelay: "0.2s" }}>
+            <div className="space-y-3">
+              <h1 className="text-2xl xl:text-3xl font-bold text-primary-foreground leading-tight">
                 Welcome to
                 <span className="block text-stratview-mint">Stratview One</span>
               </h1>
-              <p className="text-lg xl:text-xl text-primary-foreground/80 max-w-lg leading-relaxed">
+              <p className="text-sm xl:text-base text-primary-foreground/80 max-w-md leading-relaxed">
                 Your unified platform for accessing comprehensive market research data, 
                 industry insights, and strategic intelligence.
               </p>
             </div>
 
             {/* Features */}
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-2 gap-3">
               {features.map((feature, index) => (
                 <div
                   key={index}
-                  className="flex items-center gap-3 p-4 rounded-lg bg-white/5 backdrop-blur-sm border border-white/10 transition-all duration-300 hover:bg-white/10"
+                  className="flex items-center gap-2.5 p-3 rounded-lg bg-white/5 backdrop-blur-sm border border-white/10 transition-all duration-300 hover:bg-white/10"
                   style={{ animationDelay: `${0.4 + index * 0.1}s` }}
                 >
-                  <div className="p-2 rounded-lg bg-stratview-mint/20">
-                    <feature.icon className="h-5 w-5 text-stratview-mint" />
+                  <div className="p-1.5 rounded-lg bg-stratview-mint/20">
+                    <feature.icon className="h-4 w-4 text-stratview-mint" />
                   </div>
-                  <span className="text-sm font-medium text-primary-foreground/90">
+                  <span className="text-xs font-medium text-primary-foreground/90">
                     {feature.text}
                   </span>
                 </div>
