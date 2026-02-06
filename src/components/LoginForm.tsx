@@ -51,9 +51,9 @@ const LoginForm = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-6">
-      <div className="space-y-2">
-        <Label htmlFor="email" className="text-sm font-medium text-foreground">
+    <form onSubmit={handleSubmit} className="space-y-4">
+      <div className="space-y-1.5">
+        <Label htmlFor="email" className="text-xs font-medium text-foreground">
           Email Address
         </Label>
         <Input
@@ -62,13 +62,13 @@ const LoginForm = () => {
           placeholder="name@company.com"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
-          className="h-12 bg-background border-border focus:border-secondary focus:ring-secondary/20 transition-all duration-200"
+          className="h-10 text-sm bg-background border-border focus:border-secondary focus:ring-secondary/20 transition-all duration-200"
           required
         />
       </div>
 
-      <div className="space-y-2">
-        <Label htmlFor="password" className="text-sm font-medium text-foreground">
+      <div className="space-y-1.5">
+        <Label htmlFor="password" className="text-xs font-medium text-foreground">
           Password
         </Label>
         <div className="relative">
@@ -78,15 +78,15 @@ const LoginForm = () => {
             placeholder="Enter your password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            className="h-12 bg-background border-border focus:border-secondary focus:ring-secondary/20 transition-all duration-200 pr-12"
+            className="h-10 text-sm bg-background border-border focus:border-secondary focus:ring-secondary/20 transition-all duration-200 pr-10"
             required
           />
           <button
             type="button"
             onClick={() => setShowPassword(!showPassword)}
-            className="absolute right-4 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors"
+            className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors"
           >
-            {showPassword ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
+            {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
           </button>
         </div>
       </div>
@@ -117,19 +117,19 @@ const LoginForm = () => {
       <Button
         type="submit"
         disabled={isLoading}
-        className="w-full h-12 gradient-primary hover:opacity-90 text-primary-foreground font-semibold text-base transition-all duration-200 group"
+        className="w-full h-10 gradient-primary hover:opacity-90 text-primary-foreground font-semibold text-sm transition-all duration-200 group"
       >
         {isLoading ? (
-          <Loader2 className="h-5 w-5 animate-spin" />
+          <Loader2 className="h-4 w-4 animate-spin" />
         ) : (
           <>
             Sign In
-            <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
+            <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
           </>
         )}
       </Button>
 
-      <p className="text-center text-sm text-muted-foreground">
+      <p className="text-center text-xs text-muted-foreground">
         Don't have an account?{" "}
         <a href="/signup" className="font-medium text-secondary hover:text-stratview-mint transition-colors">
           Sign up now
