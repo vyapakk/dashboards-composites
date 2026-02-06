@@ -15,6 +15,7 @@ export default {
     extend: {
       fontFamily: {
         sans: ['Poppins', 'sans-serif'],
+        display: ['Poppins', 'sans-serif'],
       },
       colors: {
         border: "hsl(var(--border))",
@@ -70,6 +71,7 @@ export default {
           teal: "hsl(var(--stratview-teal))",
           mint: "hsl(var(--stratview-mint))",
         },
+        "teal-dark": "hsl(var(--stratview-dark-teal))",
       },
       borderRadius: {
         lg: "var(--radius)",
@@ -78,6 +80,7 @@ export default {
       },
       boxShadow: {
         card: "var(--shadow-card)",
+        "card-hover": "var(--shadow-card-hover)",
       },
       keyframes: {
         "accordion-down": {

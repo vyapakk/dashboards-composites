@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -6,6 +7,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Eye, EyeOff, ArrowRight, Loader2 } from "lucide-react";
 
 const LoginForm = () => {
+  const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
@@ -39,6 +41,7 @@ const LoginForm = () => {
       
       // TODO: Handle successful login (redirect, store token, etc.)
       console.log('Login attempt:', { email, rememberMe });
+      navigate('/dashboard');
     } catch (error) {
       // TODO: Handle login error (show toast, set error state, etc.)
       console.error('Login failed:', error);
