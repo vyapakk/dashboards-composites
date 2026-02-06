@@ -211,11 +211,6 @@
   font-family: 'JetBrains Mono', monospace;
 }
 
-/* Invert logo for dark background */
-.aircraft-interiors-theme img[alt="Stratview Research"] {
-  filter: brightness(0) invert(1);
-}
-
 /* Glow effects */
 .aircraft-interiors-theme .glow-primary {
   box-shadow: 0 0 20px hsl(192 95% 55% / 0.3), 0 0 40px hsl(192 95% 55% / 0.1);
