@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import stratviewLogo from "@/assets/stratview-logo.png";
+import stratviewLogoWhite from "@/assets/stratview-logo-white.png";
 
 export function AircraftInteriorsDashboardHeader() {
   return (
@@ -20,7 +20,7 @@ export function AircraftInteriorsDashboardHeader() {
               transition={{ type: "spring", stiffness: 200, delay: 0.2 }}
             >
               <img
-                src={stratviewLogo}
+                src={stratviewLogoWhite}
                 alt="Stratview Research"
                 className="h-14 w-auto"
               />

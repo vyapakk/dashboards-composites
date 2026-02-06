@@ -10,7 +10,7 @@ import { MarketOverviewTab } from "@/pages/tabs/MarketOverviewTab";
 import { SegmentDetailTab } from "@/pages/tabs/SegmentDetailTab";
 import { useMarketData } from "@/hooks/useMarketData";
 import { Button } from "@/components/ui/button";
-import stratviewLogo from "@/assets/stratview-logo.png";
+import stratviewLogoWhite from "@/assets/stratview-logo-white.png";
 
 const AircraftInteriorsDashboard = () => {
   const navigate = useNavigate();
@@ -74,7 +74,7 @@ const AircraftInteriorsDashboard = () => {
               <p className="text-sm text-muted-foreground">Aircraft Interiors Market Research Report</p>
               <p className="text-xs text-muted-foreground/70">All values in US$ Million unless otherwise specified</p>
             </div>
-            <img src={stratviewLogo} alt="Stratview Research" className="h-10 w-auto" />
+            <img src={stratviewLogoWhite} alt="Stratview Research" className="h-10 w-auto" />
           </div>
         </motion.footer>
       </main>
