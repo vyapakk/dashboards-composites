@@ -41,7 +41,7 @@ export function AircraftInteriorsDashboardHeader() {
             transition={{ delay: 0.3 }}
             className="flex items-center gap-2 rounded-lg bg-secondary/50 px-4 py-2 border border-border"
           >
-            <div className="h-2 w-2 rounded-full bg-green-500 animate-pulse" />
+            <div className="h-2 w-2 rounded-full bg-chart-4 animate-pulse" />
             <span className="text-sm text-muted-foreground">
               Data updated: Q1 2026
             </span>

@@ -69,10 +69,10 @@ export function ComparisonTable({ data, startYear, endYear, title, onRowClick }:
                 <td className="px-6 py-4 text-right font-mono text-sm text-muted-foreground">${row.startValue.toLocaleString()}M</td>
                 <td className="px-6 py-4 text-right font-mono text-sm text-foreground">${row.endValue.toLocaleString()}M</td>
                 <td className="px-6 py-4 text-right">
-                  <span className={`font-mono text-sm font-medium ${row.cagr >= 0 ? "text-green-500" : "text-destructive"}`}>{row.cagr >= 0 ? "+" : ""}{row.cagr.toFixed(1)}%</span>
+                  <span className={`font-mono text-sm font-medium ${row.cagr >= 0 ? "text-chart-4" : "text-destructive"}`}>{row.cagr >= 0 ? "+" : ""}{row.cagr.toFixed(1)}%</span>
                 </td>
                 <td className="px-6 py-4 text-right">
-                  <span className={`font-mono text-sm font-medium ${row.growth >= 0 ? "text-green-500" : "text-destructive"}`}>{row.growth >= 0 ? "+" : ""}{row.growth.toFixed(0)}%</span>
+                  <span className={`font-mono text-sm font-medium ${row.growth >= 0 ? "text-chart-4" : "text-destructive"}`}>{row.growth >= 0 ? "+" : ""}{row.growth.toFixed(0)}%</span>
                 </td>
                 {onRowClick && <td className="px-6 py-4 text-right"><ArrowRight className="h-4 w-4 text-muted-foreground inline-block" /></td>}
               </motion.tr>

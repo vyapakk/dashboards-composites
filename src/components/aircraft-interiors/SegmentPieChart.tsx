@@ -14,9 +14,14 @@ interface SegmentPieChartProps {
 }
 
 const chartColors = [
-  "hsl(192, 95%, 55%)", "hsl(38, 92%, 55%)", "hsl(142, 71%, 45%)",
-  "hsl(280, 65%, 60%)", "hsl(346, 77%, 50%)", "hsl(199, 89%, 48%)",
-  "hsl(25, 95%, 55%)", "hsl(60, 70%, 50%)",
+  "hsl(192, 95%, 55%)",  // Cyan
+  "hsl(38, 92%, 55%)",   // Amber
+  "hsl(142, 71%, 45%)",  // Green
+  "hsl(280, 65%, 60%)",  // Purple
+  "hsl(346, 77%, 50%)",  // Rose
+  "hsl(199, 89%, 48%)",  // Sky Blue
+  "hsl(25, 95%, 55%)",   // Orange
+  "hsl(60, 70%, 50%)",   // Yellow
 ];
 
 export function SegmentPieChart({ data, year, title, onSegmentClick }: SegmentPieChartProps) {
@@ -79,7 +84,7 @@ export function SegmentPieChart({ data, year, title, onSegmentClick }: SegmentPi
       <div className="h-[280px] w-full">
         <ResponsiveContainer width="100%" height="100%">
           <PieChart>
-            <Pie data={pieData} cx="50%" cy="45%" innerRadius={50} outerRadius={85} paddingAngle={2} dataKey="value" stroke="hsl(var(--border))" strokeWidth={2} activeIndex={activeIndex ?? undefined} activeShape={renderActiveShape} onMouseEnter={(_, index) => setActiveIndex(index)} onMouseLeave={() => setActiveIndex(null)} onClick={handlePieClick} style={{ cursor: "pointer" }}>
+            <Pie data={pieData} cx="50%" cy="45%" innerRadius={50} outerRadius={85} paddingAngle={2} dataKey="value" stroke="hsl(222, 47%, 6%)" strokeWidth={2} activeIndex={activeIndex ?? undefined} activeShape={renderActiveShape} onMouseEnter={(_, index) => setActiveIndex(index)} onMouseLeave={() => setActiveIndex(null)} onClick={handlePieClick} style={{ cursor: "pointer" }}>
               {pieData.map((entry, index) => (
                 <Cell key={`cell-${index}`} fill={chartColors[index % chartColors.length]} />
               ))}

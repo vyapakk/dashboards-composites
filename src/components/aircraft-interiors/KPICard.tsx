@@ -19,15 +19,15 @@ interface KPICardProps {
 const accentColors = {
   primary: "from-primary/20 to-transparent border-primary/30",
   accent: "from-accent/20 to-transparent border-accent/30",
-  "chart-3": "from-emerald-500/20 to-transparent border-emerald-500/30",
-  "chart-4": "from-green-500/20 to-transparent border-green-500/30",
+  "chart-3": "from-chart-3/20 to-transparent border-chart-3/30",
+  "chart-4": "from-chart-4/20 to-transparent border-chart-4/30",
 };
 
 const iconColors = {
   primary: "text-primary",
   accent: "text-accent",
-  "chart-3": "text-emerald-500",
-  "chart-4": "text-green-500",
+  "chart-3": "text-chart-3",
+  "chart-4": "text-chart-4",
 };
 
 export function KPICard({
@@ -50,7 +50,7 @@ export function KPICard({
       transition={{ duration: 0.5, delay }}
       whileHover={onClick ? { scale: 1.02 } : undefined}
       onClick={onClick}
-      className={`rounded-xl bg-gradient-to-br ${accentColors[accentColor]} border p-6 backdrop-blur-sm ${
+      className={`stat-card rounded-xl bg-gradient-to-br ${accentColors[accentColor]} border p-6 backdrop-blur-sm ${
         onClick ? "cursor-pointer hover:shadow-lg transition-shadow" : ""
       }`}
     >
@@ -75,7 +75,7 @@ export function KPICard({
             <div className="flex items-center gap-2">
               <span
                 className={`text-sm font-medium ${
-                  change >= 0 ? "text-green-500" : "text-destructive"
+                  change >= 0 ? "text-chart-4" : "text-destructive"
                 }`}
               >
                 {change >= 0 ? "+" : ""}
@@ -87,7 +87,9 @@ export function KPICard({
             </div>
           )}
         </div>
-        <div className={`rounded-lg bg-secondary/50 p-3 ${iconColors[accentColor]}`}>
+        <div
+          className={`rounded-lg bg-secondary/50 p-3 ${iconColors[accentColor]}`}
+        >
           <Icon className="h-6 w-6" />
         </div>
       </div>

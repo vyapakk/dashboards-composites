@@ -1,14 +1,5 @@
 import { motion } from "framer-motion";
-import {
-  ComposedChart,
-  Line,
-  XAxis,
-  YAxis,
-  CartesianGrid,
-  Tooltip,
-  ResponsiveContainer,
-  Legend,
-} from "recharts";
+import { ComposedChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Legend } from "recharts";
 import { YearlyData } from "@/hooks/useMarketData";
 import { useRef } from "react";
 import { useChartDownload } from "@/hooks/useChartDownload";
@@ -26,9 +17,7 @@ export function MarketOverviewChart({ data, title, subtitle }: MarketOverviewCha
 
   const chartData = data.map((d, index) => {
     const previousValue = index > 0 ? data[index - 1].value : null;
-    const yoyGrowth = previousValue !== null
-      ? ((d.value - previousValue) / previousValue) * 100
-      : null;
+    const yoyGrowth = previousValue !== null ? ((d.value - previousValue) / previousValue) * 100 : null;
     return { year: d.year, value: d.value, yoyGrowth };
   });
 
@@ -50,7 +39,7 @@ export function MarketOverviewChart({ data, title, subtitle }: MarketOverviewCha
             <div className="flex items-center gap-2 text-sm mt-1">
               <div className="h-3 w-3 rounded-full" style={{ backgroundColor: "hsl(38, 92%, 55%)" }} />
               <span className="text-muted-foreground">YoY Growth:</span>
-              <span className={`font-mono font-medium ${yoyGrowth.value >= 0 ? "text-green-500" : "text-destructive"}`}>
+              <span className={`font-mono font-medium ${yoyGrowth.value >= 0 ? "text-chart-4" : "text-destructive"}`}>
                 {yoyGrowth.value >= 0 ? "+" : ""}{yoyGrowth.value.toFixed(1)}%
               </span>
             </div>
@@ -75,13 +64,7 @@ export function MarketOverviewChart({ data, title, subtitle }: MarketOverviewCha
   );
 
   return (
-    <motion.div
-      ref={chartRef}
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.5, delay: 0.2 }}
-      className="rounded-xl border border-border bg-card p-3 sm:p-6"
-    >
+    <motion.div ref={chartRef} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 0.2 }} className="rounded-xl border border-border bg-card p-3 sm:p-6">
       <div className="mb-4 sm:mb-6 flex items-start justify-between">
         <div>
           <h3 className="text-lg font-semibold text-foreground">{title}</h3>

@@ -57,8 +57,8 @@ export function DrillDownModal({ isOpen, onClose, segmentName, segmentData, colo
             <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }} className="rounded-lg border border-border bg-secondary/30 p-4">
               <p className="text-xs text-muted-foreground">CAGR through 2034</p>
               <div className="flex items-center gap-1">
-                <p className="text-xl font-bold text-green-500">{cagr.toFixed(1)}%</p>
-                <TrendingUp className="h-4 w-4 text-green-500" />
+                <p className="text-xl font-bold text-chart-4">{cagr.toFixed(1)}%</p>
+                <TrendingUp className="h-4 w-4 text-chart-4" />
               </div>
             </motion.div>
           </div>
@@ -106,7 +106,7 @@ export function DrillDownModal({ isOpen, onClose, segmentName, segmentData, colo
                       <tr key={item.year} className="border-b border-border/50 hover:bg-secondary/50">
                         <td className="px-3 py-2 font-medium text-foreground">{item.year}</td>
                         <td className="px-3 py-2 text-right font-mono text-foreground">${item.value.toLocaleString()}M</td>
-                        <td className={`px-3 py-2 text-right font-mono ${change === null ? "text-muted-foreground" : change >= 0 ? "text-green-500" : "text-destructive"}`}>
+                        <td className={`px-3 py-2 text-right font-mono ${change === null ? "text-muted-foreground" : change >= 0 ? "text-chart-4" : "text-destructive"}`}>
                           {change === null ? "—" : `${change >= 0 ? "+" : ""}${change.toFixed(1)}%`}
                         </td>
                       </tr>

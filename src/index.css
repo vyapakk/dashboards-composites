@@ -171,6 +171,132 @@
   }
 }
 
+/* ====================================================
+   Aircraft Interiors Dashboard - Scoped Dark Theme
+   Deep navy with electric cyan accents
+   ==================================================== */
+.aircraft-interiors-theme {
+  --background: 222 47% 6%;
+  --foreground: 210 40% 96%;
+  --card: 222 47% 9%;
+  --card-foreground: 210 40% 96%;
+  --popover: 222 47% 11%;
+  --popover-foreground: 210 40% 96%;
+  --primary: 192 95% 55%;
+  --primary-foreground: 222 47% 6%;
+  --secondary: 217 33% 18%;
+  --secondary-foreground: 210 40% 90%;
+  --muted: 217 33% 14%;
+  --muted-foreground: 215 20% 55%;
+  --accent: 38 92% 55%;
+  --accent-foreground: 222 47% 6%;
+  --destructive: 0 72% 51%;
+  --destructive-foreground: 210 40% 98%;
+  --border: 217 33% 18%;
+  --input: 217 33% 16%;
+  --ring: 192 95% 55%;
+  --chart-1: 192 95% 55%;
+  --chart-2: 38 92% 55%;
+  --chart-3: 262 83% 58%;
+  --chart-4: 142 71% 45%;
+  --chart-5: 346 77% 50%;
+  --chart-6: 199 89% 48%;
+
+  background: linear-gradient(180deg, hsl(222, 47%, 6%) 0%, hsl(222, 47%, 4%) 100%);
+  min-height: 100vh;
+  font-family: 'Poppins', system-ui, sans-serif;
+}
+
+.aircraft-interiors-theme .font-mono {
+  font-family: 'JetBrains Mono', monospace;
+}
+
+/* Glow effects */
+.aircraft-interiors-theme .glow-primary {
+  box-shadow: 0 0 20px hsl(192 95% 55% / 0.3), 0 0 40px hsl(192 95% 55% / 0.1);
+}
+
+/* Glass card */
+.aircraft-interiors-theme .glass-card {
+  background: linear-gradient(145deg, hsl(222 47% 11% / 0.8) 0%, hsl(222 47% 8% / 0.6) 100%);
+  backdrop-filter: blur(12px);
+  border: 1px solid hsl(217 33% 20% / 0.5);
+}
+
+/* Gradient text */
+.aircraft-interiors-theme .text-gradient-primary {
+  background: linear-gradient(135deg, hsl(192, 95%, 55%) 0%, hsl(199, 89%, 48%) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Background grid */
+.aircraft-interiors-theme .bg-grid {
+  background-image: 
+    linear-gradient(hsl(217 33% 16% / 0.3) 1px, transparent 1px),
+    linear-gradient(90deg, hsl(217 33% 16% / 0.3) 1px, transparent 1px);
+  background-size: 40px 40px;
+}
+
+/* Stat card hover effect */
+.aircraft-interiors-theme .stat-card {
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s;
+}
+
+.aircraft-interiors-theme .stat-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transition: opacity 0.3s;
+  background: linear-gradient(135deg, hsl(192 95% 55% / 0.05) 0%, transparent 50%);
+}
+
+.aircraft-interiors-theme .stat-card:hover::before {
+  opacity: 1;
+}
+
+.aircraft-interiors-theme .stat-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 32px hsl(222 47% 3% / 0.6), 0 0 0 1px hsl(192 95% 55% / 0.1);
+}
+
+/* Scrollbar for dashboard */
+.aircraft-interiors-theme ::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+.aircraft-interiors-theme ::-webkit-scrollbar-track {
+  background: hsl(222, 47%, 8%);
+}
+
+.aircraft-interiors-theme ::-webkit-scrollbar-thumb {
+  background: hsl(217, 33%, 25%);
+  border-radius: 4px;
+}
+
+.aircraft-interiors-theme ::-webkit-scrollbar-thumb:hover {
+  background: hsl(192, 95%, 55%);
+}
+
+/* Pulse glow animation */
+@keyframes pulse-glow {
+  0%, 100% {
+    box-shadow: 0 0 20px hsl(192 95% 55% / 0.3);
+  }
+  50% {
+    box-shadow: 0 0 40px hsl(192 95% 55% / 0.5);
+  }
+}
+
+.aircraft-interiors-theme .animate-pulse-glow {
+  animation: pulse-glow 3s ease-in-out infinite;
+}
+
 /* Custom animations */
 @keyframes fade-in-up {
   from {

@@ -53,7 +53,7 @@ const AircraftInteriorsDashboard = () => {
   };
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="aircraft-interiors-theme min-h-screen">
       <ScrollToTop />
       <AircraftInteriorsDashboardHeader />
 
