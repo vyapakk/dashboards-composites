@@ -7,6 +7,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { ArrowRight, Loader2, ArrowLeft, Eye, EyeOff, Check, X } from "lucide-react";
 import BackgroundPattern from "@/components/BackgroundPattern";
 import stratviewLogo from "@/assets/stratview-logo.png";
+import stratviewLogoWhite from "@/assets/stratview-logo-white.png";
 
 const industries = [
   "Aerospace & Defense",
@@ -141,9 +142,9 @@ const SignUp = () => {
             {/* Logo */}
             <div className="animate-fade-in-up">
               <img 
-                src={stratviewLogo} 
+                src={stratviewLogoWhite} 
                 alt="Stratview Research" 
-                className="h-16 xl:h-20 w-auto brightness-0 invert"
+                className="h-16 xl:h-20 w-auto"
               />
             </div>
 

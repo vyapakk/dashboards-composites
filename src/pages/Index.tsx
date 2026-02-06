@@ -1,6 +1,7 @@
 import LoginForm from "@/components/LoginForm";
 import BackgroundPattern from "@/components/BackgroundPattern";
 import stratviewLogo from "@/assets/stratview-logo.png";
+import stratviewLogoWhite from "@/assets/stratview-logo-white.png";
 import { BarChart3, Globe2, TrendingUp, Shield } from "lucide-react";
 
 const Index = () => {
@@ -23,9 +24,9 @@ const Index = () => {
             {/* Logo */}
             <div className="animate-fade-in-up">
               <img 
-                src={stratviewLogo} 
+                src={stratviewLogoWhite} 
                 alt="Stratview Research" 
-                className="h-20 xl:h-28 w-auto brightness-0 invert"
+                className="h-20 xl:h-28 w-auto"
               />
             </div>
 
@@ -80,9 +81,9 @@ const Index = () => {
             {/* Logo */}
             <div className="flex justify-center mb-4">
               <img 
-                src={stratviewLogo} 
+                src={stratviewLogoWhite} 
                 alt="Stratview Research" 
-                className="h-14 sm:h-16 md:h-20 w-auto brightness-0 invert"
+                className="h-14 sm:h-16 md:h-20 w-auto"
               />
             </div>
             
