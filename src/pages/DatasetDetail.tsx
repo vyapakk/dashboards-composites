@@ -1,0 +1,186 @@
+import { useParams, useNavigate } from "react-router-dom";
+import { ArrowLeft, ChevronRight, BarChart3, Lock } from "lucide-react";
+import { motion } from "framer-motion";
+import DashboardHeader from "@/components/DashboardHeader";
+import { Card, CardContent } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { categories } from "@/data/datasets";
+import stratviewLogo from "@/assets/stratview-logo.png";
+
+// Map of dashboard IDs that have actual working dashboards
+const activeDashboardRoutes: Record<string, string> = {
+  "ai-global": "/dashboard/aircraft-interiors",
+};
+
+const DatasetDetail = () => {
+  const { datasetId } = useParams<{ datasetId: string }>();
+  const navigate = useNavigate();
+
+  // Find the dataset and its parent category
+  let dataset: { id: string; name: string; dashboards: { id: string; name: string }[] } | undefined;
+  let parentCategory: (typeof categories)[0] | undefined;
+
+  for (const cat of categories) {
+    const found = cat.datasets.find((d) => d.id === datasetId);
+    if (found) {
+      dataset = found;
+      parentCategory = cat;
+      break;
+    }
+  }
+
+  if (!dataset || !parentCategory) {
+    return (
+      <div className="min-h-screen bg-background">
+        <DashboardHeader />
+        <div className="container px-4 md:px-6 py-16 text-center">
+          <h1 className="text-2xl font-bold text-foreground mb-2">Dataset Not Found</h1>
+          <p className="text-muted-foreground mb-6">The dataset you're looking for doesn't exist.</p>
+          <Button onClick={() => navigate("/dashboard")}>
+            <ArrowLeft className="mr-2 h-4 w-4" /> Back to Datasets
+          </Button>
+        </div>
+      </div>
+    );
+  }
+
+  const Icon = parentCategory.icon;
+
+  const iconBgStyles: Record<string, string> = {
+    teal: "bg-primary text-primary-foreground",
+    navy: "bg-secondary text-secondary-foreground",
+    mint: "gradient-accent text-accent-foreground",
+    "teal-dark": "bg-teal-dark text-primary-foreground",
+  };
+
+  return (
+    <div className="min-h-screen bg-background">
+      <DashboardHeader />
+
+      {/* Hero section */}
+      <section className="relative overflow-hidden gradient-hero py-10 px-4 md:px-6">
+        <div className="absolute inset-0 opacity-10">
+          <div className="absolute top-10 left-10 w-64 h-64 rounded-full bg-accent blur-3xl" />
+          <div className="absolute bottom-10 right-10 w-48 h-48 rounded-full bg-primary blur-3xl" />
+        </div>
+        <div className="container relative z-10">
+          <Button
+            variant="ghost"
+            onClick={() => navigate("/dashboard")}
+            className="mb-4 text-primary-foreground/70 hover:text-primary-foreground hover:bg-primary-foreground/10"
+          >
+            <ArrowLeft className="mr-2 h-4 w-4" /> Back to Datasets
+          </Button>
+          <div className="flex items-center gap-4">
+            <div
+              className={`flex h-14 w-14 shrink-0 items-center justify-center rounded-xl ${iconBgStyles[parentCategory.color]}`}
+            >
+              <Icon className="h-7 w-7" />
+            </div>
+            <div>
+              <h1 className="text-2xl md:text-3xl font-bold text-primary-foreground font-display">
+                {dataset.name}
+              </h1>
+              <div className="flex items-center gap-2 mt-1">
+                <Badge variant="secondary" className="bg-primary-foreground/10 text-primary-foreground/80 border-0">
+                  {parentCategory.title}
+                </Badge>
+                <span className="text-sm text-primary-foreground/60">
+                  {dataset.dashboards.length} dashboard{dataset.dashboards.length !== 1 ? "s" : ""}
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Dashboard listing */}
+      <main className="container px-4 md:px-6 py-8">
+        <div className="mb-6">
+          <h2 className="text-xl font-semibold text-foreground mb-1">
+            Available Dashboards
+          </h2>
+          <p className="text-sm text-muted-foreground">
+            Select a dashboard to explore detailed market insights
+          </p>
+        </div>
+
+        <div className="grid gap-4 md:grid-cols-2">
+          {dataset.dashboards.map((dashboard, index) => {
+            const isActive = !!activeDashboardRoutes[dashboard.id];
+            return (
+              <motion.div
+                key={dashboard.id}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.3, delay: index * 0.08 }}
+              >
+                <Card
+                  onClick={() => {
+                    if (isActive) {
+                      navigate(activeDashboardRoutes[dashboard.id]);
+                    }
+                  }}
+                  className={`group transition-all duration-300 ${
+                    isActive
+                      ? "cursor-pointer hover:shadow-card-hover hover:border-primary/30"
+                      : "opacity-60 cursor-not-allowed"
+                  }`}
+                >
+                  <CardContent className="p-5">
+                    <div className="flex items-center gap-4">
+                      <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-secondary/50 text-muted-foreground group-hover:bg-primary/10 group-hover:text-primary transition-colors">
+                        <BarChart3 className="h-5 w-5" />
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <h3 className={`font-medium truncate transition-colors ${
+                          isActive
+                            ? "text-card-foreground group-hover:text-primary"
+                            : "text-muted-foreground"
+                        }`}>
+                          {dashboard.name}
+                        </h3>
+                        <p className="text-xs text-muted-foreground mt-1">
+                          {isActive ? "Interactive market dashboard" : "Coming soon"}
+                        </p>
+                      </div>
+                      {isActive ? (
+                        <ChevronRight className="h-5 w-5 text-muted-foreground group-hover:text-primary group-hover:translate-x-1 transition-all shrink-0" />
+                      ) : (
+                        <Lock className="h-4 w-4 text-muted-foreground/50 shrink-0" />
+                      )}
+                    </div>
+                  </CardContent>
+                </Card>
+              </motion.div>
+            );
+          })}
+        </div>
+      </main>
+
+      {/* Footer */}
+      <footer className="border-t border-border mt-12 py-6">
+        <div className="container px-4 md:px-6">
+          <div className="flex flex-col md:flex-row items-center justify-between gap-4 text-sm text-muted-foreground">
+            <div className="flex items-center gap-3">
+              <img
+                src={stratviewLogo}
+                alt="Stratview Research"
+                className="h-8 w-auto object-contain"
+              />
+              <span>© {new Date().getFullYear()} Stratview Research. All rights reserved.</span>
+            </div>
+            <div className="flex items-center gap-6">
+              <a href="#" className="hover:text-foreground transition-colors">Privacy</a>
+              <a href="#" className="hover:text-foreground transition-colors">Terms</a>
+              <a href="mailto:support@stratviewresearch.com" className="hover:text-foreground transition-colors">Support</a>
+            </div>
+          </div>
+        </div>
+      </footer>
+    </div>
+  );
+};
+
+export default DatasetDetail;

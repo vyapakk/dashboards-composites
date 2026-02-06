@@ -58,8 +58,8 @@ const AircraftInteriorsDashboard = () => {
       <AircraftInteriorsDashboardHeader />
 
       <main className="container mx-auto px-4 py-8">
-        <Button variant="ghost" onClick={() => navigate("/dashboard")} className="mb-4 text-muted-foreground hover:text-foreground">
-          <ArrowLeft className="mr-2 h-4 w-4" /> Back to Datasets
+        <Button variant="ghost" onClick={() => navigate("/dataset/aircraft-interiors")} className="mb-4 text-muted-foreground hover:text-foreground">
+          <ArrowLeft className="mr-2 h-4 w-4" /> Back to Aircraft Interiors
         </Button>
 
         <div className="mb-8">

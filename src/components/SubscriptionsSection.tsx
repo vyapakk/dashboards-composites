@@ -55,13 +55,7 @@ const SubscriptionsSection = () => {
             return (
               <Card
                 key={dataset.id}
-                onClick={() => {
-                  if (dataset.id === "aircraft-interiors") {
-                    navigate("/dashboard/aircraft-interiors");
-                  } else {
-                    navigate(`/dataset/${dataset.id}`);
-                  }
-                }}
+                onClick={() => navigate(`/dataset/${dataset.id}`)}
                 className="group cursor-pointer transition-all duration-300 hover:shadow-card-hover hover:border-primary/30 animate-fade-in-up border-primary/20 bg-primary/5"
                 style={{ animationDelay: `${index * 50}ms` }}
               >

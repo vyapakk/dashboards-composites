@@ -47,7 +47,7 @@ export const categories = [
         id: "aircraft-interiors",
         name: "Aircraft Interiors",
         dashboards: [
-          { id: "ai-global", name: "Global Aerospace Interiors Market" },
+          { id: "ai-global", name: "Global Aircraft Interiors Market" },
           { id: "ai-bfe", name: "BFE Market Analysis" },
           { id: "ai-seating", name: "Aircraft Seating Trends" },
           { id: "ai-ifec", name: "In-Flight Entertainment & Connectivity" },
