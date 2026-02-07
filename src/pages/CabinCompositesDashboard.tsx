@@ -78,6 +78,8 @@ const CabinCompositesDashboard = () => {
         marketData={marketData}
         title={segmentInfo.title}
         selectedYear={selectedYear}
+        endUserLabel="Sales Channel"
+        equipmentLabel="Composites Type"
       />
     );
   };
