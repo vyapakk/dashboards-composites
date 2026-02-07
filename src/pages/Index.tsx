@@ -19,19 +19,17 @@ const Index = () => {
         <BackgroundPattern />
         
         <div className="relative z-10 flex flex-col justify-between p-10 xl:p-14 w-full">
-          {/* Logo and Main content grouped together */}
-          <div className="space-y-8">
-            {/* Logo */}
-            <div className="animate-fade-in-up">
-              <img 
-                src={stratviewLogoWhite} 
-                alt="Stratview Research" 
-                className="h-14 xl:h-16 w-auto"
-              />
-            </div>
+          {/* Logo */}
+          <div className="animate-fade-in-up">
+            <img 
+              src={stratviewLogoWhite} 
+              alt="Stratview Research" 
+              className="h-14 xl:h-16 w-auto"
+            />
+          </div>
 
-            {/* Main content */}
-            <div className="space-y-6 animate-fade-in-up" style={{ animationDelay: "0.2s" }}>
+          {/* Main content - vertically centered in remaining space */}
+          <div className="space-y-6 animate-fade-in-up" style={{ animationDelay: "0.2s" }}>
             <div className="space-y-3">
               <h1 className="text-2xl xl:text-3xl font-bold text-primary-foreground leading-tight">
                 Welcome to
@@ -60,7 +58,6 @@ const Index = () => {
                 </div>
               ))}
             </div>
-          </div>
           </div>
 
           {/* Footer */}
@@ -115,26 +112,30 @@ const Index = () => {
           </div>
         </div>
 
-      {/* Login Form Container */}
-        <div className="flex-1 flex items-center justify-center px-6 sm:px-12 lg:px-16 xl:px-20 py-8 lg:py-0">
-        <div className="w-full max-w-md space-y-8">
+        {/* Desktop Login - Mirrors left panel structure */}
+        <div className="hidden lg:flex flex-1 flex-col justify-between p-10 xl:p-14">
+          {/* Top spacer matching left panel's logo height */}
+          <div className="h-14 xl:h-16" />
 
-          {/* Header */}
-          <div className="space-y-2 text-center lg:text-left">
-            <h2 className="text-2xl xl:text-3xl font-bold text-foreground">
-              Sign in to your account
-            </h2>
-            <p className="text-muted-foreground">
-              Access your market research dashboard
-            </p>
+          {/* Main content - matches left panel's content block position */}
+          <div className="w-full max-w-md space-y-6">
+            {/* Header */}
+            <div className="space-y-3">
+              <h2 className="text-2xl xl:text-3xl font-bold text-foreground leading-tight">
+                Sign in to your account
+              </h2>
+              <p className="text-sm xl:text-base text-muted-foreground leading-relaxed">
+                Access your market research dashboard
+              </p>
+            </div>
+
+            {/* Login Form */}
+            <LoginForm />
           </div>
 
-          {/* Login Form */}
-          <LoginForm />
-
-          {/* Help text */}
-          <div className="pt-6 border-t border-border">
-            <p className="text-sm text-center text-muted-foreground">
+          {/* Footer - matches left panel's footer position */}
+          <div className="pt-12">
+            <p className="text-sm text-muted-foreground">
               Need help?{" "}
               <a href="mailto:support@stratviewresearch.com" className="text-secondary hover:text-stratview-mint transition-colors font-medium">
                 Contact Support
@@ -142,6 +143,30 @@ const Index = () => {
             </p>
           </div>
         </div>
+
+        {/* Mobile/Tablet Login Form */}
+        <div className="lg:hidden flex-1 flex items-center justify-center px-6 sm:px-12 py-8">
+          <div className="w-full max-w-md space-y-6">
+            <div className="space-y-2 text-center">
+              <h2 className="text-2xl font-bold text-foreground">
+                Sign in to your account
+              </h2>
+              <p className="text-sm text-muted-foreground">
+                Access your market research dashboard
+              </p>
+            </div>
+
+            <LoginForm />
+
+            <div className="pt-6 border-t border-border">
+              <p className="text-sm text-center text-muted-foreground">
+                Need help?{" "}
+                <a href="mailto:support@stratviewresearch.com" className="text-secondary hover:text-stratview-mint transition-colors font-medium">
+                  Contact Support
+                </a>
+              </p>
+            </div>
+          </div>
         </div>
       </div>
     </div>
