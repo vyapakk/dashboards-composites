@@ -115,9 +115,9 @@ const Index = () => {
           </div>
         </div>
 
-        {/* Login Form Container */}
-        <div className="flex-1 flex flex-col justify-center px-6 sm:px-12 lg:px-16 xl:px-20 py-8 lg:py-0">
-        <div className="w-full max-w-md mx-auto space-y-8">
+      {/* Login Form Container */}
+        <div className="flex-1 flex items-center justify-center px-6 sm:px-12 lg:px-16 xl:px-20 py-8 lg:py-0">
+        <div className="w-full max-w-md space-y-8">
 
           {/* Header */}
           <div className="space-y-2 text-center lg:text-left">
