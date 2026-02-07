@@ -9,7 +9,7 @@ import { StackedBarChart } from "@/components/aircraft-interiors/StackedBarChart
 import { useDrillDown } from "@/hooks/useDrillDown";
 import { YearlyData, SegmentData, MarketData, calculateCAGR } from "@/hooks/useMarketData";
 
-type SegmentType = "overview" | "endUser" | "aircraft" | "region" | "application" | "equipment";
+type SegmentType = "overview" | "endUser" | "aircraft" | "region" | "application" | "equipment" | "process";
 
 interface SegmentDetailTabProps {
   segmentType: SegmentType;
@@ -65,6 +65,7 @@ export function SegmentDetailTab({
   const applicationNames = marketData.application.map((s) => s.name);
   const equipmentNames = marketData.furnishedEquipment.map((s) => s.name);
   const endUserNames = ["OE", "Aftermarket"];
+  const processTypeNames = marketData.processType?.map((s) => s.name) || [];
 
   // Get all countries from all regions
   const getAllCountries = (): SegmentData[] => {
@@ -77,7 +78,7 @@ export function SegmentDetailTab({
 
   // End User by Aircraft Type - uses direct data
   const getEndUserByAircraftTypeData = () => {
-    if (!marketData.endUserByAircraftType) return [];
+    if (!marketData.endUserByAircraftType || Object.keys(marketData.endUserByAircraftType).length === 0) return [];
     
     return ["OE", "Aftermarket"].map((endUserKey) => {
       const segments = marketData.endUserByAircraftType[endUserKey] || [];
@@ -163,13 +164,17 @@ export function SegmentDetailTab({
     });
   };
 
-  // Equipment by Region - uses direct data
+  // Equipment by Region - uses direct data (supports both short keys like BFE/SFE and full names)
   const getEquipmentByRegionData = () => {
     if (!marketData.equipmentByRegion) return [];
     
     return marketData.furnishedEquipment.map((equip) => {
-      const shortName = equip.name.includes("BFE") ? "BFE" : "SFE";
-      const segments = marketData.equipmentByRegion[shortName] || [];
+      // Try full name first, then BFE/SFE shortname for backward compatibility
+      let segments = marketData.equipmentByRegion[equip.name];
+      if (!segments) {
+        const shortName = equip.name.includes("BFE") ? "BFE" : equip.name.includes("SFE") ? "SFE" : equip.name;
+        segments = marketData.equipmentByRegion[shortName] || [];
+      }
       const total = segments.reduce((sum, seg) => {
         return sum + (seg.data.find((d) => d.year === selectedYear)?.value ?? 0);
       }, 0);
@@ -186,28 +191,51 @@ export function SegmentDetailTab({
     });
   };
 
+  // Process Type by Region
+  const getProcessTypeByRegionData = () => {
+    if (!marketData.processType || !marketData.processTypeByRegion) return [];
+    
+    return marketData.processType.map((pt) => {
+      const segments = marketData.processTypeByRegion?.[pt.name] || [];
+      const total = segments.reduce((sum, seg) => {
+        return sum + (seg.data.find((d) => d.year === selectedYear)?.value ?? 0);
+      }, 0);
+
+      return {
+        name: pt.name,
+        segments: segments.map((seg) => ({
+          name: seg.name,
+          value: seg.data.find((d) => d.year === selectedYear)?.value ?? 0,
+          fullData: seg.data,
+        })),
+        total,
+      };
+    });
+  };
+
   // Prepare stacked bar data using direct JSON data
   const aircraftTypeStackedData = segmentType === "endUser" ? getEndUserByAircraftTypeData() : [];
   const regionStackedDataForEndUser = segmentType === "endUser" ? getEndUserByRegionData() : [];
 
   const aircraftByRegionData = segmentType === "aircraft" ? getAircraftByRegionData() : [];
-  // For aircraft by end user, we still need to show OE/Aftermarket breakdown per aircraft type
-  const aircraftByEndUserData = segmentType === "aircraft" ? marketData.aircraftType.map((aircraft) => {
-    const oeData = marketData.endUserByAircraftType?.["OE"]?.find(s => s.name === aircraft.name);
-    const aftermarketData = marketData.endUserByAircraftType?.["Aftermarket"]?.find(s => s.name === aircraft.name);
-    const oeValue = oeData?.data.find(d => d.year === selectedYear)?.value ?? 0;
-    const aftermarketValue = aftermarketData?.data.find(d => d.year === selectedYear)?.value ?? 0;
-    return {
-      name: aircraft.name,
-      segments: [
-        { name: "OE (Original Equipment)", value: oeValue, fullData: oeData?.data || [] },
-        { name: "Aftermarket", value: aftermarketValue, fullData: aftermarketData?.data || [] },
-      ],
-      total: oeValue + aftermarketValue,
-    };
-  }) : [];
+  const aircraftByEndUserData = segmentType === "aircraft" && Object.keys(marketData.endUserByAircraftType || {}).length > 0
+    ? marketData.aircraftType.map((aircraft) => {
+        const oeData = marketData.endUserByAircraftType?.["OE"]?.find(s => s.name === aircraft.name);
+        const aftermarketData = marketData.endUserByAircraftType?.["Aftermarket"]?.find(s => s.name === aircraft.name);
+        const oeValue = oeData?.data.find(d => d.year === selectedYear)?.value ?? 0;
+        const aftermarketValue = aftermarketData?.data.find(d => d.year === selectedYear)?.value ?? 0;
+        return {
+          name: aircraft.name,
+          segments: [
+            { name: "OE (Original Equipment)", value: oeValue, fullData: oeData?.data || [] },
+            { name: "Aftermarket", value: aftermarketValue, fullData: aftermarketData?.data || [] },
+          ],
+          total: oeValue + aftermarketValue,
+        };
+      })
+    : [];
 
-  // For region charts, we use aircraftTypeByRegion inverted (region as primary, aircraft as stack)
+  // For region charts
   const regionByAircraftData = segmentType === "region" ? marketData.region.map((region) => {
     const segments = marketData.aircraftType.map((aircraft) => {
       const aircraftRegionData = marketData.aircraftTypeByRegion?.[aircraft.name]?.find(r => r.name === region.name);
@@ -242,23 +270,37 @@ export function SegmentDetailTab({
   }) : [];
 
   const regionByEquipmentData = segmentType === "region" ? marketData.region.map((region) => {
-    const bfeRegionData = marketData.equipmentByRegion?.["BFE"]?.find(r => r.name === region.name);
-    const sfeRegionData = marketData.equipmentByRegion?.["SFE"]?.find(r => r.name === region.name);
-    const bfeValue = bfeRegionData?.data.find(d => d.year === selectedYear)?.value ?? 0;
-    const sfeValue = sfeRegionData?.data.find(d => d.year === selectedYear)?.value ?? 0;
+    const equipSegments = marketData.furnishedEquipment.map((equip) => {
+      let equipRegionEntries = marketData.equipmentByRegion?.[equip.name];
+      if (!equipRegionEntries) {
+        const shortName = equip.name.includes("BFE") ? "BFE" : equip.name.includes("SFE") ? "SFE" : equip.name;
+        equipRegionEntries = marketData.equipmentByRegion?.[shortName];
+      }
+      const regionEntry = equipRegionEntries?.find(r => r.name === region.name);
+      const value = regionEntry?.data.find(d => d.year === selectedYear)?.value ?? 0;
+      return { name: equip.name, value, fullData: regionEntry?.data || [] };
+    });
     return {
       name: region.name,
-      segments: [
-        { name: "BFE (Buyer Furnished Equipment)", value: bfeValue, fullData: bfeRegionData?.data || [] },
-        { name: "SFE (Supplier Furnished Equipment)", value: sfeValue, fullData: sfeRegionData?.data || [] },
-      ],
-      total: bfeValue + sfeValue,
+      segments: equipSegments,
+      total: equipSegments.reduce((s, seg) => s + seg.value, 0),
     };
+  }) : [];
+
+  const regionByProcessData = segmentType === "region" && marketData.processType ? marketData.region.map((region) => {
+    const segments = (marketData.processType || []).map((pt) => {
+      const ptRegionData = marketData.processTypeByRegion?.[pt.name]?.find(r => r.name === region.name);
+      const value = ptRegionData?.data.find(d => d.year === selectedYear)?.value ?? 0;
+      return { name: pt.name, value, fullData: ptRegionData?.data || [] };
+    });
+    return { name: region.name, segments, total: segments.reduce((s, seg) => s + seg.value, 0) };
   }) : [];
 
   const applicationByRegionData = segmentType === "application" ? getApplicationByRegionData() : [];
 
   const equipmentByRegionData = segmentType === "equipment" ? getEquipmentByRegionData() : [];
+
+  const processTypeByRegionData = segmentType === "process" ? getProcessTypeByRegionData() : [];
 
   const allCountries = segmentType === "region" ? getAllCountries() : [];
 
@@ -277,10 +319,20 @@ export function SegmentDetailTab({
       return { title: "Aircraft Types by Application", data: marketData.aircraftType };
     }
     if (segmentType === "equipment") {
-      const shortName = segmentName.includes("BFE") ? "BFE" : "SFE";
-      const regionalData = marketData.equipmentByRegion?.[shortName];
+      let regionalData = marketData.equipmentByRegion?.[segmentName];
+      if (!regionalData) {
+        const shortName = segmentName.includes("BFE") ? "BFE" : segmentName.includes("SFE") ? "SFE" : segmentName;
+        regionalData = marketData.equipmentByRegion?.[shortName];
+      }
       if (regionalData) {
-        return { title: `Regions for ${shortName}`, data: regionalData };
+        return { title: `Regions for ${segmentName}`, data: regionalData };
+      }
+      return { title: "Regions", data: marketData.region };
+    }
+    if (segmentType === "process") {
+      const processRegionData = marketData.processTypeByRegion?.[segmentName];
+      if (processRegionData) {
+        return { title: `Regions for ${segmentName}`, data: processRegionData };
       }
       return { title: "Regions", data: marketData.region };
     }
@@ -318,7 +370,7 @@ export function SegmentDetailTab({
     value: number,
     fullData?: YearlyData[]
   ) => {
-    const allSegmentNames = [...aircraftTypeNames, ...regionNames, ...applicationNames, ...equipmentNames, ...endUserNames];
+    const allSegmentNames = [...aircraftTypeNames, ...regionNames, ...applicationNames, ...equipmentNames, ...endUserNames, ...processTypeNames];
     const segmentIndex = allSegmentNames.indexOf(segmentName);
     const color = SEGMENT_COLORS[segmentIndex % SEGMENT_COLORS.length] || "hsl(192, 95%, 55%)";
     const displayName = `${segmentName} (${endUserType})`;
@@ -327,8 +379,8 @@ export function SegmentDetailTab({
     }
   };
 
-  // Tabs that hide KPI cards
-  const hideKPIs = segmentType === "endUser" || segmentType === "aircraft" || segmentType === "region" || segmentType === "application" || segmentType === "equipment";
+  // All segment tabs hide KPI cards
+  const hideKPIs = segmentType === "endUser" || segmentType === "aircraft" || segmentType === "region" || segmentType === "application" || segmentType === "equipment" || segmentType === "process";
 
   return (
     <div className="space-y-8">
@@ -398,24 +450,28 @@ export function SegmentDetailTab({
       {/* End User Specific: Stacked Bar Charts */}
       {segmentType === "endUser" && (
         <>
-          <StackedBarChart
-            data={aircraftTypeStackedData}
-            year={selectedYear}
-            title="OE vs Aftermarket by Aircraft Type"
-            subtitle={`${selectedYear} breakdown - bars represent OE/Aftermarket, stacks show aircraft types`}
-            segmentColors={SEGMENT_COLORS}
-            segmentNames={aircraftTypeNames}
-            onSegmentClick={handleStackedBarClick}
-          />
-          <StackedBarChart
-            data={regionStackedDataForEndUser}
-            year={selectedYear}
-            title="OE vs Aftermarket by Region"
-            subtitle={`${selectedYear} breakdown - bars represent OE/Aftermarket, stacks show regions`}
-            segmentColors={SEGMENT_COLORS}
-            segmentNames={regionNames}
-            onSegmentClick={handleStackedBarClick}
-          />
+          {aircraftTypeStackedData.length > 0 && aircraftTypeStackedData.some(d => d.total > 0) && (
+            <StackedBarChart
+              data={aircraftTypeStackedData}
+              year={selectedYear}
+              title="OE vs Aftermarket by Aircraft Type"
+              subtitle={`${selectedYear} breakdown - bars represent OE/Aftermarket, stacks show aircraft types`}
+              segmentColors={SEGMENT_COLORS}
+              segmentNames={aircraftTypeNames}
+              onSegmentClick={handleStackedBarClick}
+            />
+          )}
+          {regionStackedDataForEndUser.length > 0 && regionStackedDataForEndUser.some(d => d.total > 0) && (
+            <StackedBarChart
+              data={regionStackedDataForEndUser}
+              year={selectedYear}
+              title="OE vs Aftermarket by Region"
+              subtitle={`${selectedYear} breakdown - bars represent OE/Aftermarket, stacks show regions`}
+              segmentColors={SEGMENT_COLORS}
+              segmentNames={regionNames}
+              onSegmentClick={handleStackedBarClick}
+            />
+          )}
         </>
       )}
 
@@ -431,15 +487,17 @@ export function SegmentDetailTab({
             segmentNames={regionNames}
             onSegmentClick={handleStackedBarClick}
           />
-          <StackedBarChart
-            data={aircraftByEndUserData}
-            year={selectedYear}
-            title="Aircraft Type by End User"
-            subtitle={`${selectedYear} breakdown - bars represent aircraft types, stacks show OE/Aftermarket`}
-            segmentColors={SEGMENT_COLORS}
-            segmentNames={endUserNames.map((n, i) => marketData.endUser[i]?.name || n)}
-            onSegmentClick={handleStackedBarClick}
-          />
+          {aircraftByEndUserData.length > 0 && aircraftByEndUserData.some(d => d.total > 0) && (
+            <StackedBarChart
+              data={aircraftByEndUserData}
+              year={selectedYear}
+              title="Aircraft Type by End User"
+              subtitle={`${selectedYear} breakdown - bars represent aircraft types, stacks show OE/Aftermarket`}
+              segmentColors={SEGMENT_COLORS}
+              segmentNames={endUserNames.map((n, i) => marketData.endUser[i]?.name || n)}
+              onSegmentClick={handleStackedBarClick}
+            />
+          )}
         </>
       )}
 
@@ -477,11 +535,22 @@ export function SegmentDetailTab({
             data={regionByEquipmentData}
             year={selectedYear}
             title="Region by Equipment Type"
-            subtitle={`${selectedYear} breakdown - bars represent regions, stacks show BFE/SFE`}
+            subtitle={`${selectedYear} breakdown - bars represent regions, stacks show equipment types`}
             segmentColors={SEGMENT_COLORS}
             segmentNames={equipmentNames}
             onSegmentClick={handleStackedBarClick}
           />
+          {regionByProcessData.length > 0 && (
+            <StackedBarChart
+              data={regionByProcessData}
+              year={selectedYear}
+              title="Region by Process Type"
+              subtitle={`${selectedYear} breakdown - bars represent regions, stacks show process types`}
+              segmentColors={SEGMENT_COLORS}
+              segmentNames={processTypeNames}
+              onSegmentClick={handleStackedBarClick}
+            />
+          )}
         </>
       )}
 
@@ -504,7 +573,20 @@ export function SegmentDetailTab({
           data={equipmentByRegionData}
           year={selectedYear}
           title="Equipment Type by Region"
-          subtitle={`${selectedYear} breakdown - bars represent BFE/SFE, stacks show regions`}
+          subtitle={`${selectedYear} breakdown - bars represent equipment types, stacks show regions`}
+          segmentColors={SEGMENT_COLORS}
+          segmentNames={regionNames}
+          onSegmentClick={handleStackedBarClick}
+        />
+      )}
+
+      {/* Process Type Specific: Stacked Bar Charts */}
+      {segmentType === "process" && processTypeByRegionData.length > 0 && (
+        <StackedBarChart
+          data={processTypeByRegionData}
+          year={selectedYear}
+          title="Process Type by Region"
+          subtitle={`${selectedYear} breakdown - bars represent process types, stacks show regions`}
           segmentColors={SEGMENT_COLORS}
           segmentNames={regionNames}
           onSegmentClick={handleStackedBarClick}

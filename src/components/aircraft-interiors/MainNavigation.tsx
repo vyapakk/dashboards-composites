@@ -3,7 +3,13 @@ import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { BarChart3, Users, Plane, Globe, Layers, Settings } from "lucide-react";
 import { YearSelector } from "./YearSelector";
 
-export type MainTabType = "overview" | "endUser" | "aircraft" | "region" | "application" | "equipment";
+export type MainTabType = "overview" | "endUser" | "aircraft" | "region" | "application" | "equipment" | "process";
+
+export interface TabConfig {
+  id: MainTabType;
+  label: string;
+  icon: React.ComponentType<{ className?: string }>;
+}
 
 interface MainNavigationProps {
   value: MainTabType;
@@ -11,15 +17,16 @@ interface MainNavigationProps {
   selectedYear?: number;
   onYearChange?: (year: number) => void;
   showYearSelector?: boolean;
+  tabs?: TabConfig[];
 }
 
-const tabs = [
-  { id: "overview" as const, label: "Market Overview", icon: BarChart3 },
-  { id: "endUser" as const, label: "End-User", icon: Users },
-  { id: "aircraft" as const, label: "Aircraft-Type", icon: Plane },
-  { id: "region" as const, label: "Region", icon: Globe },
-  { id: "application" as const, label: "Application", icon: Layers },
-  { id: "equipment" as const, label: "Equipment", icon: Settings },
+const defaultTabs: TabConfig[] = [
+  { id: "overview", label: "Market Overview", icon: BarChart3 },
+  { id: "endUser", label: "End-User", icon: Users },
+  { id: "aircraft", label: "Aircraft-Type", icon: Plane },
+  { id: "region", label: "Region", icon: Globe },
+  { id: "application", label: "Application", icon: Layers },
+  { id: "equipment", label: "Equipment", icon: Settings },
 ];
 
 export function MainNavigation({
@@ -28,6 +35,7 @@ export function MainNavigation({
   selectedYear,
   onYearChange,
   showYearSelector = false,
+  tabs = defaultTabs,
 }: MainNavigationProps) {
   return (
     <motion.div
