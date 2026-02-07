@@ -115,33 +115,38 @@ const Index = () => {
           </div>
         </div>
 
-      {/* Login Form Container */}
-        <div className="flex-1 flex items-center justify-center px-6 sm:px-12 lg:px-16 xl:px-20 py-8 lg:py-0">
-        <div className="w-full max-w-md space-y-8">
+        {/* Login Form Container - uses justify-between like left panel for symmetry */}
+        <div className="flex-1 flex flex-col justify-between px-6 sm:px-12 lg:px-16 xl:px-20 py-8 lg:py-10 xl:py-14">
+          {/* Top spacer - matches left panel's logo area */}
+          <div className="hidden lg:block" />
 
-          {/* Header */}
-          <div className="space-y-2 text-center lg:text-left">
-            <h2 className="text-2xl xl:text-3xl font-bold text-foreground">
-              Sign in to your account
-            </h2>
-            <p className="text-muted-foreground">
-              Access your market research dashboard
-            </p>
+          {/* Center content */}
+          <div className="w-full max-w-md mx-auto lg:mx-0 space-y-6">
+            {/* Header */}
+            <div className="space-y-1.5 text-center lg:text-left">
+              <h2 className="text-2xl xl:text-3xl font-bold text-foreground">
+                Sign in to your account
+              </h2>
+              <p className="text-sm text-muted-foreground">
+                Access your market research dashboard
+              </p>
+            </div>
+
+            {/* Login Form */}
+            <LoginForm />
           </div>
 
-          {/* Login Form */}
-          <LoginForm />
-
-          {/* Help text */}
-          <div className="pt-6 border-t border-border">
-            <p className="text-sm text-center text-muted-foreground">
-              Need help?{" "}
-              <a href="mailto:support@stratviewresearch.com" className="text-secondary hover:text-stratview-mint transition-colors font-medium">
-                Contact Support
-              </a>
-            </p>
+          {/* Bottom section - matches left panel's footer position */}
+          <div className="mt-auto pt-6">
+            <div className="w-full max-w-md mx-auto lg:mx-0 border-t border-border pt-4">
+              <p className="text-sm text-center lg:text-left text-muted-foreground">
+                Need help?{" "}
+                <a href="mailto:support@stratviewresearch.com" className="text-secondary hover:text-stratview-mint transition-colors font-medium">
+                  Contact Support
+                </a>
+              </p>
+            </div>
           </div>
-        </div>
         </div>
       </div>
     </div>
