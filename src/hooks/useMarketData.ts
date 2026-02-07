@@ -9,12 +9,14 @@ interface CompactMarketData {
   region: Record<string, number[]>;
   application: Record<string, number[]>;
   furnishedEquipment: Record<string, number[]>;
+  processType?: Record<string, number[]>;
   countryDataByRegion: Record<string, Record<string, number[]>>;
   endUserByAircraftType: Record<string, Record<string, number[]>>;
   endUserByRegion: Record<string, Record<string, number[]>>;
   aircraftTypeByRegion: Record<string, Record<string, number[]>>;
   applicationByRegion: Record<string, Record<string, number[]>>;
   equipmentByRegion: Record<string, Record<string, number[]>>;
+  processTypeByRegion?: Record<string, Record<string, number[]>>;
 }
 
 // Types for the expanded format
@@ -36,12 +38,14 @@ export interface MarketData {
   region: SegmentData[];
   application: SegmentData[];
   furnishedEquipment: SegmentData[];
+  processType?: SegmentData[];
   countryDataByRegion: Record<string, SegmentData[]>;
   endUserByAircraftType: Record<string, SegmentData[]>;
   endUserByRegion: Record<string, SegmentData[]>;
   aircraftTypeByRegion: Record<string, SegmentData[]>;
   applicationByRegion: Record<string, SegmentData[]>;
   equipmentByRegion: Record<string, SegmentData[]>;
+  processTypeByRegion?: Record<string, SegmentData[]>;
 }
 
 interface UseMarketDataResult {
@@ -58,7 +62,7 @@ interface UseMarketDataResult {
  *
  * Example:
  *   useMarketData("/data/global-aircraft-interiors-market.json")
- *   useMarketData("/data/bfe-market-analysis.json")
+ *   useMarketData("/data/aircraft-cabin-interior-composites-market.json")
  */
 
 function expandValues(years: number[], values: number[]): YearlyData[] {
@@ -111,12 +115,14 @@ export function useMarketData(dataUrl: string = "/data/global-aircraft-interiors
         region: expandSegment(years, compact.region),
         application: expandSegment(years, compact.application),
         furnishedEquipment: expandSegment(years, compact.furnishedEquipment),
+        processType: compact.processType ? expandSegment(years, compact.processType) : undefined,
         countryDataByRegion: expandNestedSegment(years, compact.countryDataByRegion || {}),
         endUserByAircraftType: expandNestedSegment(years, compact.endUserByAircraftType || {}),
         endUserByRegion: expandNestedSegment(years, compact.endUserByRegion || {}),
         aircraftTypeByRegion: expandNestedSegment(years, compact.aircraftTypeByRegion || {}),
         applicationByRegion: expandNestedSegment(years, compact.applicationByRegion || {}),
         equipmentByRegion: expandNestedSegment(years, compact.equipmentByRegion || {}),
+        processTypeByRegion: compact.processTypeByRegion ? expandNestedSegment(years, compact.processTypeByRegion) : undefined,
       };
 
       setData(expanded);

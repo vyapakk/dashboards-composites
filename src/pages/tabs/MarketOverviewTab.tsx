@@ -12,6 +12,9 @@ interface MarketOverviewTabProps {
   selectedYear: number;
   onYearChange: (year: number) => void;
   onNavigateToTab: (tabType: MainTabType) => void;
+  endUserLabel?: string;
+  equipmentLabel?: string;
+  processTypeLabel?: string;
 }
 
 export function MarketOverviewTab({
@@ -19,6 +22,9 @@ export function MarketOverviewTab({
   selectedYear,
   onYearChange,
   onNavigateToTab,
+  endUserLabel = "End User",
+  equipmentLabel = "Equipment",
+  processTypeLabel = "Process Type",
 }: MarketOverviewTabProps) {
   const { drillDownState, openDrillDown, closeDrillDown } = useDrillDown();
 
@@ -46,13 +52,16 @@ export function MarketOverviewTab({
         relatedSegments = { title: "By Application", data: marketData.application };
         break;
       case "region":
-        relatedSegments = { title: "By End User", data: marketData.endUser };
+        relatedSegments = { title: `By ${endUserLabel}`, data: marketData.endUser };
         break;
       case "application":
         relatedSegments = { title: "By Aircraft Type", data: marketData.aircraftType };
         break;
       case "equipment":
-        relatedSegments = { title: "By End User", data: marketData.endUser };
+        relatedSegments = { title: `By ${endUserLabel}`, data: marketData.endUser };
+        break;
+      case "process":
+        relatedSegments = { title: "By Region", data: marketData.region };
         break;
     }
 
@@ -111,9 +120,13 @@ export function MarketOverviewTab({
           regionData={marketData.region}
           applicationData={marketData.application}
           equipmentData={marketData.furnishedEquipment}
+          processTypeData={marketData.processType}
           year={selectedYear}
           onDonutClick={onNavigateToTab}
           onSliceClick={handleSliceClick}
+          endUserLabel={endUserLabel}
+          equipmentLabel={equipmentLabel}
+          processTypeLabel={processTypeLabel}
         />
       </div>
 
