@@ -64,10 +64,10 @@ export function RegionalBarChart({ data, year, title, subtitle, onBarClick }: Re
       </div>
       <div className="h-[300px] w-full">
         <ResponsiveContainer width="100%" height="100%">
-          <BarChart data={barData} layout="vertical" margin={{ top: 5, right: 30, left: 80, bottom: 5 }}>
+          <BarChart data={barData} layout="vertical" margin={{ top: 5, right: 30, left: 100, bottom: 5 }}>
             <CartesianGrid strokeDasharray="3 3" stroke="hsl(217, 33%, 18%)" horizontal={true} vertical={false} />
             <XAxis type="number" stroke="hsl(215, 20%, 55%)" fontSize={12} tickLine={false} tickFormatter={(value) => `$${(value / 1000).toFixed(1)}B`} />
-            <YAxis type="category" dataKey="name" stroke="hsl(215, 20%, 55%)" fontSize={12} tickLine={false} width={75} />
+            <YAxis type="category" dataKey="name" stroke="hsl(215, 20%, 55%)" fontSize={12} tickLine={false} width={95} />
             <Tooltip content={<CustomTooltip />} />
             <Bar dataKey="value" radius={[0, 4, 4, 0]} name="Market Size" onClick={handleBarClick} style={{ cursor: "pointer" }}>
               {barData.map((entry, index) => (
