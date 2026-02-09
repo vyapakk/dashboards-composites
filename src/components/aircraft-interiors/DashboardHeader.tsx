@@ -11,9 +11,9 @@ export function AircraftInteriorsDashboardHeader() {
       <div className="absolute inset-0 bg-grid opacity-30" />
       <div className="absolute inset-0 bg-gradient-to-r from-primary/5 via-transparent to-accent/5" />
 
-      <div className="container relative mx-auto px-4 py-8">
+      <div className="container relative mx-auto px-4 py-6 md:py-8">
         <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
-          <div className="flex items-center gap-4">
+          <div className="flex items-start md:items-center gap-3 md:gap-4">
             <motion.div initial={{
             scale: 0
           }} animate={{
@@ -22,14 +22,14 @@ export function AircraftInteriorsDashboardHeader() {
             type: "spring",
             stiffness: 200,
             delay: 0.2
-          }}>
-              <img src={stratviewLogoWhite} alt="Stratview Research" className="h-20 w-auto" />
+          }} className="shrink-0">
+              <img src={stratviewLogoWhite} alt="Stratview Research" className="h-12 md:h-20 w-auto object-contain" />
             </motion.div>
-            <div>
-              <h1 className="text-2xl font-bold text-foreground md:text-3xl">
+            <div className="min-w-0">
+              <h1 className="text-lg md:text-2xl lg:text-3xl font-bold text-foreground break-words">
                 Aircraft Cabin Interior Composites Market
               </h1>
-              <p className="text-sm text-muted-foreground md:text-base">
+              <p className="text-xs md:text-sm lg:text-base text-muted-foreground">
                 Global Market Research Dashboard • 2016-2034
               </p>
             </div>
