@@ -26,7 +26,7 @@ const Dashboard = () => {
       : categories.find((cat) => cat.id === activeTab)?.datasets.length || 0;
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background overflow-x-hidden">
       <DashboardHeader />
       <WelcomeSection />
 
@@ -43,13 +43,13 @@ const Dashboard = () => {
         </div>
 
         <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-          <div className="mb-6 overflow-x-auto">
+          <div className="mb-6 overflow-x-auto -mx-4 px-4 md:mx-0 md:px-0">
             <TabsList className="inline-flex h-auto p-1 bg-muted/50 rounded-lg">
               {tabs.map((tab) => (
                 <TabsTrigger
                   key={tab.id}
                   value={tab.id}
-                  className="px-4 py-2 text-sm font-medium whitespace-nowrap data-[state=active]:bg-card data-[state=active]:text-primary data-[state=active]:shadow-sm"
+                  className="px-3 md:px-4 py-2 text-xs md:text-sm font-medium whitespace-nowrap data-[state=active]:bg-card data-[state=active]:text-primary data-[state=active]:shadow-sm"
                 >
                   {tab.label}
                 </TabsTrigger>
