@@ -89,11 +89,11 @@ const Index = () => {
             
             {/* Heading */}
             <div className="text-center space-y-2 mb-4">
-              <h1 className="text-xl sm:text-2xl font-bold text-primary-foreground leading-tight">
+              <h1 className="text-2xl sm:text-2xl font-bold text-primary-foreground leading-tight">
                 Welcome to
                 <span className="text-stratview-mint"> Stratview One</span>
               </h1>
-              <p className="text-xs sm:text-sm text-primary-foreground/80 max-w-sm mx-auto">
+              <p className="text-sm sm:text-sm text-primary-foreground/80 max-w-sm mx-auto">
                 Your unified platform for market research data and strategic intelligence.
               </p>
             </div>
@@ -124,10 +124,10 @@ const Index = () => {
           <div className="w-full max-w-md mx-auto lg:mx-0 space-y-6">
             {/* Header */}
             <div className="space-y-1.5 text-center lg:text-left">
-              <h2 className="text-2xl xl:text-3xl font-bold text-foreground">
+              <h2 className="text-xl lg:text-2xl xl:text-3xl font-bold text-foreground">
                 Sign in to your account
               </h2>
-              <p className="text-sm xl:text-base text-muted-foreground">
+              <p className="text-xs lg:text-sm xl:text-base text-muted-foreground">
                 Access your market research dashboard
               </p>
             </div>
