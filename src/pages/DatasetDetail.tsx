@@ -56,16 +56,16 @@ const DatasetDetail = () => {
   };
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background overflow-x-hidden">
       <DashboardHeader />
 
       {/* Hero section */}
-      <section className="relative overflow-hidden gradient-hero py-10 px-4 md:px-6">
+      <section className="relative overflow-hidden gradient-hero py-8 md:py-10 px-4 md:px-6">
         <div className="absolute inset-0 opacity-10">
           <div className="absolute top-10 left-10 w-64 h-64 rounded-full bg-accent blur-3xl" />
           <div className="absolute bottom-10 right-10 w-48 h-48 rounded-full bg-primary blur-3xl" />
         </div>
-        <div className="container relative z-10">
+        <div className="container relative z-10 px-0">
           <Button
             variant="ghost"
             onClick={() => navigate("/dashboard")}
@@ -73,21 +73,21 @@ const DatasetDetail = () => {
           >
             <ArrowLeft className="mr-2 h-4 w-4" /> Back to Datasets
           </Button>
-          <div className="flex items-center gap-4">
+          <div className="flex items-start gap-3 md:gap-4">
             <div
-              className={`flex h-14 w-14 shrink-0 items-center justify-center rounded-xl ${iconBgStyles[parentCategory.color]}`}
+              className={`flex h-11 w-11 md:h-14 md:w-14 shrink-0 items-center justify-center rounded-xl ${iconBgStyles[parentCategory.color]}`}
             >
-              <Icon className="h-7 w-7" />
+              <Icon className="h-5 w-5 md:h-7 md:w-7" />
             </div>
-            <div>
-              <h1 className="text-2xl md:text-3xl font-bold text-primary-foreground font-display">
+            <div className="min-w-0 flex-1">
+              <h1 className="text-xl md:text-3xl font-bold text-primary-foreground font-display break-words">
                 {dataset.name}
               </h1>
-              <div className="flex items-center gap-2 mt-1">
-                <Badge variant="secondary" className="bg-primary-foreground/10 text-primary-foreground/80 border-0">
+              <div className="flex flex-wrap items-center gap-2 mt-1">
+                <Badge variant="secondary" className="bg-primary-foreground/10 text-primary-foreground/80 border-0 text-xs">
                   {parentCategory.title}
                 </Badge>
-                <span className="text-sm text-primary-foreground/60">
+                <span className="text-xs md:text-sm text-primary-foreground/60">
                   {dataset.dashboards.length} dashboard{dataset.dashboards.length !== 1 ? "s" : ""}
                 </span>
               </div>
@@ -107,7 +107,7 @@ const DatasetDetail = () => {
           </p>
         </div>
 
-        <div className="grid gap-4 md:grid-cols-2">
+        <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
           {dataset.dashboards.map((dashboard, index) => {
             const isActive = !!activeDashboardRoutes[dashboard.id];
             return (
@@ -129,13 +129,13 @@ const DatasetDetail = () => {
                       : "opacity-60 cursor-not-allowed"
                   }`}
                 >
-                  <CardContent className="p-5">
-                    <div className="flex items-center gap-4">
-                      <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-secondary/50 text-muted-foreground group-hover:bg-primary/10 group-hover:text-primary transition-colors">
-                        <BarChart3 className="h-5 w-5" />
+                  <CardContent className="p-4 md:p-5">
+                    <div className="flex items-center gap-3 md:gap-4">
+                      <div className="flex h-10 w-10 md:h-12 md:w-12 shrink-0 items-center justify-center rounded-xl bg-secondary/50 text-muted-foreground group-hover:bg-primary/10 group-hover:text-primary transition-colors">
+                        <BarChart3 className="h-4 w-4 md:h-5 md:w-5" />
                       </div>
                       <div className="flex-1 min-w-0">
-                        <h3 className={`font-medium truncate transition-colors ${
+                        <h3 className={`font-medium text-sm md:text-base transition-colors truncate ${
                           isActive
                             ? "text-card-foreground group-hover:text-primary"
                             : "text-muted-foreground"
