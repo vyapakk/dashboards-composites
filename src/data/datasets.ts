@@ -68,6 +68,7 @@ export const categories = [
           { id: "ai-cabin-composites", name: "Aircraft Cabin Interior Composites Market" },
           { id: "ai-soft-goods", name: "Aircraft Soft Goods Market" },
           { id: "ai-water-waste", name: "Aircraft Water/Waste Water Market" },
+          { id: "ai-galley", name: "Aircraft Galley Market" },
           { id: "ai-bfe", name: "BFE Market Analysis" },
           { id: "ai-seating", name: "Aircraft Seating Trends" },
           { id: "ai-ifec", name: "In-Flight Entertainment & Connectivity" },
