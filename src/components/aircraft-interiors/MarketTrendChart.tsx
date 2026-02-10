@@ -122,7 +122,7 @@ export function MarketTrendChart({ data, segments, title, subtitle, showSegments
           <>
             <div className="h-[300px] sm:h-[350px] w-full -mx-2 sm:mx-0">
               <ResponsiveContainer width="100%" height="100%">
-                <AreaChart data={chartData} margin={{ top: 10, right: 15, left: -15, bottom: 0 }}>
+                <AreaChart data={chartData} margin={{ top: 10, right: 15, left: useMillions ? 5 : -15, bottom: 0 }}>
                   <defs>
                     {showSegments && segments ? segments.map((seg, idx) => (
                       <linearGradient key={seg.name} id={`gradient-${idx}`} x1="0" y1="0" x2="0" y2="1">
@@ -138,7 +138,7 @@ export function MarketTrendChart({ data, segments, title, subtitle, showSegments
                   </defs>
                   <CartesianGrid strokeDasharray="3 3" stroke="hsl(217, 33%, 18%)" />
                   <XAxis dataKey="year" stroke="hsl(215, 20%, 55%)" fontSize={12} tickLine={false} interval={data.length > 15 ? 1 : 0} />
-                  <YAxis stroke="hsl(215, 20%, 55%)" fontSize={12} tickLine={false} tickFormatter={(value) => useMillions ? `$${Math.round(value)}M` : `$${(value / 1000).toFixed(0)}B`} />
+                  <YAxis stroke="hsl(215, 20%, 55%)" fontSize={12} tickLine={false} tickFormatter={(value) => useMillions ? `$${Math.round(value)}M` : `$${(value / 1000).toFixed(0)}B`} width={useMillions ? 70 : 40} />
                   <Tooltip content={<CustomTooltip />} />
                   {showSegments && segments ? (
                     <>

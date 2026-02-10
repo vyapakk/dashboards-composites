@@ -90,7 +90,7 @@ export function MarketOverviewChart({ data, title, subtitle, useMillions = false
         chart={
           <div className="h-[300px] sm:h-[350px] w-full -mx-2 sm:mx-0">
             <ResponsiveContainer width="100%" height="100%">
-              <ComposedChart data={chartData} margin={{ top: 10, right: 30, left: 5, bottom: 0 }}>
+              <ComposedChart data={chartData} margin={{ top: 10, right: 30, left: useMillions ? 10 : 5, bottom: 0 }}>
                 <defs>
                   <linearGradient id="gradient-market-size" x1="0" y1="0" x2="0" y2="1">
                     <stop offset="5%" stopColor="hsl(192, 95%, 55%)" stopOpacity={0.4} />
@@ -99,7 +99,7 @@ export function MarketOverviewChart({ data, title, subtitle, useMillions = false
                 </defs>
                 <CartesianGrid strokeDasharray="3 3" stroke="hsl(217, 33%, 18%)" />
                 <XAxis dataKey="year" stroke="hsl(215, 20%, 55%)" fontSize={11} tickLine={false} interval={data.length > 15 ? 1 : 0} />
-                <YAxis yAxisId="left" stroke="hsl(215, 20%, 55%)" fontSize={10} tickLine={false} tickFormatter={(value) => useMillions ? `$${Math.round(value)}M` : `$${(value / 1000).toFixed(1)}B`} width={useMillions ? 60 : 45} />
+                <YAxis yAxisId="left" stroke="hsl(215, 20%, 55%)" fontSize={10} tickLine={false} tickFormatter={(value) => useMillions ? `$${Math.round(value)}M` : `$${(value / 1000).toFixed(1)}B`} width={useMillions ? 70 : 50} />
                 <YAxis yAxisId="right" orientation="right" stroke="hsl(215, 20%, 55%)" fontSize={10} tickLine={false} tickFormatter={(value) => `${value.toFixed(0)}%`} domain={['auto', 'auto']} width={30} />
                 <Tooltip content={<CustomTooltip />} />
                 <Legend content={renderLegend} />
