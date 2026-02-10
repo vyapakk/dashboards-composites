@@ -70,6 +70,7 @@ export const categories = [
           { id: "ai-water-waste", name: "Aircraft Water/Waste Water Market" },
           { id: "ai-galley", name: "Aircraft Galley Market" },
           { id: "ai-psu", name: "Aircraft PSU Market" },
+          { id: "ai-lavatory", name: "Aircraft Lavatory Market" },
           { id: "ai-bfe", name: "BFE Market Analysis" },
           { id: "ai-seating", name: "Aircraft Seating Trends" },
           { id: "ai-ifec", name: "In-Flight Entertainment & Connectivity" },
