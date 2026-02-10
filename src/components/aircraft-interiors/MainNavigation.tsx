@@ -18,6 +18,7 @@ interface MainNavigationProps {
   onYearChange?: (year: number) => void;
   showYearSelector?: boolean;
   tabs?: TabConfig[];
+  years?: number[];
 }
 
 const defaultTabs: TabConfig[] = [
@@ -36,6 +37,7 @@ export function MainNavigation({
   onYearChange,
   showYearSelector = false,
   tabs = defaultTabs,
+  years,
 }: MainNavigationProps) {
   return (
     <motion.div
@@ -63,7 +65,7 @@ export function MainNavigation({
           </TabsList>
         </Tabs>
         {showYearSelector && selectedYear && onYearChange && (
-          <YearSelector value={selectedYear} onChange={onYearChange} />
+          <YearSelector value={selectedYear} onChange={onYearChange} years={years} />
         )}
       </div>
     </motion.div>
