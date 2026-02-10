@@ -218,10 +218,6 @@ const DashboardHeader = () => {
             <DropdownMenuContent align="end" className="w-48">
               <DropdownMenuLabel>My Account</DropdownMenuLabel>
               <DropdownMenuSeparator />
-              <DropdownMenuItem>Profile</DropdownMenuItem>
-              <DropdownMenuItem>Settings</DropdownMenuItem>
-              <DropdownMenuItem>Billing</DropdownMenuItem>
-              <DropdownMenuSeparator />
               <DropdownMenuItem className="text-destructive" onClick={handleLogout}>
                 Log out
               </DropdownMenuItem>
