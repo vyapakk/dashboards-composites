@@ -1,5 +1,18 @@
 import { Layers, Plane, Car, Building2, MoreHorizontal } from "lucide-react";
 
+/**
+ * BACKEND INTEGRATION POINT: Dataset Categories & Purchase Status
+ * 
+ * Replace this static array with an API call. The API should return the same
+ * structure but with `purchased` resolved per authenticated user.
+ * 
+ * Expected API: GET /api/datasets?user_id={userId}
+ * Expected Response: Same structure as below, with `purchased: true/false` per dataset
+ * 
+ * The `purchased` field controls:
+ * - Listing page (DatasetList.tsx): Shows lock icon on unpurchased datasets
+ * - Detail page (DatasetDetail.tsx): Blocks dashboard access, shows access request form
+ */
 export const categories = [
   {
     id: "composites",
