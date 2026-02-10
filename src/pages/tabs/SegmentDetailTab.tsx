@@ -20,6 +20,8 @@ interface SegmentDetailTabProps {
   selectedYear: number;
   endUserLabel?: string;
   equipmentLabel?: string;
+  applicationLabel?: string;
+  processTypeLabel?: string;
   useMillions?: boolean;
 }
 
@@ -32,6 +34,8 @@ export function SegmentDetailTab({
   selectedYear,
   endUserLabel = "End User",
   equipmentLabel = "Equipment Type",
+  applicationLabel = "Application",
+  processTypeLabel = "Process Type",
   useMillions = false,
 }: SegmentDetailTabProps) {
   const { drillDownState, openDrillDown, closeDrillDown } = useDrillDown();
@@ -525,8 +529,8 @@ export function SegmentDetailTab({
           <StackedBarChart
             data={regionByApplicationData}
             year={selectedYear}
-            title="Region by Application"
-            subtitle={`${selectedYear} breakdown - bars represent regions, stacks show applications`}
+            title={`Region by ${applicationLabel}`}
+            subtitle={`${selectedYear} breakdown - bars represent regions, stacks show ${applicationLabel.toLowerCase()}`}
             segmentColors={SEGMENT_COLORS}
             segmentNames={applicationNames}
             onSegmentClick={handleStackedBarClick}
@@ -556,8 +560,8 @@ export function SegmentDetailTab({
             <StackedBarChart
               data={regionByProcessData}
               year={selectedYear}
-              title="Region by Process Type"
-              subtitle={`${selectedYear} breakdown - bars represent regions, stacks show process types`}
+              title={`Region by ${processTypeLabel}`}
+              subtitle={`${selectedYear} breakdown - bars represent regions, stacks show ${processTypeLabel.toLowerCase()}`}
               segmentColors={SEGMENT_COLORS}
               segmentNames={processTypeNames}
               onSegmentClick={handleStackedBarClick}
@@ -572,8 +576,8 @@ export function SegmentDetailTab({
         <StackedBarChart
           data={applicationByRegionData}
           year={selectedYear}
-          title="Applications by Region"
-          subtitle={`${selectedYear} breakdown - bars represent applications, stacks show regions`}
+          title={`${applicationLabel} by Region`}
+          subtitle={`${selectedYear} breakdown - bars represent ${applicationLabel.toLowerCase()}, stacks show regions`}
           segmentColors={SEGMENT_COLORS}
           segmentNames={regionNames}
           onSegmentClick={handleStackedBarClick}
@@ -600,8 +604,8 @@ export function SegmentDetailTab({
         <StackedBarChart
           data={processTypeByRegionData}
           year={selectedYear}
-          title="Process Type by Region"
-          subtitle={`${selectedYear} breakdown - bars represent process types, stacks show regions`}
+          title={`${processTypeLabel} by Region`}
+          subtitle={`${selectedYear} breakdown - bars represent ${processTypeLabel.toLowerCase()}, stacks show regions`}
           segmentColors={SEGMENT_COLORS}
           segmentNames={regionNames}
           onSegmentClick={handleStackedBarClick}
