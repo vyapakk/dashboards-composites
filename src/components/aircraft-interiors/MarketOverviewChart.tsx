@@ -99,8 +99,8 @@ export function MarketOverviewChart({ data, title, subtitle, useMillions = false
                 </defs>
                 <CartesianGrid strokeDasharray="3 3" stroke="hsl(217, 33%, 18%)" />
                 <XAxis dataKey="year" stroke="hsl(215, 20%, 55%)" fontSize={11} tickLine={false} interval={data.length > 15 ? 1 : 0} />
-                <YAxis yAxisId="left" stroke="hsl(215, 20%, 55%)" fontSize={10} tickLine={false} tickFormatter={(value) => useMillions ? `$${value.toLocaleString()}M` : `$${(value / 1000).toFixed(1)}B`} width={useMillions ? 65 : 45} />
-                <YAxis yAxisId="right" orientation="right" stroke="hsl(215, 20%, 55%)" fontSize={10} tickLine={false} tickFormatter={(value) => `${value.toFixed(0)}%`} domain={[-45, 30]} width={30} />
+                <YAxis yAxisId="left" stroke="hsl(215, 20%, 55%)" fontSize={10} tickLine={false} tickFormatter={(value) => useMillions ? `$${Math.round(value)}M` : `$${(value / 1000).toFixed(1)}B`} width={useMillions ? 60 : 45} />
+                <YAxis yAxisId="right" orientation="right" stroke="hsl(215, 20%, 55%)" fontSize={10} tickLine={false} tickFormatter={(value) => `${value.toFixed(0)}%`} domain={['auto', 'auto']} width={30} />
                 <Tooltip content={<CustomTooltip />} />
                 <Legend content={renderLegend} />
                 <Line yAxisId="left" type="monotone" dataKey="value" stroke="hsl(192, 95%, 55%)" strokeWidth={3} dot={{ fill: "hsl(192, 95%, 55%)", strokeWidth: 0, r: 4 }} activeDot={{ r: 6, strokeWidth: 0 }} name="Market Size" />
