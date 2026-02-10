@@ -13,11 +13,12 @@ interface RegionalBarChartProps {
   title: string;
   subtitle?: string;
   onBarClick?: (segmentName: string, segmentData: YearlyData[], color: string) => void;
+  useMillions?: boolean;
 }
 
 const chartColors = ["hsl(192, 95%, 55%)", "hsl(38, 92%, 55%)", "hsl(262, 83%, 58%)", "hsl(142, 71%, 45%)"];
 
-export function RegionalBarChart({ data, year, title, subtitle, onBarClick }: RegionalBarChartProps) {
+export function RegionalBarChart({ data, year, title, subtitle, onBarClick, useMillions = false }: RegionalBarChartProps) {
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
   const chartRef = useRef<HTMLDivElement>(null);
   const { downloadChart } = useChartDownload();
@@ -83,7 +84,7 @@ export function RegionalBarChart({ data, year, title, subtitle, onBarClick }: Re
               <ResponsiveContainer width="100%" height="100%">
                 <BarChart data={barData} layout="vertical" margin={{ top: 5, right: 30, left: 100, bottom: 5 }}>
                   <CartesianGrid strokeDasharray="3 3" stroke="hsl(217, 33%, 18%)" horizontal={true} vertical={false} />
-                  <XAxis type="number" stroke="hsl(215, 20%, 55%)" fontSize={12} tickLine={false} tickFormatter={(value) => `$${(value / 1000).toFixed(1)}B`} />
+                  <XAxis type="number" stroke="hsl(215, 20%, 55%)" fontSize={12} tickLine={false} tickFormatter={(value) => useMillions ? `$${Math.round(value)}M` : `$${(value / 1000).toFixed(1)}B`} />
                   <YAxis type="category" dataKey="name" stroke="hsl(215, 20%, 55%)" fontSize={12} tickLine={false} width={95} />
                   <Tooltip content={<CustomTooltip />} />
                   <Bar dataKey="value" radius={[0, 4, 4, 0]} name="Market Size" onClick={handleBarClick} style={{ cursor: "pointer" }}>

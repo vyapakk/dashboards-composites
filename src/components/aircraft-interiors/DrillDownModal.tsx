@@ -13,9 +13,10 @@ interface DrillDownModalProps {
   segmentName: string;
   segmentData: YearlyData[];
   color: string;
+  useMillions?: boolean;
 }
 
-export function DrillDownModal({ isOpen, onClose, segmentName, segmentData, color }: DrillDownModalProps) {
+export function DrillDownModal({ isOpen, onClose, segmentName, segmentData, color, useMillions = false }: DrillDownModalProps) {
   const trendChartRef = useRef<HTMLDivElement>(null);
   const { downloadChart } = useChartDownload();
 
@@ -48,11 +49,11 @@ export function DrillDownModal({ isOpen, onClose, segmentName, segmentData, colo
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
             <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="rounded-lg border border-border bg-secondary/30 p-4">
               <p className="text-xs text-muted-foreground">2025 Market Size</p>
-              <p className="text-xl font-bold text-foreground">${(currentValue / 1000).toFixed(2)}B</p>
+              <p className="text-xl font-bold text-foreground">{useMillions ? `$${currentValue.toLocaleString()}M` : `$${(currentValue / 1000).toFixed(2)}B`}</p>
             </motion.div>
             <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }} className="rounded-lg border border-border bg-secondary/30 p-4">
               <p className="text-xs text-muted-foreground">2034 Forecast</p>
-              <p className="text-xl font-bold text-foreground">${(forecastValue / 1000).toFixed(2)}B</p>
+              <p className="text-xl font-bold text-foreground">{useMillions ? `$${forecastValue.toLocaleString()}M` : `$${(forecastValue / 1000).toFixed(2)}B`}</p>
             </motion.div>
             <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }} className="rounded-lg border border-border bg-secondary/30 p-4">
               <p className="text-xs text-muted-foreground">CAGR through 2034</p>
@@ -78,8 +79,8 @@ export function DrillDownModal({ isOpen, onClose, segmentName, segmentData, colo
                     </linearGradient>
                   </defs>
                   <CartesianGrid strokeDasharray="3 3" stroke="hsl(217, 33%, 18%)" />
-                  <XAxis dataKey="year" stroke="hsl(215, 20%, 55%)" fontSize={12} tickLine={false} />
-                  <YAxis stroke="hsl(215, 20%, 55%)" fontSize={12} tickLine={false} tickFormatter={(value) => `$${(value / 1000).toFixed(1)}B`} />
+                  <XAxis dataKey="year" stroke="hsl(215, 20%, 55%)" fontSize={12} tickLine={false} interval={segmentData.length > 15 ? 1 : 0} />
+                  <YAxis stroke="hsl(215, 20%, 55%)" fontSize={12} tickLine={false} tickFormatter={(value) => useMillions ? `$${Math.round(value)}M` : `$${(value / 1000).toFixed(1)}B`} />
                   <Tooltip content={<CustomTooltip />} />
                   <Area type="monotone" dataKey="value" stroke={color} fill="url(#drillGradient)" strokeWidth={2} />
                 </AreaChart>

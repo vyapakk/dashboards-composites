@@ -16,6 +16,7 @@ interface MarketTrendChartProps {
   subtitle?: string;
   showSegments?: boolean;
   onSegmentClick?: (segmentName: string, segmentData: YearlyData[], color: string) => void;
+  useMillions?: boolean;
 }
 
 const chartColors = [
@@ -23,7 +24,7 @@ const chartColors = [
   "hsl(142, 71%, 45%)", "hsl(346, 77%, 50%)", "hsl(199, 89%, 48%)",
 ];
 
-export function MarketTrendChart({ data, segments, title, subtitle, showSegments = false, onSegmentClick }: MarketTrendChartProps) {
+export function MarketTrendChart({ data, segments, title, subtitle, showSegments = false, onSegmentClick, useMillions = false }: MarketTrendChartProps) {
   const chartRef = useRef<HTMLDivElement>(null);
   const { downloadChart } = useChartDownload();
   const [view, setView] = useState<"chart" | "table">("chart");
@@ -136,8 +137,8 @@ export function MarketTrendChart({ data, segments, title, subtitle, showSegments
                     )}
                   </defs>
                   <CartesianGrid strokeDasharray="3 3" stroke="hsl(217, 33%, 18%)" />
-                  <XAxis dataKey="year" stroke="hsl(215, 20%, 55%)" fontSize={12} tickLine={false} />
-                  <YAxis stroke="hsl(215, 20%, 55%)" fontSize={12} tickLine={false} tickFormatter={(value) => `$${(value / 1000).toFixed(0)}B`} />
+                  <XAxis dataKey="year" stroke="hsl(215, 20%, 55%)" fontSize={12} tickLine={false} interval={data.length > 15 ? 1 : 0} />
+                  <YAxis stroke="hsl(215, 20%, 55%)" fontSize={12} tickLine={false} tickFormatter={(value) => useMillions ? `$${Math.round(value)}M` : `$${(value / 1000).toFixed(0)}B`} />
                   <Tooltip content={<CustomTooltip />} />
                   {showSegments && segments ? (
                     <>
