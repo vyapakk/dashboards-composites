@@ -1,6 +1,15 @@
 import { motion } from "framer-motion";
 import stratviewLogoWhite from "@/assets/stratview-logo-white.png";
-export function AircraftInteriorsDashboardHeader() {
+
+interface DashboardHeaderProps {
+  title?: string;
+  subtitle?: string;
+}
+
+export function AircraftInteriorsDashboardHeader({
+  title = "Aircraft Cabin Interior Composites Market",
+  subtitle = "Global Market Research Dashboard • 2016-2034",
+}: DashboardHeaderProps) {
   return <motion.header initial={{
     opacity: 0,
     y: -20
@@ -27,10 +36,10 @@ export function AircraftInteriorsDashboardHeader() {
             </motion.div>
             <div className="min-w-0">
               <h1 className="text-lg md:text-2xl lg:text-3xl font-bold text-foreground break-words">
-                Aircraft Cabin Interior Composites Market
+                {title}
               </h1>
               <p className="text-xs md:text-sm lg:text-base text-muted-foreground">
-                Global Market Research Dashboard • 2016-2034
+                {subtitle}
               </p>
             </div>
           </div>

@@ -55,7 +55,7 @@ const AircraftInteriorsDashboard = () => {
   return (
     <div className="aircraft-interiors-theme min-h-screen">
       <ScrollToTop />
-      <AircraftInteriorsDashboardHeader />
+      <AircraftInteriorsDashboardHeader title="Global Aircraft Interiors Market" />
 
       <main className="container mx-auto px-4 py-8">
         <Button variant="ghost" onClick={() => navigate("/dataset/aircraft-interiors")} className="mb-4 text-muted-foreground hover:text-foreground">
