@@ -9,7 +9,7 @@ import { StackedBarChart } from "@/components/aircraft-interiors/StackedBarChart
 import { useDrillDown } from "@/hooks/useDrillDown";
 import { YearlyData, SegmentData, MarketData, calculateCAGR } from "@/hooks/useMarketData";
 
-type SegmentType = "overview" | "endUser" | "aircraft" | "region" | "application" | "equipment" | "process";
+type SegmentType = "overview" | "endUser" | "aircraft" | "region" | "application" | "equipment" | "process" | "material";
 
 interface SegmentDetailTabProps {
   segmentType: SegmentType;
@@ -22,6 +22,7 @@ interface SegmentDetailTabProps {
   equipmentLabel?: string;
   applicationLabel?: string;
   processTypeLabel?: string;
+  materialTypeLabel?: string;
   useMillions?: boolean;
 }
 
@@ -36,6 +37,7 @@ export function SegmentDetailTab({
   equipmentLabel = "Equipment Type",
   applicationLabel = "Application",
   processTypeLabel = "Process Type",
+  materialTypeLabel = "Material Type",
   useMillions = false,
 }: SegmentDetailTabProps) {
   const { drillDownState, openDrillDown, closeDrillDown } = useDrillDown();
@@ -76,6 +78,7 @@ export function SegmentDetailTab({
   const equipmentNames = marketData.furnishedEquipment.map((s) => s.name);
   const endUserNames = marketData.endUser.map((s) => s.name);
   const processTypeNames = marketData.processType?.map((s) => s.name) || [];
+  const materialTypeNames = marketData.materialType?.map((s) => s.name) || [];
 
   // Get all countries from all regions
   const getAllCountries = (): SegmentData[] => {
@@ -223,6 +226,28 @@ export function SegmentDetailTab({
     });
   };
 
+  // Material Type by Region
+  const getMaterialTypeByRegionData = () => {
+    if (!marketData.materialType || !marketData.materialTypeByRegion) return [];
+    
+    return marketData.materialType.map((mt) => {
+      const segments = marketData.materialTypeByRegion?.[mt.name] || [];
+      const total = segments.reduce((sum, seg) => {
+        return sum + (seg.data.find((d) => d.year === selectedYear)?.value ?? 0);
+      }, 0);
+
+      return {
+        name: mt.name,
+        segments: segments.map((seg) => ({
+          name: seg.name,
+          value: seg.data.find((d) => d.year === selectedYear)?.value ?? 0,
+          fullData: seg.data,
+        })),
+        total,
+      };
+    });
+  };
+
   // Prepare stacked bar data using direct JSON data
   const aircraftTypeStackedData = segmentType === "endUser" ? getEndUserByAircraftTypeData() : [];
   const regionStackedDataForEndUser = segmentType === "endUser" ? getEndUserByRegionData() : [];
@@ -308,6 +333,17 @@ export function SegmentDetailTab({
 
   const processTypeByRegionData = segmentType === "process" ? getProcessTypeByRegionData() : [];
 
+  const materialTypeByRegionData = segmentType === "material" ? getMaterialTypeByRegionData() : [];
+
+  const regionByMaterialData = segmentType === "region" && marketData.materialType ? marketData.region.map((region) => {
+    const segments = (marketData.materialType || []).map((mt) => {
+      const mtRegionData = marketData.materialTypeByRegion?.[mt.name]?.find(r => r.name === region.name);
+      const value = mtRegionData?.data.find(d => d.year === selectedYear)?.value ?? 0;
+      return { name: mt.name, value, fullData: mtRegionData?.data || [] };
+    });
+    return { name: region.name, segments, total: segments.reduce((s, seg) => s + seg.value, 0) };
+  }) : [];
+
   const allCountries = segmentType === "region" ? getAllCountries() : [];
 
   // Get related segments for drill-down
@@ -339,6 +375,13 @@ export function SegmentDetailTab({
       const processRegionData = marketData.processTypeByRegion?.[segmentName];
       if (processRegionData) {
         return { title: `Regions for ${segmentName}`, data: processRegionData };
+      }
+      return { title: "Regions", data: marketData.region };
+    }
+    if (segmentType === "material") {
+      const materialRegionData = marketData.materialTypeByRegion?.[segmentName];
+      if (materialRegionData) {
+        return { title: `Regions for ${segmentName}`, data: materialRegionData };
       }
       return { title: "Regions", data: marketData.region };
     }
@@ -376,7 +419,7 @@ export function SegmentDetailTab({
     value: number,
     fullData?: YearlyData[]
   ) => {
-    const allSegmentNames = [...aircraftTypeNames, ...regionNames, ...applicationNames, ...equipmentNames, ...endUserNames, ...processTypeNames];
+    const allSegmentNames = [...aircraftTypeNames, ...regionNames, ...applicationNames, ...equipmentNames, ...endUserNames, ...processTypeNames, ...materialTypeNames];
     const segmentIndex = allSegmentNames.indexOf(segmentName);
     const color = SEGMENT_COLORS[segmentIndex % SEGMENT_COLORS.length] || "hsl(192, 95%, 55%)";
     const displayName = `${segmentName} (${endUserType})`;
@@ -386,7 +429,7 @@ export function SegmentDetailTab({
   };
 
   // All segment tabs hide KPI cards
-  const hideKPIs = segmentType === "endUser" || segmentType === "aircraft" || segmentType === "region" || segmentType === "application" || segmentType === "equipment" || segmentType === "process";
+  const hideKPIs = segmentType === "endUser" || segmentType === "aircraft" || segmentType === "region" || segmentType === "application" || segmentType === "equipment" || segmentType === "process" || segmentType === "material";
 
   return (
     <div className="space-y-8">
@@ -566,6 +609,18 @@ export function SegmentDetailTab({
               segmentNames={processTypeNames}
               onSegmentClick={handleStackedBarClick}
               useMillions={useMillions}
+           />
+          )}
+          {regionByMaterialData.length > 0 && (
+            <StackedBarChart
+              data={regionByMaterialData}
+              year={selectedYear}
+              title={`Region by ${materialTypeLabel}`}
+              subtitle={`${selectedYear} breakdown - bars represent regions, stacks show ${materialTypeLabel.toLowerCase()}`}
+              segmentColors={SEGMENT_COLORS}
+              segmentNames={materialTypeNames}
+              onSegmentClick={handleStackedBarClick}
+              useMillions={useMillions}
             />
           )}
         </>
@@ -606,6 +661,20 @@ export function SegmentDetailTab({
           year={selectedYear}
           title={`${processTypeLabel} by Region`}
           subtitle={`${selectedYear} breakdown - bars represent ${processTypeLabel.toLowerCase()}, stacks show regions`}
+          segmentColors={SEGMENT_COLORS}
+          segmentNames={regionNames}
+          onSegmentClick={handleStackedBarClick}
+          useMillions={useMillions}
+        />
+      )}
+
+      {/* Material Type Specific: Stacked Bar Charts */}
+      {segmentType === "material" && materialTypeByRegionData.length > 0 && (
+        <StackedBarChart
+          data={materialTypeByRegionData}
+          year={selectedYear}
+          title={`${materialTypeLabel} by Region`}
+          subtitle={`${selectedYear} breakdown - bars represent ${materialTypeLabel.toLowerCase()}, stacks show regions`}
           segmentColors={SEGMENT_COLORS}
           segmentNames={regionNames}
           onSegmentClick={handleStackedBarClick}

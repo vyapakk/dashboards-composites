@@ -3,7 +3,7 @@ import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { BarChart3, Users, Plane, Globe, Layers, Settings } from "lucide-react";
 import { YearSelector } from "./YearSelector";
 
-export type MainTabType = "overview" | "endUser" | "aircraft" | "region" | "application" | "equipment" | "process";
+export type MainTabType = "overview" | "endUser" | "aircraft" | "region" | "application" | "equipment" | "process" | "material";
 
 export interface TabConfig {
   id: MainTabType;
