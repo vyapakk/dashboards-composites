@@ -21,6 +21,7 @@ import FloorPanelsMarketDashboard from "./pages/FloorPanelsMarketDashboard";
 import CargoLinerMarketDashboard from "./pages/CargoLinerMarketDashboard";
 import CabinLiningMarketDashboard from "./pages/CabinLiningMarketDashboard";
 import CabinInteriorsDashboard from "./pages/CabinInteriorsDashboard";
+import SandwichPanelsMarketDashboard from "./pages/SandwichPanelsMarketDashboard";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -50,6 +51,7 @@ const App = () => (
           <Route path="/dashboard/cargo-liner-market" element={<CargoLinerMarketDashboard />} />
           <Route path="/dashboard/cabin-lining-market" element={<CabinLiningMarketDashboard />} />
           <Route path="/dashboard/cabin-interiors-market" element={<CabinInteriorsDashboard />} />
+          <Route path="/dashboard/sandwich-panels-market" element={<SandwichPanelsMarketDashboard />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>

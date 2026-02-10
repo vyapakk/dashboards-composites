@@ -25,6 +25,7 @@ const activeDashboardRoutes: Record<string, string> = {
   "ai-cargo-liner": "/dashboard/cargo-liner-market",
   "ai-cabin-lining": "/dashboard/cabin-lining-market",
   "ai-cabin-interiors": "/dashboard/cabin-interiors-market",
+  "ai-sandwich-panels": "/dashboard/sandwich-panels-market",
 };
 
 const DatasetDetail = () => {
