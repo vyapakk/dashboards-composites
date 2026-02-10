@@ -21,6 +21,8 @@ const softGoodsTabs: TabConfig[] = [
   { id: "endUser", label: "End User", icon: Users },
 ];
 
+const softGoodsYears = Array.from({ length: 2034 - 2012 + 1 }, (_, i) => 2012 + i);
+
 const SoftGoodsDashboard = () => {
   const navigate = useNavigate();
   const [selectedYear, setSelectedYear] = useState(2025);
@@ -99,6 +101,7 @@ const SoftGoodsDashboard = () => {
             onYearChange={setSelectedYear}
             showYearSelector
             tabs={softGoodsTabs}
+            years={softGoodsYears}
           />
         </div>
 
