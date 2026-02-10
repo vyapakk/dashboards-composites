@@ -32,14 +32,24 @@ const AccessRequestDialog = ({ open, onOpenChange, datasetName }: AccessRequestD
     setForm((prev) => ({ ...prev, [field]: value }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!form.name || !form.designation || !form.company || !form.email || !form.mobile) {
       toast.error("Please fill in all fields.");
       return;
     }
     setSubmitting(true);
-    // Simulate submission
+
+    /**
+     * BACKEND INTEGRATION POINT: Access Request Form Submission
+     * 
+     * Replace the setTimeout below with an API call:
+     * POST /api/access-requests
+     * Body: { ...form, datasetName }
+     * 
+     * The backend should store the request and notify the admin team
+     * (e.g., via email). On success, show the toast and close the dialog.
+     */
     setTimeout(() => {
       setSubmitting(false);
       toast.success("Your request has been submitted. Our team will get in touch with you shortly.");
