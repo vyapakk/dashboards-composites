@@ -140,6 +140,7 @@ export function MarketOverviewTab({
         segmentName={drillDownState.segmentName}
         segmentData={drillDownState.segmentData}
         color={drillDownState.color}
+        useMillions={useMillions}
       />
     </div>
   );

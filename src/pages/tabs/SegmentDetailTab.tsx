@@ -20,6 +20,7 @@ interface SegmentDetailTabProps {
   selectedYear: number;
   endUserLabel?: string;
   equipmentLabel?: string;
+  useMillions?: boolean;
 }
 
 export function SegmentDetailTab({
@@ -31,6 +32,7 @@ export function SegmentDetailTab({
   selectedYear,
   endUserLabel = "End User",
   equipmentLabel = "Equipment Type",
+  useMillions = false,
 }: SegmentDetailTabProps) {
   const { drillDownState, openDrillDown, closeDrillDown } = useDrillDown();
 
@@ -425,6 +427,7 @@ export function SegmentDetailTab({
             subtitle="Historical and forecast data (US$ Millions) - Click legend to drill down"
             showSegments
             onSegmentClick={handleTrendSegmentClick}
+            useMillions={useMillions}
           />
         </div>
         <SegmentPieChart
@@ -444,6 +447,7 @@ export function SegmentDetailTab({
           subtitle="All countries historical and forecast data (US$ Millions)"
           showSegments
           onSegmentClick={handleTrendSegmentClick}
+          useMillions={useMillions}
         />
       )}
 
@@ -459,6 +463,7 @@ export function SegmentDetailTab({
               segmentColors={SEGMENT_COLORS}
               segmentNames={aircraftTypeNames}
               onSegmentClick={handleStackedBarClick}
+              useMillions={useMillions}
             />
           )}
           {regionStackedDataForEndUser.length > 0 && regionStackedDataForEndUser.some(d => d.total > 0) && (
@@ -470,6 +475,7 @@ export function SegmentDetailTab({
               segmentColors={SEGMENT_COLORS}
               segmentNames={regionNames}
               onSegmentClick={handleStackedBarClick}
+              useMillions={useMillions}
             />
           )}
         </>
@@ -486,6 +492,7 @@ export function SegmentDetailTab({
             segmentColors={SEGMENT_COLORS}
             segmentNames={regionNames}
             onSegmentClick={handleStackedBarClick}
+            useMillions={useMillions}
           />
           {aircraftByEndUserData.length > 0 && aircraftByEndUserData.some(d => d.total > 0) && (
             <StackedBarChart
@@ -496,6 +503,7 @@ export function SegmentDetailTab({
               segmentColors={SEGMENT_COLORS}
               segmentNames={endUserNames}
               onSegmentClick={handleStackedBarClick}
+              useMillions={useMillions}
             />
           )}
         </>
@@ -512,6 +520,7 @@ export function SegmentDetailTab({
             segmentColors={SEGMENT_COLORS}
             segmentNames={aircraftTypeNames}
             onSegmentClick={handleStackedBarClick}
+            useMillions={useMillions}
           />
           <StackedBarChart
             data={regionByApplicationData}
@@ -521,6 +530,7 @@ export function SegmentDetailTab({
             segmentColors={SEGMENT_COLORS}
             segmentNames={applicationNames}
             onSegmentClick={handleStackedBarClick}
+            useMillions={useMillions}
           />
           <StackedBarChart
             data={regionByEndUserData}
@@ -530,6 +540,7 @@ export function SegmentDetailTab({
             segmentColors={SEGMENT_COLORS}
             segmentNames={endUserNames}
             onSegmentClick={handleStackedBarClick}
+            useMillions={useMillions}
           />
           <StackedBarChart
             data={regionByEquipmentData}
@@ -539,6 +550,7 @@ export function SegmentDetailTab({
             segmentColors={SEGMENT_COLORS}
             segmentNames={equipmentNames}
             onSegmentClick={handleStackedBarClick}
+            useMillions={useMillions}
           />
           {regionByProcessData.length > 0 && (
             <StackedBarChart
@@ -549,6 +561,7 @@ export function SegmentDetailTab({
               segmentColors={SEGMENT_COLORS}
               segmentNames={processTypeNames}
               onSegmentClick={handleStackedBarClick}
+              useMillions={useMillions}
             />
           )}
         </>
@@ -564,6 +577,7 @@ export function SegmentDetailTab({
           segmentColors={SEGMENT_COLORS}
           segmentNames={regionNames}
           onSegmentClick={handleStackedBarClick}
+          useMillions={useMillions}
         />
       )}
 
@@ -577,6 +591,7 @@ export function SegmentDetailTab({
           segmentColors={SEGMENT_COLORS}
           segmentNames={regionNames}
           onSegmentClick={handleStackedBarClick}
+          useMillions={useMillions}
         />
       )}
 
@@ -590,6 +605,7 @@ export function SegmentDetailTab({
           segmentColors={SEGMENT_COLORS}
           segmentNames={regionNames}
           onSegmentClick={handleStackedBarClick}
+          useMillions={useMillions}
         />
       )}
 
@@ -609,6 +625,7 @@ export function SegmentDetailTab({
         segmentName={drillDownState.segmentName}
         segmentData={drillDownState.segmentData}
         color={drillDownState.color}
+        useMillions={useMillions}
       />
     </div>
   );
