@@ -10,6 +10,7 @@ interface CompactMarketData {
   application: Record<string, number[]>;
   furnishedEquipment: Record<string, number[]>;
   processType?: Record<string, number[]>;
+  materialType?: Record<string, number[]>;
   countryDataByRegion: Record<string, Record<string, number[]>>;
   endUserByAircraftType: Record<string, Record<string, number[]>>;
   endUserByRegion: Record<string, Record<string, number[]>>;
@@ -17,6 +18,7 @@ interface CompactMarketData {
   applicationByRegion: Record<string, Record<string, number[]>>;
   equipmentByRegion: Record<string, Record<string, number[]>>;
   processTypeByRegion?: Record<string, Record<string, number[]>>;
+  materialTypeByRegion?: Record<string, Record<string, number[]>>;
 }
 
 // Types for the expanded format
@@ -39,6 +41,7 @@ export interface MarketData {
   application: SegmentData[];
   furnishedEquipment: SegmentData[];
   processType?: SegmentData[];
+  materialType?: SegmentData[];
   countryDataByRegion: Record<string, SegmentData[]>;
   endUserByAircraftType: Record<string, SegmentData[]>;
   endUserByRegion: Record<string, SegmentData[]>;
@@ -46,6 +49,7 @@ export interface MarketData {
   applicationByRegion: Record<string, SegmentData[]>;
   equipmentByRegion: Record<string, SegmentData[]>;
   processTypeByRegion?: Record<string, SegmentData[]>;
+  materialTypeByRegion?: Record<string, SegmentData[]>;
 }
 
 interface UseMarketDataResult {
@@ -116,6 +120,7 @@ export function useMarketData(dataUrl: string = "/data/global-aircraft-interiors
         application: expandSegment(years, compact.application),
         furnishedEquipment: expandSegment(years, compact.furnishedEquipment),
         processType: compact.processType ? expandSegment(years, compact.processType) : undefined,
+        materialType: compact.materialType ? expandSegment(years, compact.materialType) : undefined,
         countryDataByRegion: expandNestedSegment(years, compact.countryDataByRegion || {}),
         endUserByAircraftType: expandNestedSegment(years, compact.endUserByAircraftType || {}),
         endUserByRegion: expandNestedSegment(years, compact.endUserByRegion || {}),
@@ -123,6 +128,7 @@ export function useMarketData(dataUrl: string = "/data/global-aircraft-interiors
         applicationByRegion: expandNestedSegment(years, compact.applicationByRegion || {}),
         equipmentByRegion: expandNestedSegment(years, compact.equipmentByRegion || {}),
         processTypeByRegion: compact.processTypeByRegion ? expandNestedSegment(years, compact.processTypeByRegion) : undefined,
+        materialTypeByRegion: compact.materialTypeByRegion ? expandNestedSegment(years, compact.materialTypeByRegion) : undefined,
       };
 
       setData(expanded);

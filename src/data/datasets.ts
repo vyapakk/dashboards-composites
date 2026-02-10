@@ -78,6 +78,7 @@ export const categories = [
           { id: "ai-cabin-lining", name: "Aircraft Cabin Lining Market" },
           { id: "ai-cabin-interiors", name: "Aircraft Cabin Interiors Market" },
           { id: "ai-sandwich-panels", name: "Aircraft Interior Sandwich Panels Market" },
+          { id: "ai-potted-inserts", name: "Aircraft Potted Inserts Market" },
           { id: "ai-bfe", name: "BFE Market Analysis" },
           { id: "ai-seating", name: "Aircraft Seating Trends" },
           { id: "ai-ifec", name: "In-Flight Entertainment & Connectivity" },
