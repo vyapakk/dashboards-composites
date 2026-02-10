@@ -11,6 +11,7 @@ import DatasetDetail from "./pages/DatasetDetail";
 import AircraftInteriorsDashboard from "./pages/AircraftInteriorsDashboard";
 import CabinCompositesDashboard from "./pages/CabinCompositesDashboard";
 import SoftGoodsDashboard from "./pages/SoftGoodsDashboard";
+import WaterWasteWaterDashboard from "./pages/WaterWasteWaterDashboard";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -30,6 +31,7 @@ const App = () => (
           <Route path="/dashboard/aircraft-interiors" element={<AircraftInteriorsDashboard />} />
           <Route path="/dashboard/cabin-composites" element={<CabinCompositesDashboard />} />
           <Route path="/dashboard/soft-goods" element={<SoftGoodsDashboard />} />
+          <Route path="/dashboard/water-waste-water" element={<WaterWasteWaterDashboard />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>

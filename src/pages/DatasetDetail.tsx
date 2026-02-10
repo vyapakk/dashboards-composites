@@ -15,6 +15,7 @@ const activeDashboardRoutes: Record<string, string> = {
   "ai-global": "/dashboard/aircraft-interiors",
   "ai-cabin-composites": "/dashboard/cabin-composites",
   "ai-soft-goods": "/dashboard/soft-goods",
+  "ai-water-waste": "/dashboard/water-waste-water",
 };
 
 const DatasetDetail = () => {
