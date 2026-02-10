@@ -14,6 +14,7 @@ import stratviewLogo from "@/assets/stratview-logo.png";
 const activeDashboardRoutes: Record<string, string> = {
   "ai-global": "/dashboard/aircraft-interiors",
   "ai-cabin-composites": "/dashboard/cabin-composites",
+  "ai-soft-goods": "/dashboard/soft-goods",
 };
 
 const DatasetDetail = () => {
