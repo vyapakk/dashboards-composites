@@ -18,6 +18,7 @@ import LavatoryMarketDashboard from "./pages/LavatoryMarketDashboard";
 import OHSBMarketDashboard from "./pages/OHSBMarketDashboard";
 import StowagesMarketDashboard from "./pages/StowagesMarketDashboard";
 import FloorPanelsMarketDashboard from "./pages/FloorPanelsMarketDashboard";
+import CargoLinerMarketDashboard from "./pages/CargoLinerMarketDashboard";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -44,6 +45,7 @@ const App = () => (
           <Route path="/dashboard/ohsb-market" element={<OHSBMarketDashboard />} />
           <Route path="/dashboard/stowages-market" element={<StowagesMarketDashboard />} />
           <Route path="/dashboard/floor-panels-market" element={<FloorPanelsMarketDashboard />} />
+          <Route path="/dashboard/cargo-liner-market" element={<CargoLinerMarketDashboard />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
