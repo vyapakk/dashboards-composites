@@ -83,6 +83,8 @@ const WaterWasteWaterDashboard = () => {
         selectedYear={selectedYear}
         endUserLabel="End-User Type"
         equipmentLabel="Equipment Type"
+        applicationLabel="Water System Type"
+        processTypeLabel="Component Type"
         useMillions
       />
     );
