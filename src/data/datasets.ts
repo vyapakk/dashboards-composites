@@ -72,6 +72,7 @@ export const categories = [
           { id: "ai-psu", name: "Aircraft PSU Market" },
           { id: "ai-lavatory", name: "Aircraft Lavatory Market" },
           { id: "ai-ohsb", name: "Aircraft OHSB Market" },
+          { id: "ai-stowages", name: "Aircraft Stowages Market" },
           { id: "ai-bfe", name: "BFE Market Analysis" },
           { id: "ai-seating", name: "Aircraft Seating Trends" },
           { id: "ai-ifec", name: "In-Flight Entertainment & Connectivity" },
