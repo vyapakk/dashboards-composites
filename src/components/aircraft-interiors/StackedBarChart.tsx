@@ -4,6 +4,7 @@ import { useRef, useState } from "react";
 import { useChartDownload } from "@/hooks/useChartDownload";
 import { ChartDownloadButton } from "./ChartDownloadButton";
 import { YearlyData } from "@/hooks/useMarketData";
+import { ChartTableViewToggle, DataTable } from "./ChartTableViewToggle";
 
 interface SegmentBreakdown {
   name: string;
@@ -88,33 +89,48 @@ export function StackedBarChart({ data, year, title, subtitle, segmentColors, se
     </div>
   );
 
+  // Table data
+  const tableHeaders = ["Category", ...segmentNames, "Total"];
+  const tableRows = data.map((bar) => [
+    bar.name,
+    ...segmentNames.map((segName) => {
+      const seg = bar.segments.find((s) => s.name === segName);
+      return `$${(seg?.value ?? 0).toLocaleString()}M`;
+    }),
+    `$${bar.total.toLocaleString()}M`,
+  ]);
+
   return (
-    <motion.div ref={chartRef} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }} className="rounded-xl border border-border bg-card p-6">
-      <div className="mb-4 flex items-start justify-between">
-        <div>
-          <h3 className="text-lg font-semibold text-foreground">{title}</h3>
-          {subtitle && <p className="text-sm text-muted-foreground">{subtitle}</p>}
+    <ChartTableViewToggle
+      tableContent={<DataTable title={title} subtitle={subtitle} headers={tableHeaders} rows={tableRows} />}
+    >
+      <motion.div ref={chartRef} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }} className="rounded-xl border border-border bg-card p-6">
+        <div className="mb-4 flex items-start justify-between">
+          <div>
+            <h3 className="text-lg font-semibold text-foreground">{title}</h3>
+            {subtitle && <p className="text-sm text-muted-foreground">{subtitle}</p>}
+          </div>
+          <ChartDownloadButton onClick={() => downloadChart(chartRef, `${title.toLowerCase().replace(/\s+/g, "-")}-${year}`)} />
         </div>
-        <ChartDownloadButton onClick={() => downloadChart(chartRef, `${title.toLowerCase().replace(/\s+/g, "-")}-${year}`)} />
-      </div>
-      <div style={{ height: `${Math.max(200, chartData.length * 50)}px` }} className="w-full -mx-4 sm:mx-0">
-        <ResponsiveContainer width="100%" height="100%">
-          <BarChart data={chartData} layout="vertical" margin={{ top: 10, right: 10, left: 20, bottom: 10 }}>
-            <CartesianGrid strokeDasharray="3 3" horizontal={true} vertical={false} stroke="hsl(var(--border))" />
-            <XAxis type="number" tickFormatter={(value) => `$${(value / 1000).toFixed(1)}B`} tick={{ fill: "hsl(var(--muted-foreground))", fontSize: 12 }} axisLine={{ stroke: "hsl(var(--border))" }} />
-            <YAxis type="category" dataKey="name" tick={{ fill: "hsl(var(--muted-foreground))", fontSize: 11 }} axisLine={{ stroke: "hsl(var(--border))" }} width={95} />
-            <Tooltip content={<CustomTooltip />} cursor={{ fill: "hsl(var(--muted)/0.1)" }} />
-            {segmentNames.map((segmentName, index) => (
-              <Bar key={segmentName} dataKey={segmentName} stackId="stack" fill={segmentColors[index % segmentColors.length]} radius={index === segmentNames.length - 1 ? [0, 4, 4, 0] : [0, 0, 0, 0]} onClick={(entry) => handleBarClick(segmentName, entry)} style={{ cursor: onSegmentClick ? "pointer" : "default" }}>
-                {chartData.map((_, barIndex) => (
-                  <Cell key={`${segmentName}-${barIndex}`} fill={segmentColors[index % segmentColors.length]} opacity={activeSegment === null ? 1 : activeSegment.barIndex === barIndex && activeSegment.segmentIndex === index ? 1 : 0.6} onMouseEnter={() => setActiveSegment({ barIndex, segmentIndex: index, segmentName })} onMouseLeave={() => setActiveSegment(null)} />
-                ))}
-              </Bar>
-            ))}
-          </BarChart>
-        </ResponsiveContainer>
-      </div>
-      {renderLegend()}
-    </motion.div>
+        <div style={{ height: `${Math.max(200, chartData.length * 50)}px` }} className="w-full -mx-4 sm:mx-0">
+          <ResponsiveContainer width="100%" height="100%">
+            <BarChart data={chartData} layout="vertical" margin={{ top: 10, right: 10, left: 20, bottom: 10 }}>
+              <CartesianGrid strokeDasharray="3 3" horizontal={true} vertical={false} stroke="hsl(var(--border))" />
+              <XAxis type="number" tickFormatter={(value) => `$${(value / 1000).toFixed(1)}B`} tick={{ fill: "hsl(var(--muted-foreground))", fontSize: 12 }} axisLine={{ stroke: "hsl(var(--border))" }} />
+              <YAxis type="category" dataKey="name" tick={{ fill: "hsl(var(--muted-foreground))", fontSize: 11 }} axisLine={{ stroke: "hsl(var(--border))" }} width={95} />
+              <Tooltip content={<CustomTooltip />} cursor={{ fill: "hsl(var(--muted)/0.1)" }} />
+              {segmentNames.map((segmentName, index) => (
+                <Bar key={segmentName} dataKey={segmentName} stackId="stack" fill={segmentColors[index % segmentColors.length]} radius={index === segmentNames.length - 1 ? [0, 4, 4, 0] : [0, 0, 0, 0]} onClick={(entry) => handleBarClick(segmentName, entry)} style={{ cursor: onSegmentClick ? "pointer" : "default" }}>
+                  {chartData.map((_, barIndex) => (
+                    <Cell key={`${segmentName}-${barIndex}`} fill={segmentColors[index % segmentColors.length]} opacity={activeSegment === null ? 1 : activeSegment.barIndex === barIndex && activeSegment.segmentIndex === index ? 1 : 0.6} onMouseEnter={() => setActiveSegment({ barIndex, segmentIndex: index, segmentName })} onMouseLeave={() => setActiveSegment(null)} />
+                  ))}
+                </Bar>
+              ))}
+            </BarChart>
+          </ResponsiveContainer>
+        </div>
+        {renderLegend()}
+      </motion.div>
+    </ChartTableViewToggle>
   );
 }

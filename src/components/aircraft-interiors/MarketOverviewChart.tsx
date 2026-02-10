@@ -4,6 +4,7 @@ import { YearlyData } from "@/hooks/useMarketData";
 import { useRef } from "react";
 import { useChartDownload } from "@/hooks/useChartDownload";
 import { ChartDownloadButton } from "./ChartDownloadButton";
+import { ChartTableViewToggle, DataTable } from "./ChartTableViewToggle";
 
 interface MarketOverviewChartProps {
   data: YearlyData[];
@@ -63,35 +64,46 @@ export function MarketOverviewChart({ data, title, subtitle }: MarketOverviewCha
     </div>
   );
 
+  const tableHeaders = ["Year", "Market Size (US$ M)", "YoY Growth (%)"];
+  const tableRows = chartData.map((d) => [
+    d.year,
+    `$${d.value.toLocaleString()}M`,
+    d.yoyGrowth !== null ? `${d.yoyGrowth >= 0 ? "+" : ""}${d.yoyGrowth.toFixed(1)}%` : "—",
+  ]);
+
   return (
-    <motion.div ref={chartRef} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 0.2 }} className="rounded-xl border border-border bg-card p-3 sm:p-6">
-      <div className="mb-4 sm:mb-6 flex items-start justify-between">
-        <div>
-          <h3 className="text-lg font-semibold text-foreground">{title}</h3>
-          {subtitle && <p className="text-sm text-muted-foreground">{subtitle}</p>}
+    <ChartTableViewToggle
+      tableContent={<DataTable title={title} subtitle={subtitle} headers={tableHeaders} rows={tableRows} />}
+    >
+      <motion.div ref={chartRef} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 0.2 }} className="rounded-xl border border-border bg-card p-3 sm:p-6">
+        <div className="mb-4 sm:mb-6 flex items-start justify-between">
+          <div>
+            <h3 className="text-lg font-semibold text-foreground">{title}</h3>
+            {subtitle && <p className="text-sm text-muted-foreground">{subtitle}</p>}
+          </div>
+          <ChartDownloadButton onClick={() => downloadChart(chartRef, `market-overview-chart`)} />
         </div>
-        <ChartDownloadButton onClick={() => downloadChart(chartRef, `market-overview-chart`)} />
-      </div>
-      <div className="h-[300px] sm:h-[350px] w-full -mx-2 sm:mx-0">
-        <ResponsiveContainer width="100%" height="100%">
-          <ComposedChart data={chartData} margin={{ top: 10, right: 30, left: 5, bottom: 0 }}>
-            <defs>
-              <linearGradient id="gradient-market-size" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="5%" stopColor="hsl(192, 95%, 55%)" stopOpacity={0.4} />
-                <stop offset="95%" stopColor="hsl(192, 95%, 55%)" stopOpacity={0} />
-              </linearGradient>
-            </defs>
-            <CartesianGrid strokeDasharray="3 3" stroke="hsl(217, 33%, 18%)" />
-            <XAxis dataKey="year" stroke="hsl(215, 20%, 55%)" fontSize={11} tickLine={false} />
-            <YAxis yAxisId="left" stroke="hsl(215, 20%, 55%)" fontSize={10} tickLine={false} tickFormatter={(value) => `$${(value / 1000).toFixed(1)}B`} width={45} />
-            <YAxis yAxisId="right" orientation="right" stroke="hsl(215, 20%, 55%)" fontSize={10} tickLine={false} tickFormatter={(value) => `${value.toFixed(0)}%`} domain={[-45, 30]} width={30} />
-            <Tooltip content={<CustomTooltip />} />
-            <Legend content={renderLegend} />
-            <Line yAxisId="left" type="monotone" dataKey="value" stroke="hsl(192, 95%, 55%)" strokeWidth={3} dot={{ fill: "hsl(192, 95%, 55%)", strokeWidth: 0, r: 4 }} activeDot={{ r: 6, strokeWidth: 0 }} name="Market Size" />
-            <Line yAxisId="right" type="monotone" dataKey="yoyGrowth" stroke="hsl(38, 92%, 55%)" strokeWidth={2} strokeDasharray="5 5" dot={{ fill: "hsl(38, 92%, 55%)", strokeWidth: 0, r: 3 }} activeDot={{ r: 5, strokeWidth: 0 }} name="YoY Growth" connectNulls />
-          </ComposedChart>
-        </ResponsiveContainer>
-      </div>
-    </motion.div>
+        <div className="h-[300px] sm:h-[350px] w-full -mx-2 sm:mx-0">
+          <ResponsiveContainer width="100%" height="100%">
+            <ComposedChart data={chartData} margin={{ top: 10, right: 30, left: 5, bottom: 0 }}>
+              <defs>
+                <linearGradient id="gradient-market-size" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="5%" stopColor="hsl(192, 95%, 55%)" stopOpacity={0.4} />
+                  <stop offset="95%" stopColor="hsl(192, 95%, 55%)" stopOpacity={0} />
+                </linearGradient>
+              </defs>
+              <CartesianGrid strokeDasharray="3 3" stroke="hsl(217, 33%, 18%)" />
+              <XAxis dataKey="year" stroke="hsl(215, 20%, 55%)" fontSize={11} tickLine={false} />
+              <YAxis yAxisId="left" stroke="hsl(215, 20%, 55%)" fontSize={10} tickLine={false} tickFormatter={(value) => `$${(value / 1000).toFixed(1)}B`} width={45} />
+              <YAxis yAxisId="right" orientation="right" stroke="hsl(215, 20%, 55%)" fontSize={10} tickLine={false} tickFormatter={(value) => `${value.toFixed(0)}%`} domain={[-45, 30]} width={30} />
+              <Tooltip content={<CustomTooltip />} />
+              <Legend content={renderLegend} />
+              <Line yAxisId="left" type="monotone" dataKey="value" stroke="hsl(192, 95%, 55%)" strokeWidth={3} dot={{ fill: "hsl(192, 95%, 55%)", strokeWidth: 0, r: 4 }} activeDot={{ r: 6, strokeWidth: 0 }} name="Market Size" />
+              <Line yAxisId="right" type="monotone" dataKey="yoyGrowth" stroke="hsl(38, 92%, 55%)" strokeWidth={2} strokeDasharray="5 5" dot={{ fill: "hsl(38, 92%, 55%)", strokeWidth: 0, r: 3 }} activeDot={{ r: 5, strokeWidth: 0 }} name="YoY Growth" connectNulls />
+            </ComposedChart>
+          </ResponsiveContainer>
+        </div>
+      </motion.div>
+    </ChartTableViewToggle>
   );
 }

@@ -7,6 +7,7 @@ import { MousePointer2 } from "lucide-react";
 import { useRef } from "react";
 import { useChartDownload } from "@/hooks/useChartDownload";
 import { ChartDownloadButton } from "./ChartDownloadButton";
+import { ChartTableViewToggle, DataTable } from "./ChartTableViewToggle";
 
 interface MarketTrendChartProps {
   data: YearlyData[];
@@ -90,51 +91,71 @@ export function MarketTrendChart({ data, segments, title, subtitle, showSegments
     );
   };
 
+  // Table data
+  const tableHeaders = showSegments && segments
+    ? ["Year", ...segments.map((s) => s.name), "Total"]
+    : ["Year", "Market Size (US$ M)"];
+
+  const tableRows = chartData.map((d) => {
+    if (showSegments && segments) {
+      return [
+        d.year,
+        ...segments.map((s) => `$${(d[s.name] ?? 0).toLocaleString()}M`),
+        `$${d.total.toLocaleString()}M`,
+      ];
+    }
+    return [d.year, `$${d.total.toLocaleString()}M`];
+  });
+
   return (
-    <motion.div ref={chartRef} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 0.2 }} className="rounded-xl border border-border bg-card p-6">
-      <div className="mb-6 flex items-start justify-between">
-        <div>
-          <h3 className="text-lg font-semibold text-foreground">{title}</h3>
-          {subtitle && <p className="text-sm text-muted-foreground">{subtitle}</p>}
+    <ChartTableViewToggle
+      tableContent={<DataTable title={title} subtitle={subtitle} headers={tableHeaders} rows={tableRows} />}
+    >
+      <motion.div ref={chartRef} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 0.2 }} className="rounded-xl border border-border bg-card p-6">
+        <div className="mb-6 flex items-start justify-between">
+          <div>
+            <h3 className="text-lg font-semibold text-foreground">{title}</h3>
+            {subtitle && <p className="text-sm text-muted-foreground">{subtitle}</p>}
+          </div>
+          <ChartDownloadButton onClick={() => downloadChart(chartRef, `market-trend-${title.toLowerCase().replace(/\s+/g, "-")}`)} />
         </div>
-        <ChartDownloadButton onClick={() => downloadChart(chartRef, `market-trend-${title.toLowerCase().replace(/\s+/g, "-")}`)} />
-      </div>
-      <div className="h-[300px] sm:h-[350px] w-full -mx-2 sm:mx-0">
-        <ResponsiveContainer width="100%" height="100%">
-          <AreaChart data={chartData} margin={{ top: 10, right: 15, left: -15, bottom: 0 }}>
-            <defs>
-              {showSegments && segments ? segments.map((seg, idx) => (
-                <linearGradient key={seg.name} id={`gradient-${idx}`} x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="5%" stopColor={chartColors[idx % chartColors.length]} stopOpacity={0.4} />
-                  <stop offset="95%" stopColor={chartColors[idx % chartColors.length]} stopOpacity={0} />
-                </linearGradient>
-              )) : (
-                <linearGradient id="gradient-total" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="5%" stopColor="hsl(192, 95%, 55%)" stopOpacity={0.4} />
-                  <stop offset="95%" stopColor="hsl(192, 95%, 55%)" stopOpacity={0} />
-                </linearGradient>
+        <div className="h-[300px] sm:h-[350px] w-full -mx-2 sm:mx-0">
+          <ResponsiveContainer width="100%" height="100%">
+            <AreaChart data={chartData} margin={{ top: 10, right: 15, left: -15, bottom: 0 }}>
+              <defs>
+                {showSegments && segments ? segments.map((seg, idx) => (
+                  <linearGradient key={seg.name} id={`gradient-${idx}`} x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="5%" stopColor={chartColors[idx % chartColors.length]} stopOpacity={0.4} />
+                    <stop offset="95%" stopColor={chartColors[idx % chartColors.length]} stopOpacity={0} />
+                  </linearGradient>
+                )) : (
+                  <linearGradient id="gradient-total" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="5%" stopColor="hsl(192, 95%, 55%)" stopOpacity={0.4} />
+                    <stop offset="95%" stopColor="hsl(192, 95%, 55%)" stopOpacity={0} />
+                  </linearGradient>
+                )}
+              </defs>
+              <CartesianGrid strokeDasharray="3 3" stroke="hsl(217, 33%, 18%)" />
+              <XAxis dataKey="year" stroke="hsl(215, 20%, 55%)" fontSize={12} tickLine={false} />
+              <YAxis stroke="hsl(215, 20%, 55%)" fontSize={12} tickLine={false} tickFormatter={(value) => `$${(value / 1000).toFixed(0)}B`} />
+              <Tooltip content={<CustomTooltip />} />
+              {showSegments && segments ? (
+                <>
+                  <Legend content={renderLegend} />
+                  {segments.map((seg, idx) => (
+                    <Area key={seg.name} type="monotone" dataKey={seg.name} stroke={chartColors[idx % chartColors.length]} fill={`url(#gradient-${idx})`} strokeWidth={2} style={{ cursor: "pointer" }} />
+                  ))}
+                </>
+              ) : (
+                <Area type="monotone" dataKey="total" stroke="hsl(192, 95%, 55%)" fill="url(#gradient-total)" strokeWidth={2} name="Market Size" />
               )}
-            </defs>
-            <CartesianGrid strokeDasharray="3 3" stroke="hsl(217, 33%, 18%)" />
-            <XAxis dataKey="year" stroke="hsl(215, 20%, 55%)" fontSize={12} tickLine={false} />
-            <YAxis stroke="hsl(215, 20%, 55%)" fontSize={12} tickLine={false} tickFormatter={(value) => `$${(value / 1000).toFixed(0)}B`} />
-            <Tooltip content={<CustomTooltip />} />
-            {showSegments && segments ? (
-              <>
-                <Legend content={renderLegend} />
-                {segments.map((seg, idx) => (
-                  <Area key={seg.name} type="monotone" dataKey={seg.name} stroke={chartColors[idx % chartColors.length]} fill={`url(#gradient-${idx})`} strokeWidth={2} style={{ cursor: "pointer" }} />
-                ))}
-              </>
-            ) : (
-              <Area type="monotone" dataKey="total" stroke="hsl(192, 95%, 55%)" fill="url(#gradient-total)" strokeWidth={2} name="Market Size" />
-            )}
-          </AreaChart>
-        </ResponsiveContainer>
-      </div>
-      {showSegments && segments && (
-        <p className="mt-2 text-center text-xs text-muted-foreground">Click any legend item to see detailed analysis</p>
-      )}
-    </motion.div>
+            </AreaChart>
+          </ResponsiveContainer>
+        </div>
+        {showSegments && segments && (
+          <p className="mt-2 text-center text-xs text-muted-foreground">Click any legend item to see detailed analysis</p>
+        )}
+      </motion.div>
+    </ChartTableViewToggle>
   );
 }
