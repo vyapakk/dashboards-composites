@@ -75,6 +75,7 @@ export const categories = [
           { id: "ai-stowages", name: "Aircraft Stowages Market" },
           { id: "ai-floor-panels", name: "Aircraft Floor Panels Market" },
           { id: "ai-cargo-liner", name: "Aircraft Cargo Liner Market" },
+          { id: "ai-cabin-lining", name: "Aircraft Cabin Lining Market" },
           { id: "ai-bfe", name: "BFE Market Analysis" },
           { id: "ai-seating", name: "Aircraft Seating Trends" },
           { id: "ai-ifec", name: "In-Flight Entertainment & Connectivity" },
