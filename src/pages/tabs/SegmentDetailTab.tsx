@@ -597,7 +597,7 @@ export function SegmentDetailTab({
               useMillions={useMillions}
             />
           )}
-          {regionByApplicationData.length > 0 && (
+          {regionByApplicationData.length > 0 && regionByApplicationData.some(d => d.total > 0) && (
             <StackedBarChart
               data={regionByApplicationData}
               year={selectedYear}
@@ -645,7 +645,7 @@ export function SegmentDetailTab({
               useMillions={useMillions}
            />
           )}
-          {regionByMaterialData.length > 0 && (
+          {regionByMaterialData.length > 0 && regionByMaterialData.some(d => d.total > 0) && (
             <StackedBarChart
               data={regionByMaterialData}
               year={selectedYear}
@@ -689,7 +689,7 @@ export function SegmentDetailTab({
       )}
 
       {/* Process Type Specific: Stacked Bar Charts */}
-      {segmentType === "process" && processTypeByRegionData.length > 0 && (
+      {segmentType === "process" && processTypeByRegionData.length > 0 && processTypeByRegionData.some(d => d.total > 0) && (
         <StackedBarChart
           data={processTypeByRegionData}
           year={selectedYear}
@@ -701,7 +701,7 @@ export function SegmentDetailTab({
           useMillions={useMillions}
         />
       )}
-      {segmentType === "process" && processTypeByApplicationData.length > 0 && (
+      {segmentType === "process" && processTypeByApplicationData.length > 0 && processTypeByApplicationData.some(d => d.total > 0) && (
         <StackedBarChart
           data={processTypeByApplicationData}
           year={selectedYear}
@@ -715,7 +715,7 @@ export function SegmentDetailTab({
       )}
 
       {/* Material Type Specific: Stacked Bar Charts */}
-      {segmentType === "material" && materialTypeByRegionData.length > 0 && (
+      {segmentType === "material" && materialTypeByRegionData.length > 0 && materialTypeByRegionData.some(d => d.total > 0) && (
         <StackedBarChart
           data={materialTypeByRegionData}
           year={selectedYear}
