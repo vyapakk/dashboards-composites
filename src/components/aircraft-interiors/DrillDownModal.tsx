@@ -19,6 +19,7 @@ interface DrillDownModalProps {
 export function DrillDownModal({ isOpen, onClose, segmentName, segmentData, color, useMillions = false }: DrillDownModalProps) {
   const trendChartRef = useRef<HTMLDivElement>(null);
   const { downloadChart } = useChartDownload();
+  const gradientId = `drillGradient-${segmentName.replace(/[^a-zA-Z0-9]/g, '-')}`;
 
   const currentValue = segmentData?.find((d) => d.year === 2025)?.value ?? 0;
   const forecastValue = segmentData?.find((d) => d.year === 2034)?.value ?? 0;
@@ -82,7 +83,7 @@ export function DrillDownModal({ isOpen, onClose, segmentName, segmentData, colo
               <ResponsiveContainer width="100%" height="100%">
                 <AreaChart data={segmentData} margin={{ top: 10, right: 15, left: 5, bottom: 0 }}>
                   <defs>
-                    <linearGradient id="drillGradient" x1="0" y1="0" x2="0" y2="1">
+                    <linearGradient id={gradientId} x1="0" y1="0" x2="0" y2="1">
                       <stop offset="5%" stopColor={color} stopOpacity={0.4} />
                       <stop offset="95%" stopColor={color} stopOpacity={0} />
                     </linearGradient>
@@ -91,7 +92,7 @@ export function DrillDownModal({ isOpen, onClose, segmentName, segmentData, colo
                   <XAxis dataKey="year" stroke="hsl(215, 20%, 55%)" fontSize={10} tickLine={false} interval={Math.ceil(segmentData.length / 8)} />
                   <YAxis stroke="hsl(215, 20%, 55%)" fontSize={12} tickLine={false} tickFormatter={(value) => useMillions ? `$${Math.round(value)}M` : `$${(value / 1000).toFixed(1)}B`} width={useMillions ? 70 : 50} />
                   <Tooltip content={<CustomTooltip />} />
-                  <Area type="monotone" dataKey="value" stroke={color} fill="url(#drillGradient)" strokeWidth={2} />
+                  <Area type="monotone" dataKey="value" stroke={color} fill={`url(#${gradientId})`} strokeWidth={2} />
                 </AreaChart>
               </ResponsiveContainer>
             </div>
