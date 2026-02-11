@@ -38,16 +38,16 @@ export function DrillDownModal({ isOpen, onClose, segmentName, segmentData, colo
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="aircraft-interiors-theme max-w-4xl w-[95vw] sm:w-full max-h-[85vh] sm:max-h-[90vh] overflow-y-auto bg-[hsl(222,47%,9%)] border-[hsl(217,33%,18%)] text-[hsl(210,40%,96%)] top-[50%] left-[50%] p-4 sm:p-6">
-        <DialogHeader className="pb-4 mb-2 border-b border-[hsl(217,33%,18%)] pr-8">
-          <div className="flex items-center justify-between gap-2">
-            <div className="flex items-center gap-2 min-w-0 flex-1">
+      <DialogContent className="aircraft-interiors-theme max-w-4xl w-[95vw] sm:w-full max-h-[85vh] sm:max-h-[90vh] overflow-y-auto bg-[hsl(222,47%,9%)] border-[hsl(217,33%,18%)] text-[hsl(210,40%,96%)] top-[50%] left-[50%] p-4 sm:p-6 [&>button.absolute]:hidden">
+        <DialogHeader className="pb-4 mb-2 border-b border-[hsl(217,33%,18%)]">
+          <div className="flex items-center justify-between gap-3">
+            <div className="flex items-center gap-2.5 min-w-0 flex-1">
               <div className="h-5 w-5 rounded-full flex-shrink-0" style={{ backgroundColor: color }} />
               <DialogTitle className="text-base sm:text-xl font-bold text-[hsl(210,40%,96%)]">{segmentName} - Deep Dive</DialogTitle>
             </div>
             <button
               onClick={onClose}
-              className="flex-shrink-0 sm:hidden rounded-full bg-[hsl(217,33%,22%)] p-2 text-[hsl(210,40%,96%)] hover:bg-[hsl(217,33%,28%)] transition-colors"
+              className="flex-shrink-0 rounded-full bg-[hsl(217,33%,22%)] p-2 text-[hsl(210,40%,96%)] hover:bg-[hsl(217,33%,28%)] transition-colors"
               aria-label="Close"
             >
               <X className="h-4 w-4" />
