@@ -39,11 +39,11 @@ export function DrillDownModal({ isOpen, onClose, segmentName, segmentData, colo
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="aircraft-interiors-theme max-w-4xl w-[95vw] sm:w-full max-h-[85vh] sm:max-h-[90vh] overflow-y-auto bg-[hsl(222,47%,9%)] border-[hsl(217,33%,18%)] text-[hsl(210,40%,96%)] top-[50%] left-[50%] p-4 sm:p-6">
-        <DialogHeader className="sticky top-0 z-10 bg-[hsl(222,47%,9%)] pb-3 -mx-4 px-4 sm:-mx-6 sm:px-6 -mt-4 pt-4 sm:-mt-6 sm:pt-6 border-b border-[hsl(217,33%,18%)]">
+        <DialogHeader className="pb-4 mb-2 border-b border-[hsl(217,33%,18%)]">
           <div className="flex items-center justify-between gap-2">
             <div className="flex items-center gap-2 min-w-0 flex-1">
-              <div className="h-4 w-4 rounded-full flex-shrink-0" style={{ backgroundColor: color }} />
-              <DialogTitle className="text-sm sm:text-xl text-[hsl(210,40%,96%)] truncate">{segmentName} - Deep Dive</DialogTitle>
+              <div className="h-5 w-5 rounded-full flex-shrink-0" style={{ backgroundColor: color }} />
+              <DialogTitle className="text-base sm:text-xl font-bold text-[hsl(210,40%,96%)]">{segmentName} - Deep Dive</DialogTitle>
             </div>
             <button
               onClick={onClose}
