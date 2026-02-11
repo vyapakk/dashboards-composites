@@ -333,6 +333,30 @@ export function SegmentDetailTab({
 
   const processTypeByRegionData = segmentType === "process" ? getProcessTypeByRegionData() : [];
 
+  const processTypeByApplicationData = segmentType === "process" && marketData.processTypeByApplication
+    ? (marketData.processType || []).map((pt) => {
+        const segments = marketData.processTypeByApplication?.[pt.name] || [];
+        const total = segments.reduce((sum, seg) => {
+          return sum + (seg.data.find((d) => d.year === selectedYear)?.value ?? 0);
+        }, 0);
+        return {
+          name: pt.name,
+          segments: segments.map((seg) => ({
+            name: seg.name,
+            value: seg.data.find((d) => d.year === selectedYear)?.value ?? 0,
+            fullData: seg.data,
+          })),
+          total,
+        };
+      })
+    : [];
+
+  const processTypeApplicationNames = segmentType === "process" && marketData.processTypeByApplication
+    ? [...new Set(
+        Object.values(marketData.processTypeByApplication).flatMap(segments => segments.map(s => s.name))
+      )]
+    : [];
+
   const materialTypeByRegionData = segmentType === "material" ? getMaterialTypeByRegionData() : [];
 
   const regionByMaterialData = segmentType === "region" && marketData.materialType ? marketData.region.map((region) => {
@@ -663,6 +687,18 @@ export function SegmentDetailTab({
           subtitle={`${selectedYear} breakdown - bars represent ${processTypeLabel.toLowerCase()}, stacks show regions`}
           segmentColors={SEGMENT_COLORS}
           segmentNames={regionNames}
+          onSegmentClick={handleStackedBarClick}
+          useMillions={useMillions}
+        />
+      )}
+      {segmentType === "process" && processTypeByApplicationData.length > 0 && (
+        <StackedBarChart
+          data={processTypeByApplicationData}
+          year={selectedYear}
+          title={`${processTypeLabel} by ${applicationLabel}`}
+          subtitle={`${selectedYear} breakdown - bars represent ${processTypeLabel.toLowerCase()}, stacks show ${applicationLabel.toLowerCase()}`}
+          segmentColors={SEGMENT_COLORS}
+          segmentNames={processTypeApplicationNames}
           onSegmentClick={handleStackedBarClick}
           useMillions={useMillions}
         />

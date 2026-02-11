@@ -19,6 +19,7 @@ interface CompactMarketData {
   equipmentByRegion: Record<string, Record<string, number[]>>;
   processTypeByRegion?: Record<string, Record<string, number[]>>;
   materialTypeByRegion?: Record<string, Record<string, number[]>>;
+  processTypeByApplication?: Record<string, Record<string, number[]>>;
 }
 
 // Types for the expanded format
@@ -50,6 +51,7 @@ export interface MarketData {
   equipmentByRegion: Record<string, SegmentData[]>;
   processTypeByRegion?: Record<string, SegmentData[]>;
   materialTypeByRegion?: Record<string, SegmentData[]>;
+  processTypeByApplication?: Record<string, SegmentData[]>;
 }
 
 interface UseMarketDataResult {
@@ -129,6 +131,7 @@ export function useMarketData(dataUrl: string = "/data/global-aircraft-interiors
         equipmentByRegion: expandNestedSegment(years, compact.equipmentByRegion || {}),
         processTypeByRegion: compact.processTypeByRegion ? expandNestedSegment(years, compact.processTypeByRegion) : undefined,
         materialTypeByRegion: compact.materialTypeByRegion ? expandNestedSegment(years, compact.materialTypeByRegion) : undefined,
+        processTypeByApplication: compact.processTypeByApplication ? expandNestedSegment(years, compact.processTypeByApplication) : undefined,
       };
 
       setData(expanded);
