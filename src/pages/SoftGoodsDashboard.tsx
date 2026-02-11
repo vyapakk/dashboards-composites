@@ -80,6 +80,7 @@ const SoftGoodsDashboard = () => {
         selectedYear={selectedYear}
         endUserLabel="End User"
         equipmentLabel="Material Type"
+        applicationLabel="Product Type"
         useMillions
       />
     );
