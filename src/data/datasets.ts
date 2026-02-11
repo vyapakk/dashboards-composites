@@ -81,6 +81,7 @@ export const categories = [
           { id: "ai-potted-inserts", name: "Aircraft Potted Inserts Market" },
           { id: "ai-non-sandwich-panels", name: "Aircraft Interior Non-Sandwich Panel Composites Market" },
           { id: "ai-extrusion", name: "Aircraft Interiors Extrusion Market" },
+          { id: "ai-thermoformed-parts", name: "Aircraft Interior Thermoformed Parts Market" },
         ],
       },
       {
