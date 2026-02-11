@@ -28,6 +28,7 @@ import NonSandwichPanelCompositesDashboard from "./pages/NonSandwichPanelComposi
 import ExtrusionMarketDashboard from "./pages/ExtrusionMarketDashboard";
 import ThermoformedPartsMarketDashboard from "./pages/ThermoformedPartsMarketDashboard";
 import PlasticMarketDashboard from "./pages/PlasticMarketDashboard";
+import InjectionMoldingMarketDashboard from "./pages/InjectionMoldingMarketDashboard";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -64,6 +65,7 @@ const App = () => (
           <Route path="/dashboard/extrusion-market" element={<ExtrusionMarketDashboard />} />
           <Route path="/dashboard/thermoformed-parts-market" element={<ThermoformedPartsMarketDashboard />} />
           <Route path="/dashboard/plastic-market" element={<PlasticMarketDashboard />} />
+          <Route path="/dashboard/injection-molding-market" element={<InjectionMoldingMarketDashboard />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
