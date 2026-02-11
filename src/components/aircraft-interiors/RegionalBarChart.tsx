@@ -65,7 +65,7 @@ export function RegionalBarChart({ data, year, title, subtitle, onBarClick, useM
   ]);
 
   return (
-    <motion.div ref={chartRef} initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.5, delay: 0.4 }} className="rounded-xl border border-border bg-card p-6">
+    <motion.div ref={chartRef} initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.5, delay: 0.4 }} className="rounded-xl border border-border bg-card p-3 sm:p-6">
       <div className="mb-6 flex items-start justify-between">
         <div>
           <h3 className="text-lg font-semibold text-foreground">{title}</h3>
@@ -82,7 +82,7 @@ export function RegionalBarChart({ data, year, title, subtitle, onBarClick, useM
           <>
             <div style={{ height: `${Math.max(300, barData.length * 50)}px` }} className="w-full">
               <ResponsiveContainer width="100%" height="100%">
-                <BarChart data={barData} layout="vertical" margin={{ top: 5, right: 30, left: 100, bottom: 5 }}>
+                <BarChart data={barData} layout="vertical" margin={{ top: 5, right: 15, left: 10, bottom: 5 }}>
                   <CartesianGrid strokeDasharray="3 3" stroke="hsl(217, 33%, 18%)" horizontal={true} vertical={false} />
                   <XAxis type="number" stroke="hsl(215, 20%, 55%)" fontSize={12} tickLine={false} tickFormatter={(value) => useMillions ? `$${Math.round(value)}M` : `$${(value / 1000).toFixed(1)}B`} width={useMillions ? 70 : undefined} />
                   <YAxis type="category" dataKey="name" stroke="hsl(215, 20%, 55%)" fontSize={12} tickLine={false} width={95} />

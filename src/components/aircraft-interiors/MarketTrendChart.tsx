@@ -105,7 +105,7 @@ export function MarketTrendChart({ data, segments, title, subtitle, showSegments
   });
 
   return (
-    <motion.div ref={chartRef} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 0.2 }} className="rounded-xl border border-border bg-card p-6">
+    <motion.div ref={chartRef} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 0.2 }} className="rounded-xl border border-border bg-card p-3 sm:p-6">
       <div className="mb-6 flex items-start justify-between">
         <div>
           <h3 className="text-lg font-semibold text-foreground">{title}</h3>
@@ -137,7 +137,7 @@ export function MarketTrendChart({ data, segments, title, subtitle, showSegments
                     )}
                   </defs>
                   <CartesianGrid strokeDasharray="3 3" stroke="hsl(217, 33%, 18%)" />
-                  <XAxis dataKey="year" stroke="hsl(215, 20%, 55%)" fontSize={12} tickLine={false} interval={data.length > 15 ? 1 : 0} />
+                  <XAxis dataKey="year" stroke="hsl(215, 20%, 55%)" fontSize={11} tickLine={false} interval="preserveStartEnd" angle={data.length > 15 ? -45 : 0} textAnchor={data.length > 15 ? "end" : "middle"} height={data.length > 15 ? 50 : 30} />
                   <YAxis stroke="hsl(215, 20%, 55%)" fontSize={12} tickLine={false} tickFormatter={(value) => useMillions ? `$${Math.round(value)}M` : `$${(value / 1000).toFixed(0)}B`} width={70} />
                   <Tooltip content={<CustomTooltip />} />
                   {showSegments && segments ? (

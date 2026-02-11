@@ -38,11 +38,11 @@ export function DrillDownModal({ isOpen, onClose, segmentName, segmentData, colo
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="aircraft-interiors-theme max-w-4xl max-h-[90vh] overflow-y-auto bg-[hsl(222,47%,9%)] border-[hsl(217,33%,18%)] text-[hsl(210,40%,96%)]">
-        <DialogHeader>
-          <div className="flex items-center gap-2">
-            <div className="h-4 w-4 rounded-full" style={{ backgroundColor: color }} />
-            <DialogTitle className="text-xl text-[hsl(210,40%,96%)]">{segmentName} - Deep Dive</DialogTitle>
+      <DialogContent className="aircraft-interiors-theme max-w-4xl w-[95vw] sm:w-full max-h-[85vh] sm:max-h-[90vh] overflow-y-auto bg-[hsl(222,47%,9%)] border-[hsl(217,33%,18%)] text-[hsl(210,40%,96%)] top-[50%] left-[50%]">
+        <DialogHeader className="sticky top-0 z-10 bg-[hsl(222,47%,9%)] pb-2 -mx-6 px-6 -mt-6 pt-6">
+          <div className="flex items-center gap-2 pr-8">
+            <div className="h-4 w-4 rounded-full flex-shrink-0" style={{ backgroundColor: color }} />
+            <DialogTitle className="text-base sm:text-xl text-[hsl(210,40%,96%)] break-words">{segmentName} - Deep Dive</DialogTitle>
           </div>
         </DialogHeader>
         <div className="space-y-6">
@@ -79,7 +79,7 @@ export function DrillDownModal({ isOpen, onClose, segmentName, segmentData, colo
                     </linearGradient>
                   </defs>
                   <CartesianGrid strokeDasharray="3 3" stroke="hsl(217, 33%, 18%)" />
-                  <XAxis dataKey="year" stroke="hsl(215, 20%, 55%)" fontSize={12} tickLine={false} interval={segmentData.length > 15 ? 1 : 0} />
+                  <XAxis dataKey="year" stroke="hsl(215, 20%, 55%)" fontSize={11} tickLine={false} interval="preserveStartEnd" angle={segmentData.length > 15 ? -45 : 0} textAnchor={segmentData.length > 15 ? "end" : "middle"} height={segmentData.length > 15 ? 50 : 30} />
                   <YAxis stroke="hsl(215, 20%, 55%)" fontSize={12} tickLine={false} tickFormatter={(value) => useMillions ? `$${Math.round(value)}M` : `$${(value / 1000).toFixed(1)}B`} width={useMillions ? 70 : 50} />
                   <Tooltip content={<CustomTooltip />} />
                   <Area type="monotone" dataKey="value" stroke={color} fill="url(#drillGradient)" strokeWidth={2} />

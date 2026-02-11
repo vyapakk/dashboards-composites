@@ -31,7 +31,7 @@ export function ComparisonTable({ data, startYear, endYear, title, onRowClick }:
 
   return (
     <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 0.5 }} className="rounded-xl border border-border bg-card overflow-hidden">
-      <div className="p-6 border-b border-border">
+      <div className="p-3 sm:p-6 border-b border-border">
         <div className="flex items-center justify-between">
           <div>
             <h3 className="text-lg font-semibold text-foreground">{title}</h3>
@@ -49,32 +49,32 @@ export function ComparisonTable({ data, startYear, endYear, title, onRowClick }:
         <table className="w-full">
           <thead>
             <tr className="border-b border-border bg-secondary/30">
-              <th className="px-6 py-4 text-left text-xs font-medium uppercase tracking-wider text-muted-foreground">Segment</th>
-              <th className="px-6 py-4 text-right text-xs font-medium uppercase tracking-wider text-muted-foreground">{startYear}</th>
-              <th className="px-6 py-4 text-right text-xs font-medium uppercase tracking-wider text-muted-foreground">{endYear}</th>
-              <th className="px-6 py-4 text-right text-xs font-medium uppercase tracking-wider text-muted-foreground">CAGR</th>
-              <th className="px-6 py-4 text-right text-xs font-medium uppercase tracking-wider text-muted-foreground">Total Growth</th>
-              {onRowClick && <th className="px-6 py-4 text-right text-xs font-medium uppercase tracking-wider text-muted-foreground"></th>}
+              <th className="px-3 sm:px-6 py-3 sm:py-4 text-left text-xs font-medium uppercase tracking-wider text-muted-foreground">Segment</th>
+              <th className="px-3 sm:px-6 py-3 sm:py-4 text-right text-xs font-medium uppercase tracking-wider text-muted-foreground">{startYear}</th>
+              <th className="px-3 sm:px-6 py-3 sm:py-4 text-right text-xs font-medium uppercase tracking-wider text-muted-foreground">{endYear}</th>
+              <th className="px-3 sm:px-6 py-3 sm:py-4 text-right text-xs font-medium uppercase tracking-wider text-muted-foreground">CAGR</th>
+              <th className="px-3 sm:px-6 py-3 sm:py-4 text-right text-xs font-medium uppercase tracking-wider text-muted-foreground">Total Growth</th>
+              {onRowClick && <th className="px-3 sm:px-6 py-3 sm:py-4 text-right text-xs font-medium uppercase tracking-wider text-muted-foreground"></th>}
             </tr>
           </thead>
           <tbody className="divide-y divide-border">
             {tableData.map((row, idx) => (
               <motion.tr key={row.name} initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.6 + idx * 0.05 }} onClick={() => handleRowClick(row)} className={`transition-colors ${onRowClick ? "cursor-pointer hover:bg-secondary/40" : "hover:bg-secondary/20"}`}>
-                <td className="px-6 py-4 text-sm font-medium text-foreground">
+                <td className="px-3 sm:px-6 py-3 sm:py-4 text-sm font-medium text-foreground">
                   <div className="flex items-center gap-2">
-                    <div className="h-3 w-3 rounded-full" style={{ backgroundColor: row.color }} />
-                    {row.name}
+                    <div className="h-3 w-3 rounded-full flex-shrink-0" style={{ backgroundColor: row.color }} />
+                    <span className="whitespace-nowrap">{row.name}</span>
                   </div>
                 </td>
-                <td className="px-6 py-4 text-right font-mono text-sm text-muted-foreground">${row.startValue.toLocaleString()}M</td>
-                <td className="px-6 py-4 text-right font-mono text-sm text-foreground">${row.endValue.toLocaleString()}M</td>
-                <td className="px-6 py-4 text-right">
+                <td className="px-3 sm:px-6 py-3 sm:py-4 text-right font-mono text-sm text-muted-foreground whitespace-nowrap">${row.startValue.toLocaleString()}M</td>
+                <td className="px-3 sm:px-6 py-3 sm:py-4 text-right font-mono text-sm text-foreground whitespace-nowrap">${row.endValue.toLocaleString()}M</td>
+                <td className="px-3 sm:px-6 py-3 sm:py-4 text-right">
                   <span className={`font-mono text-sm font-medium ${row.cagr >= 0 ? "text-chart-4" : "text-destructive"}`}>{row.cagr >= 0 ? "+" : ""}{row.cagr.toFixed(1)}%</span>
                 </td>
-                <td className="px-6 py-4 text-right">
+                <td className="px-3 sm:px-6 py-3 sm:py-4 text-right">
                   <span className={`font-mono text-sm font-medium ${row.growth >= 0 ? "text-chart-4" : "text-destructive"}`}>{row.growth >= 0 ? "+" : ""}{row.growth.toFixed(0)}%</span>
                 </td>
-                {onRowClick && <td className="px-6 py-4 text-right"><ArrowRight className="h-4 w-4 text-muted-foreground inline-block" /></td>}
+                {onRowClick && <td className="px-3 sm:px-6 py-3 sm:py-4 text-right"><ArrowRight className="h-4 w-4 text-muted-foreground inline-block" /></td>}
               </motion.tr>
             ))}
           </tbody>

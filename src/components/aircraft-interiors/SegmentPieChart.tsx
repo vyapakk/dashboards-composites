@@ -77,7 +77,7 @@ export function SegmentPieChart({ data, year, title, onSegmentClick }: SegmentPi
   ]);
 
   return (
-    <motion.div ref={chartRef} initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 0.5, delay: 0.3 }} className="rounded-xl border border-border bg-card p-6">
+    <motion.div ref={chartRef} initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 0.5, delay: 0.3 }} className="rounded-xl border border-border bg-card p-3 sm:p-6">
       <div className="mb-4 flex items-start justify-between">
         <div>
           <h3 className="text-lg font-semibold text-foreground">{title}</h3>
