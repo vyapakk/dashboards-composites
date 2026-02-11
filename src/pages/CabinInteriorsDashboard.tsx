@@ -18,7 +18,7 @@ const cabinInteriorsTabs: TabConfig[] = [
   { id: "aircraft", label: "Aircraft Type", icon: Plane },
   { id: "region", label: "Region", icon: Globe },
   { id: "application", label: "Application Type", icon: Layers },
-  { id: "equipment", label: "Equipment Type", icon: Package },
+  { id: "equipment", label: "Furnished Equipment Type", icon: Package },
 ];
 
 const cabinInteriorsYears = Array.from({ length: 2034 - 2016 + 1 }, (_, i) => 2016 + i);
@@ -27,7 +27,7 @@ const CabinInteriorsDashboard = () => {
   const navigate = useNavigate();
   const [selectedYear, setSelectedYear] = useState(2025);
   const [activeTab, setActiveTab] = useState<MainTabType>("overview");
-  const { data: marketData, isLoading, error, refetch } = useMarketData("/data/aircraft-cabin-interior-composites-market.json");
+  const { data: marketData, isLoading, error, refetch } = useMarketData("/data/aircraft-cabin-interiors-market.json");
 
   if (isLoading) return <DashboardSkeleton />;
 
@@ -50,7 +50,7 @@ const CabinInteriorsDashboard = () => {
       case "aircraft": return { data: marketData.aircraftType, title: "Aircraft Type" };
       case "region": return { data: marketData.region, title: "Region" };
       case "application": return { data: marketData.application, title: "Application Type" };
-      case "equipment": return { data: marketData.furnishedEquipment, title: "Equipment Type" };
+      case "equipment": return { data: marketData.furnishedEquipment, title: "Furnished Equipment Type" };
       default: return { data: marketData.endUser, title: "End-User Type" };
     }
   };
@@ -64,7 +64,7 @@ const CabinInteriorsDashboard = () => {
           onYearChange={setSelectedYear}
           onNavigateToTab={setActiveTab}
           endUserLabel="End-User Type"
-          equipmentLabel="Equipment Type"
+          equipmentLabel="Furnished Equipment Type"
           useMillions
         />
       );
@@ -79,7 +79,7 @@ const CabinInteriorsDashboard = () => {
         title={segmentInfo.title}
         selectedYear={selectedYear}
         endUserLabel="End-User Type"
-        equipmentLabel="Equipment Type"
+        equipmentLabel="Furnished Equipment Type"
         useMillions
       />
     );
