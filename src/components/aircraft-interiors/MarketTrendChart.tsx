@@ -137,7 +137,7 @@ export function MarketTrendChart({ data, segments, title, subtitle, showSegments
                     )}
                   </defs>
                   <CartesianGrid strokeDasharray="3 3" stroke="hsl(217, 33%, 18%)" />
-                  <XAxis dataKey="year" stroke="hsl(215, 20%, 55%)" fontSize={11} tickLine={false} interval="preserveStartEnd" angle={data.length > 15 ? -45 : 0} textAnchor={data.length > 15 ? "end" : "middle"} height={data.length > 15 ? 50 : 30} />
+                  <XAxis dataKey="year" stroke="hsl(215, 20%, 55%)" fontSize={10} tickLine={false} interval={Math.ceil(data.length / 8)} />
                   <YAxis stroke="hsl(215, 20%, 55%)" fontSize={12} tickLine={false} tickFormatter={(value) => useMillions ? `$${Math.round(value)}M` : `$${(value / 1000).toFixed(0)}B`} width={70} />
                   <Tooltip content={<CustomTooltip />} />
                   {showSegments && segments ? (

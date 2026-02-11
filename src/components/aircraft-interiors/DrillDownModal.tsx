@@ -71,7 +71,7 @@ export function DrillDownModal({ isOpen, onClose, segmentName, segmentData, colo
             </div>
             <div className="h-[250px]">
               <ResponsiveContainer width="100%" height="100%">
-                <AreaChart data={segmentData} margin={{ top: 10, right: 30, left: 10, bottom: 0 }}>
+                <AreaChart data={segmentData} margin={{ top: 10, right: 15, left: 5, bottom: 0 }}>
                   <defs>
                     <linearGradient id="drillGradient" x1="0" y1="0" x2="0" y2="1">
                       <stop offset="5%" stopColor={color} stopOpacity={0.4} />
@@ -79,7 +79,7 @@ export function DrillDownModal({ isOpen, onClose, segmentName, segmentData, colo
                     </linearGradient>
                   </defs>
                   <CartesianGrid strokeDasharray="3 3" stroke="hsl(217, 33%, 18%)" />
-                  <XAxis dataKey="year" stroke="hsl(215, 20%, 55%)" fontSize={11} tickLine={false} interval="preserveStartEnd" angle={segmentData.length > 15 ? -45 : 0} textAnchor={segmentData.length > 15 ? "end" : "middle"} height={segmentData.length > 15 ? 50 : 30} />
+                  <XAxis dataKey="year" stroke="hsl(215, 20%, 55%)" fontSize={10} tickLine={false} interval={Math.ceil(segmentData.length / 8)} />
                   <YAxis stroke="hsl(215, 20%, 55%)" fontSize={12} tickLine={false} tickFormatter={(value) => useMillions ? `$${Math.round(value)}M` : `$${(value / 1000).toFixed(1)}B`} width={useMillions ? 70 : 50} />
                   <Tooltip content={<CustomTooltip />} />
                   <Area type="monotone" dataKey="value" stroke={color} fill="url(#drillGradient)" strokeWidth={2} />

@@ -98,7 +98,7 @@ export function MarketOverviewChart({ data, title, subtitle, useMillions = false
                   </linearGradient>
                 </defs>
                 <CartesianGrid strokeDasharray="3 3" stroke="hsl(217, 33%, 18%)" />
-                <XAxis dataKey="year" stroke="hsl(215, 20%, 55%)" fontSize={10} tickLine={false} interval="preserveStartEnd" angle={data.length > 15 ? -45 : 0} textAnchor={data.length > 15 ? "end" : "middle"} height={data.length > 15 ? 50 : 30} />
+                <XAxis dataKey="year" stroke="hsl(215, 20%, 55%)" fontSize={10} tickLine={false} interval={Math.ceil(data.length / 8)} />
                 <YAxis yAxisId="left" stroke="hsl(215, 20%, 55%)" fontSize={10} tickLine={false} tickFormatter={(value) => useMillions ? `$${Math.round(value)}M` : `$${(value / 1000).toFixed(1)}B`} width={70} />
                 <YAxis yAxisId="right" orientation="right" stroke="hsl(215, 20%, 55%)" fontSize={10} tickLine={false} tickFormatter={(value) => `${value.toFixed(0)}%`} domain={['auto', 'auto']} width={30} />
                 <Tooltip content={<CustomTooltip />} />
