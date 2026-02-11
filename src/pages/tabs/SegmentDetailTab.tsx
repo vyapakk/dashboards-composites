@@ -278,7 +278,7 @@ export function SegmentDetailTab({
     return { name: region.name, segments, total: segments.reduce((s, seg) => s + seg.value, 0) };
   }) : [];
 
-  const regionByApplicationData = segmentType === "region" ? marketData.region.map((region) => {
+  const regionByApplicationData = (segmentType === "region" && marketData.application.length > 0 && marketData.applicationByRegion && Object.keys(marketData.applicationByRegion).length > 0) ? marketData.region.map((region) => {
     const segments = marketData.application.map((app) => {
       const appRegionData = marketData.applicationByRegion?.[app.name]?.find(r => r.name === region.name);
       const value = appRegionData?.data.find(d => d.year === selectedYear)?.value ?? 0;
