@@ -121,17 +121,23 @@ export function DistributionDonutsRow({
   equipmentLabel = "Equipment",
   processTypeLabel = "Process Type",
 }: DistributionDonutsRowProps) {
+  const hasApplication = applicationData && applicationData.length > 0;
   const hasProcessType = processTypeData && processTypeData.length > 0;
-  const gridCols = hasProcessType
+  const donutCount = 3 + (hasApplication ? 1 : 0) + 1 + (hasProcessType ? 1 : 0); // endUser + aircraft + region + application? + equipment + process?
+  const gridCols = donutCount >= 6
     ? "grid-cols-2 sm:grid-cols-3 lg:grid-cols-6"
-    : "grid-cols-2 sm:grid-cols-3 lg:grid-cols-5";
+    : donutCount === 5
+    ? "grid-cols-2 sm:grid-cols-3 lg:grid-cols-5"
+    : "grid-cols-2 sm:grid-cols-3 lg:grid-cols-4";
 
   return (
     <div className={`grid ${gridCols} gap-4`}>
       <MiniDonut data={endUserData} year={year} title={endUserLabel} tabType="endUser" onClick={onDonutClick} onSliceClick={onSliceClick} delay={0.1} />
       <MiniDonut data={aircraftData} year={year} title="Aircraft Type" tabType="aircraft" onClick={onDonutClick} onSliceClick={onSliceClick} delay={0.15} />
       <MiniDonut data={regionData} year={year} title="Region" tabType="region" onClick={onDonutClick} onSliceClick={onSliceClick} delay={0.2} />
-      <MiniDonut data={applicationData} year={year} title="Application" tabType="application" onClick={onDonutClick} onSliceClick={onSliceClick} delay={0.25} />
+      {hasApplication && (
+        <MiniDonut data={applicationData} year={year} title="Application" tabType="application" onClick={onDonutClick} onSliceClick={onSliceClick} delay={0.25} />
+      )}
       <MiniDonut data={equipmentData} year={year} title={equipmentLabel} tabType="equipment" onClick={onDonutClick} onSliceClick={onSliceClick} delay={0.3} />
       {hasProcessType && (
         <MiniDonut data={processTypeData} year={year} title={processTypeLabel} tabType="process" onClick={onDonutClick} onSliceClick={onSliceClick} delay={0.35} />
