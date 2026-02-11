@@ -593,16 +593,18 @@ export function SegmentDetailTab({
             onSegmentClick={handleStackedBarClick}
             useMillions={useMillions}
           />
-          <StackedBarChart
-            data={regionByApplicationData}
-            year={selectedYear}
-            title={`Region by ${applicationLabel}`}
-            subtitle={`${selectedYear} breakdown - bars represent regions, stacks show ${applicationLabel.toLowerCase()}`}
-            segmentColors={SEGMENT_COLORS}
-            segmentNames={applicationNames}
-            onSegmentClick={handleStackedBarClick}
-            useMillions={useMillions}
-          />
+          {regionByApplicationData.length > 0 && (
+            <StackedBarChart
+              data={regionByApplicationData}
+              year={selectedYear}
+              title={`Region by ${applicationLabel}`}
+              subtitle={`${selectedYear} breakdown - bars represent regions, stacks show ${applicationLabel.toLowerCase()}`}
+              segmentColors={SEGMENT_COLORS}
+              segmentNames={applicationNames}
+              onSegmentClick={handleStackedBarClick}
+              useMillions={useMillions}
+            />
+          )}
           <StackedBarChart
             data={regionByEndUserData}
             year={selectedYear}
