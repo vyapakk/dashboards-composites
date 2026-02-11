@@ -441,11 +441,9 @@ export function SegmentDetailTab({
     endUserType: string,
     segmentName: string,
     value: number,
+    color: string,
     fullData?: YearlyData[]
   ) => {
-    const allSegmentNames = [...aircraftTypeNames, ...regionNames, ...applicationNames, ...equipmentNames, ...endUserNames, ...processTypeNames, ...materialTypeNames];
-    const segmentIndex = allSegmentNames.indexOf(segmentName);
-    const color = SEGMENT_COLORS[segmentIndex % SEGMENT_COLORS.length] || "hsl(192, 95%, 55%)";
     const displayName = `${segmentName} (${endUserType})`;
     if (fullData) {
       openDrillDown(displayName, fullData, color, undefined);

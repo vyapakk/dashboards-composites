@@ -25,7 +25,7 @@ interface StackedBarChartProps {
   subtitle?: string;
   segmentColors: string[];
   segmentNames: string[];
-  onSegmentClick?: (endUserType: string, segmentName: string, value: number, fullData?: YearlyData[]) => void;
+  onSegmentClick?: (endUserType: string, segmentName: string, value: number, color: string, fullData?: YearlyData[]) => void;
   useMillions?: boolean;
 }
 
@@ -72,11 +72,12 @@ export function StackedBarChart({ data, year, title, subtitle, segmentColors, se
     return null;
   };
 
-  const handleBarClick = (segmentName: string, entry: any) => {
+  const handleBarClick = (segmentName: string, segmentIndex: number, entry: any) => {
     if (onSegmentClick) {
       const value = entry[segmentName];
       const fullData = entry[`${segmentName}_fullData`];
-      onSegmentClick(entry.name, segmentName, value, fullData);
+      const color = segmentColors[segmentIndex % segmentColors.length];
+      onSegmentClick(entry.name, segmentName, value, color, fullData);
     }
   };
 
@@ -125,7 +126,7 @@ export function StackedBarChart({ data, year, title, subtitle, segmentColors, se
                   <YAxis type="category" dataKey="name" tick={{ fill: "hsl(var(--muted-foreground))", fontSize: 11 }} axisLine={{ stroke: "hsl(var(--border))" }} width={95} />
                   <Tooltip content={<CustomTooltip />} cursor={{ fill: "hsl(var(--muted)/0.1)" }} wrapperStyle={{ zIndex: 50, maxWidth: '90vw', pointerEvents: 'none' }} />
                   {segmentNames.map((segmentName, index) => (
-                    <Bar key={segmentName} dataKey={segmentName} stackId="stack" fill={segmentColors[index % segmentColors.length]} radius={index === segmentNames.length - 1 ? [0, 4, 4, 0] : [0, 0, 0, 0]} onClick={(entry) => handleBarClick(segmentName, entry)} style={{ cursor: onSegmentClick ? "pointer" : "default" }}>
+                    <Bar key={segmentName} dataKey={segmentName} stackId="stack" fill={segmentColors[index % segmentColors.length]} radius={index === segmentNames.length - 1 ? [0, 4, 4, 0] : [0, 0, 0, 0]} onClick={(entry) => handleBarClick(segmentName, index, entry)} style={{ cursor: onSegmentClick ? "pointer" : "default" }}>
                       {chartData.map((_, barIndex) => (
                         <Cell key={`${segmentName}-${barIndex}`} fill={segmentColors[index % segmentColors.length]} opacity={activeSegment === null ? 1 : activeSegment.barIndex === barIndex && activeSegment.segmentIndex === index ? 1 : 0.6} onMouseEnter={() => setActiveSegment({ barIndex, segmentIndex: index, segmentName })} onMouseLeave={() => setActiveSegment(null)} />
                       ))}
