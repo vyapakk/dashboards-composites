@@ -32,9 +32,9 @@ export function MarketOverviewTab({
 
   // Calculate KPI values
   const currentMarketValue = marketData.totalMarket.find((d) => d.year === selectedYear)?.value ?? 0;
-  const value2024 = marketData.totalMarket.find((d) => d.year === 2024)?.value ?? 0;
+  const value2025 = marketData.totalMarket.find((d) => d.year === 2025)?.value ?? 0;
   const value2034 = marketData.totalMarket.find((d) => d.year === 2034)?.value ?? 0;
-  const cagr2024to2034 = calculateCAGR(value2024, value2034, 10);
+  const cagr2025to2034 = calculateCAGR(value2025, value2034, 9);
 
   // Handle slice click for drill-down modal
   const handleSliceClick = (
@@ -84,7 +84,7 @@ export function MarketOverviewTab({
         />
         <KPICard
           title="CAGR through 2034"
-          value={cagr2024to2034}
+          value={cagr2025to2034}
           prefix=""
           suffix="%"
           icon={BarChart3}
@@ -105,7 +105,7 @@ export function MarketOverviewTab({
       <MarketOverviewChart
         data={marketData.totalMarket}
         title="Market Size & YoY Growth Trend"
-        subtitle={`Historical (${marketData.years[0]}-2024) and Forecast (2025-${marketData.years[marketData.years.length - 1]}) data`}
+        subtitle={`Historical (${marketData.years[0]}-2025) and Forecast (2026-${marketData.years[marketData.years.length - 1]}) data`}
         useMillions={useMillions}
       />
 

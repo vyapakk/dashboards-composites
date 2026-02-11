@@ -48,8 +48,8 @@ export function SegmentDetailTab({
     return sum + value;
   }, 0);
 
-  const value2024Total = segmentData.reduce((sum, seg) => {
-    const value = seg.data.find((d) => d.year === 2024)?.value ?? 0;
+  const value2025Total = segmentData.reduce((sum, seg) => {
+    const value = seg.data.find((d) => d.year === 2025)?.value ?? 0;
     return sum + value;
   }, 0);
 
@@ -58,7 +58,7 @@ export function SegmentDetailTab({
     return sum + value;
   }, 0);
 
-  const cagr = calculateCAGR(value2024Total, value2034Total, 10);
+  const cagr = calculateCAGR(value2025Total, value2034Total, 9);
 
   const SEGMENT_COLORS = [
     "hsl(192, 95%, 55%)",
@@ -731,7 +731,7 @@ export function SegmentDetailTab({
       {/* Comparison Table */}
       <ComparisonTable
         data={segmentData}
-        startYear={2024}
+        startYear={2025}
         endYear={2034}
         title={`${title} - Growth Analysis`}
         onRowClick={handleTableRowClick}
