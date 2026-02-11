@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { AlertCircle, RefreshCw, ArrowLeft, BarChart3, Plane, Globe, Layers, Users, FlaskConical, Cog } from "lucide-react";
+import { AlertCircle, RefreshCw, ArrowLeft, BarChart3, Plane, Globe, Layers, Users, FlaskConical } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { AircraftInteriorsDashboardHeader } from "@/components/aircraft-interiors/DashboardHeader";
 import { MainNavigation, MainTabType, TabConfig } from "@/components/aircraft-interiors/MainNavigation";
@@ -15,7 +15,6 @@ import stratviewLogoWhite from "@/assets/stratview-logo-white.png";
 const injectionMoldingTabs: TabConfig[] = [
   { id: "overview", label: "Market Overview", icon: BarChart3 },
   { id: "application", label: "Application Type", icon: Layers },
-  { id: "process", label: "Process Type", icon: Cog },
   { id: "aircraft", label: "Aircraft Type", icon: Plane },
   { id: "region", label: "Region", icon: Globe },
   { id: "material", label: "Material Type", icon: FlaskConical },
@@ -48,7 +47,6 @@ const InjectionMoldingMarketDashboard = () => {
   const getSegmentInfo = () => {
     switch (activeTab) {
       case "application": return { data: marketData.application, title: "Application Type" };
-      case "process": return { data: marketData.processType || [], title: "Process Type" };
       case "aircraft": return { data: marketData.aircraftType, title: "Aircraft Type" };
       case "region": return { data: marketData.region, title: "Region" };
       case "material": return { data: marketData.materialType || [], title: "Material Type" };
