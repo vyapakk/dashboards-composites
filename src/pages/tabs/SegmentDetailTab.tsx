@@ -695,8 +695,8 @@ export function SegmentDetailTab({
         <StackedBarChart
           data={processTypeByApplicationData}
           year={selectedYear}
-          title={`${processTypeLabel} by ${applicationLabel}`}
-          subtitle={`${selectedYear} breakdown - bars represent ${processTypeLabel.toLowerCase()}, stacks show ${applicationLabel.toLowerCase()}`}
+          title={`${processTypeLabel} by Application`}
+          subtitle={`${selectedYear} breakdown - bars represent ${processTypeLabel.toLowerCase()}, stacks show applications`}
           segmentColors={SEGMENT_COLORS}
           segmentNames={processTypeApplicationNames}
           onSegmentClick={handleStackedBarClick}
