@@ -82,6 +82,7 @@ export const categories = [
           { id: "ai-non-sandwich-panels", name: "Aircraft Interior Non-Sandwich Panel Composites Market" },
           { id: "ai-extrusion", name: "Aircraft Interiors Extrusion Market" },
           { id: "ai-thermoformed-parts", name: "Aircraft Interior Thermoformed Parts Market" },
+          { id: "ai-plastic", name: "Aircraft Interiors Plastic Market" },
         ],
       },
       {

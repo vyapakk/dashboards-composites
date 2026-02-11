@@ -30,6 +30,7 @@ const activeDashboardRoutes: Record<string, string> = {
   "ai-non-sandwich-panels": "/dashboard/non-sandwich-panel-composites-market",
   "ai-extrusion": "/dashboard/extrusion-market",
   "ai-thermoformed-parts": "/dashboard/thermoformed-parts-market",
+  "ai-plastic": "/dashboard/plastic-market",
 };
 
 const DatasetDetail = () => {
