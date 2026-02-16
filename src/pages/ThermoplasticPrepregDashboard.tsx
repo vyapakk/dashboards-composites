@@ -86,6 +86,7 @@ const ThermoplasticPrepregDashboard = () => {
         title={segmentInfo.title}
         selectedYear={selectedYear}
         endUserLabel="End-Use Industry"
+        aircraftLabel="Resin Type"
         equipmentLabel="Fiber Type"
         applicationLabel="Product Form"
         processTypeLabel="Process Type"

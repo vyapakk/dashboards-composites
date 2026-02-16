@@ -13,6 +13,7 @@ type SegmentType = "overview" | "endUser" | "aircraft" | "region" | "application
 
 interface SegmentDetailTabProps {
   segmentType: SegmentType;
+  aircraftLabel?: string;
   segmentData: SegmentData[];
   totalMarket: YearlyData[];
   marketData: MarketData;
@@ -36,6 +37,7 @@ export function SegmentDetailTab({
   title,
   selectedYear,
   endUserLabel = "End User",
+  aircraftLabel = "Aircraft Type",
   equipmentLabel = "Equipment Type",
   applicationLabel = "Application",
   processTypeLabel = "Process Type",
@@ -563,8 +565,8 @@ export function SegmentDetailTab({
             <StackedBarChart
               data={aircraftByRegionData}
               year={selectedYear}
-              title="Aircraft Type by Region"
-              subtitle={`${selectedYear} breakdown - bars represent aircraft types, stacks show regions`}
+              title={`${aircraftLabel} by Region`}
+              subtitle={`${selectedYear} breakdown - bars represent ${aircraftLabel.toLowerCase()}, stacks show regions`}
               segmentColors={SEGMENT_COLORS}
               segmentNames={regionNames}
               onSegmentClick={handleStackedBarClick}
@@ -575,8 +577,8 @@ export function SegmentDetailTab({
             <StackedBarChart
               data={aircraftByEndUserData}
               year={selectedYear}
-              title={`Aircraft Type by ${endUserLabel}`}
-              subtitle={`${selectedYear} breakdown - bars represent aircraft types, stacks show ${endUserLabel.toLowerCase()}`}
+              title={`${aircraftLabel} by ${endUserLabel}`}
+              subtitle={`${selectedYear} breakdown - bars represent ${aircraftLabel.toLowerCase()}, stacks show ${endUserLabel.toLowerCase()}`}
               segmentColors={SEGMENT_COLORS}
               segmentNames={endUserNames}
               onSegmentClick={handleStackedBarClick}
@@ -593,8 +595,8 @@ export function SegmentDetailTab({
             <StackedBarChart
               data={regionByAircraftData}
               year={selectedYear}
-              title="Region by Aircraft Type"
-              subtitle={`${selectedYear} breakdown - bars represent regions, stacks show aircraft types`}
+              title={`Region by ${aircraftLabel}`}
+              subtitle={`${selectedYear} breakdown - bars represent regions, stacks show ${aircraftLabel.toLowerCase()}`}
               segmentColors={SEGMENT_COLORS}
               segmentNames={aircraftTypeNames}
               onSegmentClick={handleStackedBarClick}
