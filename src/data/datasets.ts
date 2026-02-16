@@ -56,6 +56,7 @@ export const categories = [
         purchased: true,
         dashboards: [
           { id: "pp-thermoplastic", name: "Global Thermoplastic Prepreg Market" },
+          { id: "pp-aerospace", name: "Global Aerospace Prepreg Market" },
         ],
       },
     ],
