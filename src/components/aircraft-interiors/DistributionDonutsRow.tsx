@@ -15,6 +15,8 @@ interface DistributionDonutsRowProps {
   onDonutClick?: (tabType: MainTabType) => void;
   onSliceClick?: (segmentName: string, segmentData: YearlyData[], color: string, donutType: MainTabType) => void;
   endUserLabel?: string;
+  aircraftLabel?: string;
+  applicationLabel?: string;
   equipmentLabel?: string;
   processTypeLabel?: string;
 }
@@ -118,6 +120,8 @@ export function DistributionDonutsRow({
   onDonutClick,
   onSliceClick,
   endUserLabel = "End User",
+  aircraftLabel = "Aircraft Type",
+  applicationLabel = "Application",
   equipmentLabel = "Equipment",
   processTypeLabel = "Process Type",
 }: DistributionDonutsRowProps) {
@@ -133,10 +137,10 @@ export function DistributionDonutsRow({
   return (
     <div className={`grid ${gridCols} gap-4`}>
       <MiniDonut data={endUserData} year={year} title={endUserLabel} tabType="endUser" onClick={onDonutClick} onSliceClick={onSliceClick} delay={0.1} />
-      <MiniDonut data={aircraftData} year={year} title="Aircraft Type" tabType="aircraft" onClick={onDonutClick} onSliceClick={onSliceClick} delay={0.15} />
+      <MiniDonut data={aircraftData} year={year} title={aircraftLabel} tabType="aircraft" onClick={onDonutClick} onSliceClick={onSliceClick} delay={0.15} />
       <MiniDonut data={regionData} year={year} title="Region" tabType="region" onClick={onDonutClick} onSliceClick={onSliceClick} delay={0.2} />
       {hasApplication && (
-        <MiniDonut data={applicationData} year={year} title="Application" tabType="application" onClick={onDonutClick} onSliceClick={onSliceClick} delay={0.25} />
+        <MiniDonut data={applicationData} year={year} title={applicationLabel} tabType="application" onClick={onDonutClick} onSliceClick={onSliceClick} delay={0.25} />
       )}
       <MiniDonut data={equipmentData} year={year} title={equipmentLabel} tabType="equipment" onClick={onDonutClick} onSliceClick={onSliceClick} delay={0.3} />
       {hasProcessType && (

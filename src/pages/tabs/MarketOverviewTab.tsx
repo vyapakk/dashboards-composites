@@ -13,9 +13,13 @@ interface MarketOverviewTabProps {
   onYearChange: (year: number) => void;
   onNavigateToTab: (tabType: MainTabType) => void;
   endUserLabel?: string;
+  aircraftLabel?: string;
+  applicationLabel?: string;
   equipmentLabel?: string;
   processTypeLabel?: string;
   useMillions?: boolean;
+  baseYear?: number;
+  forecastYear?: number;
 }
 
 export function MarketOverviewTab({
@@ -24,17 +28,23 @@ export function MarketOverviewTab({
   onYearChange,
   onNavigateToTab,
   endUserLabel = "End User",
+  aircraftLabel = "Aircraft Type",
+  applicationLabel = "Application",
   equipmentLabel = "Equipment",
   processTypeLabel = "Process Type",
   useMillions = false,
+  baseYear = 2025,
+  forecastYear = 2034,
 }: MarketOverviewTabProps) {
   const { drillDownState, openDrillDown, closeDrillDown } = useDrillDown();
 
+  const yearSpan = forecastYear - baseYear;
+
   // Calculate KPI values
   const currentMarketValue = marketData.totalMarket.find((d) => d.year === selectedYear)?.value ?? 0;
-  const value2025 = marketData.totalMarket.find((d) => d.year === 2025)?.value ?? 0;
-  const value2034 = marketData.totalMarket.find((d) => d.year === 2034)?.value ?? 0;
-  const cagr2025to2034 = calculateCAGR(value2025, value2034, 9);
+  const valueBase = marketData.totalMarket.find((d) => d.year === baseYear)?.value ?? 0;
+  const valueForecast = marketData.totalMarket.find((d) => d.year === forecastYear)?.value ?? 0;
+  const cagrValue = calculateCAGR(valueBase, valueForecast, yearSpan);
 
   // Handle slice click for drill-down modal
   const handleSliceClick = (
@@ -83,8 +93,8 @@ export function MarketOverviewTab({
           accentColor="primary"
         />
         <KPICard
-          title="CAGR through 2034"
-          value={cagr2025to2034}
+          title={`CAGR through ${forecastYear}`}
+          value={cagrValue}
           prefix=""
           suffix="%"
           icon={BarChart3}
@@ -92,8 +102,8 @@ export function MarketOverviewTab({
           accentColor="chart-4"
         />
         <KPICard
-          title="2034 Forecast"
-          value={useMillions ? value2034 : value2034 / 1000}
+          title={`${forecastYear} Forecast`}
+          value={useMillions ? valueForecast : valueForecast / 1000}
           suffix={useMillions ? "M" : "B"}
           icon={TrendingUp}
           delay={0.2}
@@ -128,6 +138,8 @@ export function MarketOverviewTab({
           onDonutClick={onNavigateToTab}
           onSliceClick={handleSliceClick}
           endUserLabel={endUserLabel}
+          aircraftLabel={aircraftLabel}
+          applicationLabel={applicationLabel}
           equipmentLabel={equipmentLabel}
           processTypeLabel={processTypeLabel}
         />
