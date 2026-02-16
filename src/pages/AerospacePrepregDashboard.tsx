@@ -73,6 +73,7 @@ const AerospacePrepregDashboard = () => {
         marketData={marketData}
         title={segmentInfo.title}
         selectedYear={selectedYear}
+        aircraftLabel="Resin Type"
         useMillions
         baseYear={2020}
         forecastYear={2026}
