@@ -24,6 +24,8 @@ interface SegmentDetailTabProps {
   processTypeLabel?: string;
   materialTypeLabel?: string;
   useMillions?: boolean;
+  baseYear?: number;
+  forecastYear?: number;
 }
 
 export function SegmentDetailTab({
@@ -39,8 +41,12 @@ export function SegmentDetailTab({
   processTypeLabel = "Process Type",
   materialTypeLabel = "Material Type",
   useMillions = false,
+  baseYear = 2025,
+  forecastYear = 2034,
 }: SegmentDetailTabProps) {
   const { drillDownState, openDrillDown, closeDrillDown } = useDrillDown();
+
+  const yearSpan = forecastYear - baseYear;
 
   // Calculate KPI values
   const currentYearTotal = segmentData.reduce((sum, seg) => {
@@ -48,17 +54,17 @@ export function SegmentDetailTab({
     return sum + value;
   }, 0);
 
-  const value2025Total = segmentData.reduce((sum, seg) => {
-    const value = seg.data.find((d) => d.year === 2025)?.value ?? 0;
+  const valueBaseTotal = segmentData.reduce((sum, seg) => {
+    const value = seg.data.find((d) => d.year === baseYear)?.value ?? 0;
     return sum + value;
   }, 0);
 
-  const value2034Total = segmentData.reduce((sum, seg) => {
-    const value = seg.data.find((d) => d.year === 2034)?.value ?? 0;
+  const valueForecastTotal = segmentData.reduce((sum, seg) => {
+    const value = seg.data.find((d) => d.year === forecastYear)?.value ?? 0;
     return sum + value;
   }, 0);
 
-  const cagr = calculateCAGR(value2025Total, value2034Total, 9);
+  const cagr = calculateCAGR(valueBaseTotal, valueForecastTotal, yearSpan);
 
   const SEGMENT_COLORS = [
     "hsl(192, 95%, 55%)",
@@ -476,8 +482,8 @@ export function SegmentDetailTab({
             accentColor="chart-4"
           />
           <KPICard
-            title="2034 Forecast"
-            value={value2034Total / 1000}
+            title={`${forecastYear} Forecast`}
+            value={valueForecastTotal / 1000}
             suffix="B"
             icon={TrendingUp}
             delay={0.2}
@@ -729,8 +735,8 @@ export function SegmentDetailTab({
       {/* Comparison Table */}
       <ComparisonTable
         data={segmentData}
-        startYear={2025}
-        endYear={2034}
+        startYear={baseYear}
+        endYear={forecastYear}
         title={`${title} - Growth Analysis`}
         onRowClick={handleTableRowClick}
       />

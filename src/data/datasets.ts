@@ -109,6 +109,14 @@ export const categories = [
           { id: "ds-uav", name: "UAV/Drone Market" },
         ],
       },
+      {
+        id: "prepreg",
+        name: "Prepreg",
+        purchased: true,
+        dashboards: [
+          { id: "pp-thermoplastic", name: "Global Thermoplastic Prepreg Market" },
+        ],
+      },
     ],
   },
   {
