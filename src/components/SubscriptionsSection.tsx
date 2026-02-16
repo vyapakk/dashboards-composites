@@ -6,7 +6,7 @@ import { Alert, AlertDescription } from "@/components/ui/alert";
 import { categories } from "@/data/datasets";
 
 // Mock subscribed dataset IDs - replace with actual user data later
-const subscribedDatasetIds: string[] = ["carbon-fiber", "aircraft-interiors"];
+const subscribedDatasetIds: string[] = ["carbon-fiber", "aircraft-interiors", "prepreg"];
 
 const iconBgStyles: Record<string, string> = {
   teal: "bg-primary text-primary-foreground",
