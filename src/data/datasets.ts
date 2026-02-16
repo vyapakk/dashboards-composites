@@ -50,6 +50,14 @@ export const categories = [
           { id: "pmc-forecast", name: "Market Forecast 2025-2030" },
         ],
       },
+      {
+        id: "prepreg",
+        name: "Prepreg",
+        purchased: true,
+        dashboards: [
+          { id: "pp-thermoplastic", name: "Global Thermoplastic Prepreg Market" },
+        ],
+      },
     ],
   },
   {
@@ -107,14 +115,6 @@ export const categories = [
         dashboards: [
           { id: "ds-spending", name: "Global Defense Spending" },
           { id: "ds-uav", name: "UAV/Drone Market" },
-        ],
-      },
-      {
-        id: "prepreg",
-        name: "Prepreg",
-        purchased: true,
-        dashboards: [
-          { id: "pp-thermoplastic", name: "Global Thermoplastic Prepreg Market" },
         ],
       },
     ],
