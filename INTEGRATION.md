@@ -96,25 +96,73 @@ Response: Same compact JSON structure (see any file in public/data/)
 | `aircraft-interior-lighting-market.json` | `/dashboard/lighting-market` | `LightingMarketDashboard` |
 | `aircraft-ifec-market.json` | `/dashboard/ifec-market` | `IFECMarketDashboard` |
 
-### Compact JSON format (required):
+### Adding a New Dashboard (Drop-in Workflow)
+
+**Step 1:** Create a JSON file in `public/data/` with the `labels` metadata block:
 
 ```json
 {
-  "years": [2016, 2017, ...],
+  "labels": {
+    "title": "My New Market",
+    "subtitle": "Global Market Research Dashboard • 2019-2038",
+    "segment1": "End User",
+    "segment2": "Aircraft Type",
+    "segment3": "Application",
+    "segment4": "Equipment Type",
+    "segment5": "Process Type",
+    "segment6": "Material Type",
+    "useMillions": true,
+    "backRoute": "/dataset/aircraft-interiors",
+    "backLabel": "Back to Aircraft Interiors",
+    "footerText": "My New Market Research Report"
+  },
+  "years": [2019, 2020, ...],
   "totalMarket": [100, 110, ...],
-  "endUser": { "OE": [...], "Aftermarket": [...] },
-  "aircraftType": { "Narrow-Body Aircraft": [...], ... },
+  "segment1": { "OE": [...], "Aftermarket": [...] },
+  "segment2": { "Narrow-Body": [...], ... },
   "region": { "North America": [...], ... },
-  "application": { "Segment A": [...], ... },
-  "furnishedEquipment": { "BFE": [...], "SFE": [...] },
-  "countryDataByRegion": { "North America": { "USA": [...], ... }, ... },
-  "endUserByAircraftType": { "OE": { "Narrow-Body Aircraft": [...], ... }, ... },
-  "endUserByRegion": { "OE": { "North America": [...], ... }, ... },
-  "aircraftTypeByRegion": { "Narrow-Body Aircraft": { "North America": [...], ... }, ... },
-  "applicationByRegion": { "Segment A": { "North America": [...], ... }, ... },
-  "equipmentByRegion": { "BFE": { "North America": [...], ... }, ... }
+  "segment3": { "Type A": [...], ... },
+  "segment4": { "BFE": [...], "SFE": [...] },
+  "countryDataByRegion": { "North America": { "USA": [...] } },
+  "segment1BySegment2": { "OE": { "Narrow-Body": [...] } },
+  "segment1ByRegion": { "OE": { "North America": [...] } },
+  "segment2ByRegion": { ... },
+  "segment3ByRegion": { ... },
+  "segment4ByRegion": { ... }
 }
 ```
+
+Only include segments that exist in the data. Omit segment5/segment6 if not applicable.
+
+**Step 2:** Create a minimal page file in `src/pages/`:
+
+```tsx
+import { GenericMarketDashboard } from "@/components/aircraft-interiors/GenericMarketDashboard";
+
+const MyNewMarketDashboard = () => {
+  return <GenericMarketDashboard dataUrl="/data/my-new-market.json" />;
+};
+
+export default MyNewMarketDashboard;
+```
+
+**Step 3:** Developer adds the route in `App.tsx` and the entry in `datasets.ts` / `DatasetDetail.tsx`.
+
+### Labels Metadata Reference
+
+| Field | Description | Default |
+|-------|-------------|---------|
+| `title` | Dashboard header title | "Market Dashboard" |
+| `subtitle` | Dashboard header subtitle | none |
+| `segment1`–`segment6` | Tab/chart labels for each segment | "Segment N" |
+| `useMillions` | Display values in millions (true) or billions (false) | true |
+| `backRoute` | Navigation route for back button | "/dashboard" |
+| `backLabel` | Back button text | "Back" |
+| `footerText` | Footer description text | same as title |
+
+### Legacy JSON format (still supported)
+
+The hook auto-maps legacy keys (`endUser`, `aircraftType`, `application`, etc.) to generic segment keys. Existing JSON files will continue to work without changes.
 
 All number arrays must have the same length as the `years` array.
 

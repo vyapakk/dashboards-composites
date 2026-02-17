@@ -1,5 +1,21 @@
 import { useState, useEffect, useCallback } from "react";
 
+// Labels metadata embedded in JSON
+export interface MarketLabels {
+  title?: string;
+  subtitle?: string;
+  segment1?: string;
+  segment2?: string;
+  segment3?: string;
+  segment4?: string;
+  segment5?: string;
+  segment6?: string;
+  useMillions?: boolean;
+  backRoute?: string;
+  backLabel?: string;
+  footerText?: string;
+}
+
 // Types for the compact JSON format
 interface CompactMarketData {
   years: number[];
@@ -20,6 +36,7 @@ interface CompactMarketData {
   segment5ByRegion?: Record<string, Record<string, number[]>>;
   segment6ByRegion?: Record<string, Record<string, number[]>>;
   segment5BySegment3?: Record<string, Record<string, number[]>>;
+  labels?: MarketLabels;
 }
 
 // Types for the expanded format
@@ -56,6 +73,7 @@ export interface MarketData {
 
 interface UseMarketDataResult {
   data: MarketData | null;
+  labels: MarketLabels;
   isLoading: boolean;
   error: string | null;
   refetch: () => void;
@@ -138,11 +156,13 @@ function normalizeCompactData(raw: Record<string, unknown>): CompactMarketData {
     segment5ByRegion: getNested("segment5ByRegion", "processTypeByRegion"),
     segment6ByRegion: getNested("segment6ByRegion", "materialTypeByRegion"),
     segment5BySegment3: getNested("segment5BySegment3", "processTypeByApplication"),
+    labels: raw.labels as MarketLabels | undefined,
   };
 }
 
 export function useMarketData(dataUrl: string = "/data/global-aircraft-interiors-market.json"): UseMarketDataResult {
   const [data, setData] = useState<MarketData | null>(null);
+  const [labels, setLabels] = useState<MarketLabels>({});
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -158,6 +178,16 @@ export function useMarketData(dataUrl: string = "/data/global-aircraft-interiors
       const raw = await response.json();
       const compact = normalizeCompactData(raw);
       const { years } = compact;
+
+      // Extract labels from JSON (auto-detect from keys if not provided)
+      const jsonLabels: MarketLabels = compact.labels || {};
+      if (!jsonLabels.segment1 && raw.endUser) jsonLabels.segment1 = "End User";
+      if (!jsonLabels.segment2 && raw.aircraftType) jsonLabels.segment2 = "Aircraft Type";
+      if (!jsonLabels.segment3 && raw.application) jsonLabels.segment3 = "Application";
+      if (!jsonLabels.segment4 && raw.furnishedEquipment) jsonLabels.segment4 = "Furnished Equipment";
+      if (!jsonLabels.segment5 && raw.processType) jsonLabels.segment5 = "Process Type";
+      if (!jsonLabels.segment6 && raw.materialType) jsonLabels.segment6 = "Material Type";
+      setLabels(jsonLabels);
 
       const expanded: MarketData = {
         years,
@@ -192,7 +222,7 @@ export function useMarketData(dataUrl: string = "/data/global-aircraft-interiors
     fetchData();
   }, [fetchData]);
 
-  return { data, isLoading, error, refetch: fetchData };
+  return { data, labels, isLoading, error, refetch: fetchData };
 }
 
 export function calculateCAGR(startValue: number, endValue: number, years: number): number {
