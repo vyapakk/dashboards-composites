@@ -84,7 +84,7 @@ const AerospacePrepregDashboard = () => {
   return (
     <div className="aircraft-interiors-theme min-h-screen">
       <ScrollToTop />
-      <AircraftInteriorsDashboardHeader title="Global Aerospace Prepreg Market" subtitle="Global Market Research Dashboard • 2012-2026" />
+      <AircraftInteriorsDashboardHeader title="Aerospace Prepreg Market" subtitle="Market Research Dashboard • 2012-2026" />
 
       <main className="container mx-auto px-4 py-8">
         <Button variant="ghost" onClick={() => navigate("/dataset/prepreg")} className="mb-4 text-muted-foreground hover:text-foreground">
@@ -108,7 +108,7 @@ const AerospacePrepregDashboard = () => {
         <motion.footer initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.8 }} className="mt-12 border-t border-border pt-6">
           <div className="flex flex-col items-center justify-between gap-4 text-center md:flex-row md:text-left">
             <div>
-              <p className="text-sm text-muted-foreground">Global Aerospace Prepreg Market Research Report</p>
+              <p className="text-sm text-muted-foreground">Aerospace Prepreg Market Research Report</p>
               <p className="text-xs text-muted-foreground/70">All values in US$ Million unless otherwise specified</p>
             </div>
             <img src={stratviewLogoWhite} alt="Stratview Research" className="h-10 w-auto" />
