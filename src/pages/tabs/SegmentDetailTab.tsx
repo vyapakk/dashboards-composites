@@ -750,8 +750,6 @@ export function SegmentDetailTab({
         segmentData={drillDownState.segmentData}
         color={drillDownState.color}
         useMillions={useMillions}
-        baseYear={baseYear}
-        forecastYear={forecastYear}
       />
     </div>
   );
