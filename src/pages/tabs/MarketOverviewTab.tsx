@@ -114,7 +114,7 @@ export function MarketOverviewTab({
       <MarketOverviewChart
         data={marketData.totalMarket}
         title="Market Size & YoY Growth Trend"
-        subtitle={`Historical (${marketData.years[0]}-2025) and Forecast (2026-${marketData.years[marketData.years.length - 1]}) data`}
+        subtitle={`Historical (${marketData.years[0]}-${baseYear}) and Forecast (${baseYear + 1}-${forecastYear}) data`}
         useMillions={useMillions}
       />
 

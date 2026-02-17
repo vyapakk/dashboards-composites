@@ -1,4 +1,13 @@
 {
+  "labels": {
+    "title": "A&D Thermoplastic Prepreg Market",
+    "subtitle": "Market Research Dashboard • 2012-2026",
+    "segment2": "Resin Type",
+    "useMillions": true,
+    "backRoute": "/dataset/prepreg",
+    "backLabel": "Back to Prepreg",
+    "footerText": "A&D Thermoplastic Prepreg Market Research Report"
+  },
   "years": [2012,2013,2014,2015,2016,2017,2018,2019,2020,2021,2022,2023,2024,2025,2026],
   "totalMarket": [75.9,82.0,87.5,94.4,98.6,106.9,115.5,123.5,97.2,92.8,104.1,114.6,124.3,134.4,142.9],
   "aircraftType": {
