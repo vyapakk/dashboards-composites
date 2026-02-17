@@ -3,7 +3,7 @@ import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { BarChart3, Users, Plane, Globe, Layers, Settings } from "lucide-react";
 import { YearSelector } from "./YearSelector";
 
-export type MainTabType = "overview" | "endUser" | "aircraft" | "region" | "application" | "equipment" | "process" | "material";
+export type MainTabType = "overview" | "segment1" | "segment2" | "region" | "segment3" | "segment4" | "segment5" | "segment6";
 
 export interface TabConfig {
   id: MainTabType;
@@ -23,11 +23,11 @@ interface MainNavigationProps {
 
 const defaultTabs: TabConfig[] = [
   { id: "overview", label: "Market Overview", icon: BarChart3 },
-  { id: "endUser", label: "End-User", icon: Users },
-  { id: "aircraft", label: "Aircraft-Type", icon: Plane },
+  { id: "segment1", label: "End-User", icon: Users },
+  { id: "segment2", label: "Aircraft-Type", icon: Plane },
   { id: "region", label: "Region", icon: Globe },
-  { id: "application", label: "Application", icon: Layers },
-  { id: "equipment", label: "Equipment", icon: Settings },
+  { id: "segment3", label: "Application", icon: Layers },
+  { id: "segment4", label: "Equipment", icon: Settings },
 ];
 
 export function MainNavigation({

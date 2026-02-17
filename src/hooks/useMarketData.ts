@@ -4,22 +4,22 @@ import { useState, useEffect, useCallback } from "react";
 interface CompactMarketData {
   years: number[];
   totalMarket: number[];
-  endUser: Record<string, number[]>;
-  aircraftType: Record<string, number[]>;
-  region: Record<string, number[]>;
-  application: Record<string, number[]>;
-  furnishedEquipment: Record<string, number[]>;
-  processType?: Record<string, number[]>;
-  materialType?: Record<string, number[]>;
-  countryDataByRegion: Record<string, Record<string, number[]>>;
-  endUserByAircraftType: Record<string, Record<string, number[]>>;
-  endUserByRegion: Record<string, Record<string, number[]>>;
-  aircraftTypeByRegion: Record<string, Record<string, number[]>>;
-  applicationByRegion: Record<string, Record<string, number[]>>;
-  equipmentByRegion: Record<string, Record<string, number[]>>;
-  processTypeByRegion?: Record<string, Record<string, number[]>>;
-  materialTypeByRegion?: Record<string, Record<string, number[]>>;
-  processTypeByApplication?: Record<string, Record<string, number[]>>;
+  segment1?: Record<string, number[]>;
+  segment2?: Record<string, number[]>;
+  region?: Record<string, number[]>;
+  segment3?: Record<string, number[]>;
+  segment4?: Record<string, number[]>;
+  segment5?: Record<string, number[]>;
+  segment6?: Record<string, number[]>;
+  countryDataByRegion?: Record<string, Record<string, number[]>>;
+  segment1BySegment2?: Record<string, Record<string, number[]>>;
+  segment1ByRegion?: Record<string, Record<string, number[]>>;
+  segment2ByRegion?: Record<string, Record<string, number[]>>;
+  segment3ByRegion?: Record<string, Record<string, number[]>>;
+  segment4ByRegion?: Record<string, Record<string, number[]>>;
+  segment5ByRegion?: Record<string, Record<string, number[]>>;
+  segment6ByRegion?: Record<string, Record<string, number[]>>;
+  segment5BySegment3?: Record<string, Record<string, number[]>>;
 }
 
 // Types for the expanded format
@@ -36,22 +36,22 @@ export interface SegmentData {
 export interface MarketData {
   years: number[];
   totalMarket: YearlyData[];
-  endUser: SegmentData[];
-  aircraftType: SegmentData[];
+  segment1: SegmentData[];
+  segment2: SegmentData[];
   region: SegmentData[];
-  application: SegmentData[];
-  furnishedEquipment: SegmentData[];
-  processType?: SegmentData[];
-  materialType?: SegmentData[];
+  segment3: SegmentData[];
+  segment4: SegmentData[];
+  segment5?: SegmentData[];
+  segment6?: SegmentData[];
   countryDataByRegion: Record<string, SegmentData[]>;
-  endUserByAircraftType: Record<string, SegmentData[]>;
-  endUserByRegion: Record<string, SegmentData[]>;
-  aircraftTypeByRegion: Record<string, SegmentData[]>;
-  applicationByRegion: Record<string, SegmentData[]>;
-  equipmentByRegion: Record<string, SegmentData[]>;
-  processTypeByRegion?: Record<string, SegmentData[]>;
-  materialTypeByRegion?: Record<string, SegmentData[]>;
-  processTypeByApplication?: Record<string, SegmentData[]>;
+  segment1BySegment2: Record<string, SegmentData[]>;
+  segment1ByRegion: Record<string, SegmentData[]>;
+  segment2ByRegion: Record<string, SegmentData[]>;
+  segment3ByRegion: Record<string, SegmentData[]>;
+  segment4ByRegion: Record<string, SegmentData[]>;
+  segment5ByRegion?: Record<string, SegmentData[]>;
+  segment6ByRegion?: Record<string, SegmentData[]>;
+  segment5BySegment3?: Record<string, SegmentData[]>;
 }
 
 interface UseMarketDataResult {
@@ -116,22 +116,22 @@ export function useMarketData(dataUrl: string = "/data/global-aircraft-interiors
       const expanded: MarketData = {
         years,
         totalMarket: expandValues(years, compact.totalMarket),
-        endUser: compact.endUser ? expandSegment(years, compact.endUser) : [],
-        aircraftType: compact.aircraftType ? expandSegment(years, compact.aircraftType) : [],
+        segment1: compact.segment1 ? expandSegment(years, compact.segment1) : [],
+        segment2: compact.segment2 ? expandSegment(years, compact.segment2) : [],
         region: compact.region ? expandSegment(years, compact.region) : [],
-        application: compact.application ? expandSegment(years, compact.application) : [],
-        furnishedEquipment: compact.furnishedEquipment ? expandSegment(years, compact.furnishedEquipment) : [],
-        processType: compact.processType ? expandSegment(years, compact.processType) : undefined,
-        materialType: compact.materialType ? expandSegment(years, compact.materialType) : undefined,
+        segment3: compact.segment3 ? expandSegment(years, compact.segment3) : [],
+        segment4: compact.segment4 ? expandSegment(years, compact.segment4) : [],
+        segment5: compact.segment5 ? expandSegment(years, compact.segment5) : undefined,
+        segment6: compact.segment6 ? expandSegment(years, compact.segment6) : undefined,
         countryDataByRegion: expandNestedSegment(years, compact.countryDataByRegion || {}),
-        endUserByAircraftType: expandNestedSegment(years, compact.endUserByAircraftType || {}),
-        endUserByRegion: expandNestedSegment(years, compact.endUserByRegion || {}),
-        aircraftTypeByRegion: expandNestedSegment(years, compact.aircraftTypeByRegion || {}),
-        applicationByRegion: expandNestedSegment(years, compact.applicationByRegion || {}),
-        equipmentByRegion: expandNestedSegment(years, compact.equipmentByRegion || {}),
-        processTypeByRegion: compact.processTypeByRegion ? expandNestedSegment(years, compact.processTypeByRegion) : undefined,
-        materialTypeByRegion: compact.materialTypeByRegion ? expandNestedSegment(years, compact.materialTypeByRegion) : undefined,
-        processTypeByApplication: compact.processTypeByApplication ? expandNestedSegment(years, compact.processTypeByApplication) : undefined,
+        segment1BySegment2: expandNestedSegment(years, compact.segment1BySegment2 || {}),
+        segment1ByRegion: expandNestedSegment(years, compact.segment1ByRegion || {}),
+        segment2ByRegion: expandNestedSegment(years, compact.segment2ByRegion || {}),
+        segment3ByRegion: expandNestedSegment(years, compact.segment3ByRegion || {}),
+        segment4ByRegion: expandNestedSegment(years, compact.segment4ByRegion || {}),
+        segment5ByRegion: compact.segment5ByRegion ? expandNestedSegment(years, compact.segment5ByRegion) : undefined,
+        segment6ByRegion: compact.segment6ByRegion ? expandNestedSegment(years, compact.segment6ByRegion) : undefined,
+        segment5BySegment3: compact.segment5BySegment3 ? expandNestedSegment(years, compact.segment5BySegment3) : undefined,
       };
 
       setData(expanded);
