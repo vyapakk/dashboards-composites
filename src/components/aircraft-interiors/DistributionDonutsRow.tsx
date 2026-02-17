@@ -125,24 +125,38 @@ export function DistributionDonutsRow({
   equipmentLabel = "Equipment",
   processTypeLabel = "Process Type",
 }: DistributionDonutsRowProps) {
+  const hasEndUser = endUserData && endUserData.length > 0;
+  const hasAircraft = aircraftData && aircraftData.length > 0;
+  const hasRegion = regionData && regionData.length > 0;
   const hasApplication = applicationData && applicationData.length > 0;
+  const hasEquipment = equipmentData && equipmentData.length > 0;
   const hasProcessType = processTypeData && processTypeData.length > 0;
-  const donutCount = 3 + (hasApplication ? 1 : 0) + 1 + (hasProcessType ? 1 : 0); // endUser + aircraft + region + application? + equipment + process?
+  const donutCount = (hasEndUser ? 1 : 0) + (hasAircraft ? 1 : 0) + (hasRegion ? 1 : 0) + (hasApplication ? 1 : 0) + (hasEquipment ? 1 : 0) + (hasProcessType ? 1 : 0);
   const gridCols = donutCount >= 6
     ? "grid-cols-2 sm:grid-cols-3 lg:grid-cols-6"
     : donutCount === 5
     ? "grid-cols-2 sm:grid-cols-3 lg:grid-cols-5"
-    : "grid-cols-2 sm:grid-cols-3 lg:grid-cols-4";
+    : donutCount >= 3
+    ? "grid-cols-2 sm:grid-cols-3 lg:grid-cols-4"
+    : "grid-cols-1 sm:grid-cols-2";
 
   return (
     <div className={`grid ${gridCols} gap-4`}>
-      <MiniDonut data={endUserData} year={year} title={endUserLabel} tabType="endUser" onClick={onDonutClick} onSliceClick={onSliceClick} delay={0.1} />
-      <MiniDonut data={aircraftData} year={year} title={aircraftLabel} tabType="aircraft" onClick={onDonutClick} onSliceClick={onSliceClick} delay={0.15} />
-      <MiniDonut data={regionData} year={year} title="Region" tabType="region" onClick={onDonutClick} onSliceClick={onSliceClick} delay={0.2} />
+      {hasEndUser && (
+        <MiniDonut data={endUserData} year={year} title={endUserLabel} tabType="endUser" onClick={onDonutClick} onSliceClick={onSliceClick} delay={0.1} />
+      )}
+      {hasAircraft && (
+        <MiniDonut data={aircraftData} year={year} title={aircraftLabel} tabType="aircraft" onClick={onDonutClick} onSliceClick={onSliceClick} delay={0.15} />
+      )}
+      {hasRegion && (
+        <MiniDonut data={regionData} year={year} title="Region" tabType="region" onClick={onDonutClick} onSliceClick={onSliceClick} delay={0.2} />
+      )}
       {hasApplication && (
         <MiniDonut data={applicationData} year={year} title={applicationLabel} tabType="application" onClick={onDonutClick} onSliceClick={onSliceClick} delay={0.25} />
       )}
-      <MiniDonut data={equipmentData} year={year} title={equipmentLabel} tabType="equipment" onClick={onDonutClick} onSliceClick={onSliceClick} delay={0.3} />
+      {hasEquipment && (
+        <MiniDonut data={equipmentData} year={year} title={equipmentLabel} tabType="equipment" onClick={onDonutClick} onSliceClick={onSliceClick} delay={0.3} />
+      )}
       {hasProcessType && (
         <MiniDonut data={processTypeData} year={year} title={processTypeLabel} tabType="process" onClick={onDonutClick} onSliceClick={onSliceClick} delay={0.35} />
       )}
