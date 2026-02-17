@@ -44,9 +44,9 @@ const SeatsMarketDashboard = () => {
   };
 
   const renderTabContent = () => {
-    if (activeTab === "overview") { return (<MarketOverviewTab marketData={marketData} selectedYear={selectedYear} onYearChange={setSelectedYear} onNavigateToTab={setActiveTab} segment1Label="Sales Type" segment4Label="Component" useMillions />); }
+    if (activeTab === "overview") { return (<MarketOverviewTab marketData={marketData} selectedYear={selectedYear} onYearChange={setSelectedYear} onNavigateToTab={setActiveTab} segment1Label="Sales Type" segment2Label="Aircraft Type" segment3Label="Seat Class Type" segment4Label="Component" useMillions />); }
     const segmentInfo = getSegmentInfo();
-    return (<SegmentDetailTab segmentType={activeTab} segmentData={segmentInfo.data} totalMarket={marketData.totalMarket} marketData={marketData} title={segmentInfo.title} selectedYear={selectedYear} segment1Label="Sales Type" segment4Label="Component" segment3Label="Seat Class Type" segment6Label="Sales Channel Type" useMillions />);
+    return (<SegmentDetailTab segmentType={activeTab} segmentData={segmentInfo.data} totalMarket={marketData.totalMarket} marketData={marketData} title={segmentInfo.title} selectedYear={selectedYear} segment1Label="Sales Type" segment2Label="Aircraft Type" segment4Label="Component" segment3Label="Seat Class Type" segment6Label="Sales Channel Type" useMillions />);
   };
 
   return (

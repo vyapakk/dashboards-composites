@@ -45,10 +45,10 @@ const CabinCompositesDashboard = () => {
 
   const renderTabContent = () => {
     if (activeTab === "overview") {
-      return (<MarketOverviewTab marketData={marketData} selectedYear={selectedYear} onYearChange={setSelectedYear} onNavigateToTab={setActiveTab} segment1Label="Sales Channel" segment4Label="Composites Type" segment5Label="Process Type" />);
+      return (<MarketOverviewTab marketData={marketData} selectedYear={selectedYear} onYearChange={setSelectedYear} onNavigateToTab={setActiveTab} segment1Label="Sales Channel" segment2Label="Aircraft Type" segment3Label="Application" segment4Label="Composites Type" segment5Label="Process Type" />);
     }
     const segmentInfo = getSegmentInfo();
-    return (<SegmentDetailTab segmentType={activeTab} segmentData={segmentInfo.data} totalMarket={marketData.totalMarket} marketData={marketData} title={segmentInfo.title} selectedYear={selectedYear} segment1Label="Sales Channel" segment4Label="Composites Type" />);
+    return (<SegmentDetailTab segmentType={activeTab} segmentData={segmentInfo.data} totalMarket={marketData.totalMarket} marketData={marketData} title={segmentInfo.title} selectedYear={selectedYear} segment1Label="Sales Channel" segment2Label="Aircraft Type" segment3Label="Application" segment4Label="Composites Type" segment5Label="Process Type" />);
   };
 
   return (

@@ -42,9 +42,9 @@ const IFECMarketDashboard = () => {
   };
 
   const renderTabContent = () => {
-    if (activeTab === "overview") { return (<MarketOverviewTab marketData={marketData} selectedYear={selectedYear} onYearChange={setSelectedYear} onNavigateToTab={setActiveTab} segment1Label="End-User Type" segment4Label="Product Type" useMillions />); }
+    if (activeTab === "overview") { return (<MarketOverviewTab marketData={marketData} selectedYear={selectedYear} onYearChange={setSelectedYear} onNavigateToTab={setActiveTab} segment1Label="End-User Type" segment2Label="Aircraft Type" segment3Label="Product Type" segment4Label="Equipment Type" useMillions />); }
     const segmentInfo = getSegmentInfo();
-    return (<SegmentDetailTab segmentType={activeTab} segmentData={segmentInfo.data} totalMarket={marketData.totalMarket} marketData={marketData} title={segmentInfo.title} selectedYear={selectedYear} segment1Label="End-User Type" segment4Label="Equipment Type" segment3Label="Product Type" useMillions />);
+    return (<SegmentDetailTab segmentType={activeTab} segmentData={segmentInfo.data} totalMarket={marketData.totalMarket} marketData={marketData} title={segmentInfo.title} selectedYear={selectedYear} segment1Label="End-User Type" segment2Label="Aircraft Type" segment4Label="Equipment Type" segment3Label="Product Type" useMillions />);
   };
 
   return (

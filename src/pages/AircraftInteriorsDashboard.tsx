@@ -46,10 +46,10 @@ const AircraftInteriorsDashboard = () => {
 
   const renderTabContent = () => {
     if (activeTab === "overview") {
-      return <MarketOverviewTab marketData={marketData} selectedYear={selectedYear} onYearChange={setSelectedYear} onNavigateToTab={setActiveTab} />;
+      return <MarketOverviewTab marketData={marketData} selectedYear={selectedYear} onYearChange={setSelectedYear} onNavigateToTab={setActiveTab} segment1Label="End User" segment2Label="Aircraft Type" segment3Label="Application" segment4Label="Equipment" useMillions />;
     }
     const segmentInfo = getSegmentInfo();
-    return <SegmentDetailTab segmentType={activeTab} segmentData={segmentInfo.data} totalMarket={marketData.totalMarket} marketData={marketData} title={segmentInfo.title} selectedYear={selectedYear} />;
+    return <SegmentDetailTab segmentType={activeTab} segmentData={segmentInfo.data} totalMarket={marketData.totalMarket} marketData={marketData} title={segmentInfo.title} selectedYear={selectedYear} segment1Label="End User" segment2Label="Aircraft Type" segment3Label="Application" segment4Label="Equipment" useMillions />;
   };
 
   return (
