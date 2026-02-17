@@ -14,16 +14,24 @@ interface DrillDownModalProps {
   segmentData: YearlyData[];
   color: string;
   useMillions?: boolean;
+  baseYear?: number;
+  forecastYear?: number;
 }
 
-export function DrillDownModal({ isOpen, onClose, segmentName, segmentData, color, useMillions = false }: DrillDownModalProps) {
+export function DrillDownModal({ isOpen, onClose, segmentName, segmentData, color, useMillions = false, baseYear, forecastYear }: DrillDownModalProps) {
   const trendChartRef = useRef<HTMLDivElement>(null);
   const { downloadChart } = useChartDownload();
   const gradientId = `drillGradient-${segmentName.replace(/[^a-zA-Z0-9]/g, '-')}`;
 
-  const currentValue = segmentData?.find((d) => d.year === 2025)?.value ?? 0;
-  const forecastValue = segmentData?.find((d) => d.year === 2034)?.value ?? 0;
-  const cagr = calculateCAGR(currentValue, forecastValue, 9);
+  // Derive years from data if not provided
+  const years = segmentData?.map(d => d.year) ?? [];
+  const effectiveBaseYear = baseYear ?? (years.find(y => y >= 2025) || years[0] || 2025);
+  const effectiveForecastYear = forecastYear ?? years[years.length - 1] ?? 2034;
+  const yearSpan = effectiveForecastYear - effectiveBaseYear;
+
+  const currentValue = segmentData?.find((d) => d.year === effectiveBaseYear)?.value ?? 0;
+  const forecastValue = segmentData?.find((d) => d.year === effectiveForecastYear)?.value ?? 0;
+  const cagr = calculateCAGR(currentValue, forecastValue, yearSpan);
 
   const CustomTooltip = ({ active, payload }: any) => {
     if (active && payload && payload.length) {
@@ -58,15 +66,15 @@ export function DrillDownModal({ isOpen, onClose, segmentName, segmentData, colo
         <div className="space-y-6">
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
             <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="rounded-lg border border-border bg-secondary/30 p-4">
-              <p className="text-xs text-muted-foreground">2025 Market Size</p>
+              <p className="text-xs text-muted-foreground">{effectiveBaseYear} Market Size</p>
               <p className="text-xl font-bold text-foreground">{useMillions ? `$${currentValue.toLocaleString()}M` : `$${(currentValue / 1000).toFixed(2)}B`}</p>
             </motion.div>
             <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }} className="rounded-lg border border-border bg-secondary/30 p-4">
-              <p className="text-xs text-muted-foreground">2034 Forecast</p>
+              <p className="text-xs text-muted-foreground">{effectiveForecastYear} Forecast</p>
               <p className="text-xl font-bold text-foreground">{useMillions ? `$${forecastValue.toLocaleString()}M` : `$${(forecastValue / 1000).toFixed(2)}B`}</p>
             </motion.div>
             <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }} className="rounded-lg border border-border bg-secondary/30 p-4">
-              <p className="text-xs text-muted-foreground">CAGR through 2034</p>
+              <p className="text-xs text-muted-foreground">CAGR through {effectiveForecastYear}</p>
               <div className="flex items-center gap-1">
                 <p className="text-xl font-bold text-chart-4">{cagr.toFixed(1)}%</p>
                 <TrendingUp className="h-4 w-4 text-chart-4" />
