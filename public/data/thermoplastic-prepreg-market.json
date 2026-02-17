@@ -1,4 +1,17 @@
 {
+  "labels": {
+    "title": "Thermoplastic Prepreg Market",
+    "subtitle": "Market Research Dashboard • 2012-2026",
+    "segment1": "End-Use Industry",
+    "segment2": "Resin Type",
+    "segment3": "Product Form",
+    "segment4": "Fiber Type",
+    "segment5": "Process Type",
+    "useMillions": true,
+    "backRoute": "/dataset/prepreg",
+    "backLabel": "Back to Prepreg",
+    "footerText": "Thermoplastic Prepreg Market Research Report"
+  },
   "years": [2012,2013,2014,2015,2016,2017,2018,2019,2020,2021,2022,2023,2024,2025,2026],
   "totalMarket": [90.2,97.1,103.4,111.1,116.2,125.6,135.5,144.6,114.2,112.3,125.0,136.8,147.6,158.7,168.1],
   "endUser": {
