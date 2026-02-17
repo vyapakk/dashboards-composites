@@ -35,12 +35,12 @@ const AircraftInteriorsDashboard = () => {
 
   const getSegmentInfo = () => {
     switch (activeTab) {
-      case "endUser": return { data: marketData.endUser, title: "End User" };
-      case "aircraft": return { data: marketData.aircraftType, title: "Aircraft Type" };
+      case "segment1": return { data: marketData.segment1, title: "End User" };
+      case "segment2": return { data: marketData.segment2, title: "Aircraft Type" };
       case "region": return { data: marketData.region, title: "Region" };
-      case "application": return { data: marketData.application, title: "Application" };
-      case "equipment": return { data: marketData.furnishedEquipment, title: "Equipment" };
-      default: return { data: marketData.endUser, title: "End User" };
+      case "segment3": return { data: marketData.segment3, title: "Application" };
+      case "segment4": return { data: marketData.segment4, title: "Equipment" };
+      default: return { data: marketData.segment1, title: "End User" };
     }
   };
 
@@ -56,18 +56,14 @@ const AircraftInteriorsDashboard = () => {
     <div className="aircraft-interiors-theme min-h-screen">
       <ScrollToTop />
       <AircraftInteriorsDashboardHeader title="Global Aircraft Interiors Market" />
-
       <main className="container mx-auto px-4 py-8">
         <Button variant="ghost" onClick={() => navigate("/dataset/aircraft-interiors")} className="mb-4 text-muted-foreground hover:text-foreground">
           <ArrowLeft className="mr-2 h-4 w-4" /> Back to Aircraft Interiors
         </Button>
-
         <div className="mb-8">
           <MainNavigation value={activeTab} onChange={setActiveTab} selectedYear={selectedYear} onYearChange={setSelectedYear} showYearSelector />
         </div>
-
         {renderTabContent()}
-
         <motion.footer initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.8 }} className="mt-12 border-t border-border pt-6">
           <div className="flex flex-col items-center justify-between gap-4 text-center md:flex-row md:text-left">
             <div>

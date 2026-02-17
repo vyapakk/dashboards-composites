@@ -9,21 +9,21 @@ import { StackedBarChart } from "@/components/aircraft-interiors/StackedBarChart
 import { useDrillDown } from "@/hooks/useDrillDown";
 import { YearlyData, SegmentData, MarketData, calculateCAGR } from "@/hooks/useMarketData";
 
-type SegmentType = "overview" | "endUser" | "aircraft" | "region" | "application" | "equipment" | "process" | "material";
+type SegmentType = "overview" | "segment1" | "segment2" | "region" | "segment3" | "segment4" | "segment5" | "segment6";
 
 interface SegmentDetailTabProps {
   segmentType: SegmentType;
-  aircraftLabel?: string;
+  segment2Label?: string;
   segmentData: SegmentData[];
   totalMarket: YearlyData[];
   marketData: MarketData;
   title: string;
   selectedYear: number;
-  endUserLabel?: string;
-  equipmentLabel?: string;
-  applicationLabel?: string;
-  processTypeLabel?: string;
-  materialTypeLabel?: string;
+  segment1Label?: string;
+  segment4Label?: string;
+  segment3Label?: string;
+  segment5Label?: string;
+  segment6Label?: string;
   useMillions?: boolean;
   baseYear?: number;
   forecastYear?: number;
@@ -36,12 +36,12 @@ export function SegmentDetailTab({
   marketData,
   title,
   selectedYear,
-  endUserLabel = "End User",
-  aircraftLabel = "Aircraft Type",
-  equipmentLabel = "Equipment Type",
-  applicationLabel = "Application",
-  processTypeLabel = "Process Type",
-  materialTypeLabel = "Material Type",
+  segment1Label = "Segment 1",
+  segment2Label = "Segment 2",
+  segment4Label = "Segment 4",
+  segment3Label = "Segment 3",
+  segment5Label = "Segment 5",
+  segment6Label = "Segment 6",
   useMillions = false,
   baseYear = 2025,
   forecastYear = 2034,
@@ -80,13 +80,13 @@ export function SegmentDetailTab({
   ];
 
   // Segment name arrays for reuse
-  const aircraftTypeNames = marketData.aircraftType.map((s) => s.name);
+  const segment2Names = marketData.segment2.map((s) => s.name);
   const regionNames = marketData.region.map((s) => s.name);
-  const applicationNames = marketData.application.map((s) => s.name);
-  const equipmentNames = marketData.furnishedEquipment.map((s) => s.name);
-  const endUserNames = marketData.endUser.map((s) => s.name);
-  const processTypeNames = marketData.processType?.map((s) => s.name) || [];
-  const materialTypeNames = marketData.materialType?.map((s) => s.name) || [];
+  const segment3Names = marketData.segment3.map((s) => s.name);
+  const segment4Names = marketData.segment4.map((s) => s.name);
+  const segment1Names = marketData.segment1.map((s) => s.name);
+  const segment5Names = marketData.segment5?.map((s) => s.name) || [];
+  const segment6Names = marketData.segment6?.map((s) => s.name) || [];
 
   // Get all countries from all regions
   const getAllCountries = (): SegmentData[] => {
@@ -97,18 +97,18 @@ export function SegmentDetailTab({
     return allCountries;
   };
 
-  // End User by Aircraft Type - uses direct data
-  const getEndUserByAircraftTypeData = () => {
-    if (!marketData.endUserByAircraftType || Object.keys(marketData.endUserByAircraftType).length === 0) return [];
+  // Segment1 by Segment2 - uses direct data
+  const getSegment1BySegment2Data = () => {
+    if (!marketData.segment1BySegment2 || Object.keys(marketData.segment1BySegment2).length === 0) return [];
     
-    return Object.keys(marketData.endUserByAircraftType).map((endUserKey) => {
-      const segments = marketData.endUserByAircraftType[endUserKey] || [];
+    return Object.keys(marketData.segment1BySegment2).map((s1Key) => {
+      const segments = marketData.segment1BySegment2[s1Key] || [];
       const total = segments.reduce((sum, seg) => {
         return sum + (seg.data.find((d) => d.year === selectedYear)?.value ?? 0);
       }, 0);
 
       return {
-        name: endUserKey,
+        name: s1Key,
         segments: segments.map((seg) => ({
           name: seg.name,
           value: seg.data.find((d) => d.year === selectedYear)?.value ?? 0,
@@ -119,18 +119,18 @@ export function SegmentDetailTab({
     });
   };
 
-  // End User by Region - uses direct data
-  const getEndUserByRegionData = () => {
-    if (!marketData.endUserByRegion) return [];
+  // Segment1 by Region - uses direct data
+  const getSegment1ByRegionData = () => {
+    if (!marketData.segment1ByRegion) return [];
     
-    return Object.keys(marketData.endUserByRegion).map((endUserKey) => {
-      const segments = marketData.endUserByRegion[endUserKey] || [];
+    return Object.keys(marketData.segment1ByRegion).map((s1Key) => {
+      const segments = marketData.segment1ByRegion[s1Key] || [];
       const total = segments.reduce((sum, seg) => {
         return sum + (seg.data.find((d) => d.year === selectedYear)?.value ?? 0);
       }, 0);
 
       return {
-        name: endUserKey,
+        name: s1Key,
         segments: segments.map((seg) => ({
           name: seg.name,
           value: seg.data.find((d) => d.year === selectedYear)?.value ?? 0,
@@ -141,18 +141,18 @@ export function SegmentDetailTab({
     });
   };
 
-  // Aircraft Type by Region - uses direct data
-  const getAircraftByRegionData = () => {
-    if (!marketData.aircraftTypeByRegion) return [];
+  // Segment2 by Region - uses direct data
+  const getSegment2ByRegionData = () => {
+    if (!marketData.segment2ByRegion) return [];
     
-    return marketData.aircraftType.map((aircraft) => {
-      const segments = marketData.aircraftTypeByRegion[aircraft.name] || [];
+    return marketData.segment2.map((s2) => {
+      const segments = marketData.segment2ByRegion[s2.name] || [];
       const total = segments.reduce((sum, seg) => {
         return sum + (seg.data.find((d) => d.year === selectedYear)?.value ?? 0);
       }, 0);
 
       return {
-        name: aircraft.name,
+        name: s2.name,
         segments: segments.map((seg) => ({
           name: seg.name,
           value: seg.data.find((d) => d.year === selectedYear)?.value ?? 0,
@@ -163,18 +163,18 @@ export function SegmentDetailTab({
     });
   };
 
-  // Application by Region - uses direct data
-  const getApplicationByRegionData = () => {
-    if (!marketData.applicationByRegion) return [];
+  // Segment3 by Region - uses direct data
+  const getSegment3ByRegionData = () => {
+    if (!marketData.segment3ByRegion) return [];
     
-    return marketData.application.map((app) => {
-      const segments = marketData.applicationByRegion[app.name] || [];
+    return marketData.segment3.map((s3) => {
+      const segments = marketData.segment3ByRegion[s3.name] || [];
       const total = segments.reduce((sum, seg) => {
         return sum + (seg.data.find((d) => d.year === selectedYear)?.value ?? 0);
       }, 0);
 
       return {
-        name: app.name,
+        name: s3.name,
         segments: segments.map((seg) => ({
           name: seg.name,
           value: seg.data.find((d) => d.year === selectedYear)?.value ?? 0,
@@ -185,23 +185,22 @@ export function SegmentDetailTab({
     });
   };
 
-  // Equipment by Region - uses direct data (supports both short keys like BFE/SFE and full names)
-  const getEquipmentByRegionData = () => {
-    if (!marketData.equipmentByRegion) return [];
+  // Segment4 by Region
+  const getSegment4ByRegionData = () => {
+    if (!marketData.segment4ByRegion) return [];
     
-    return marketData.furnishedEquipment.map((equip) => {
-      // Try full name first, then BFE/SFE shortname for backward compatibility
-      let segments = marketData.equipmentByRegion[equip.name];
+    return marketData.segment4.map((s4) => {
+      let segments = marketData.segment4ByRegion[s4.name];
       if (!segments) {
-        const shortName = equip.name.includes("BFE") ? "BFE" : equip.name.includes("SFE") ? "SFE" : equip.name;
-        segments = marketData.equipmentByRegion[shortName] || [];
+        const shortName = s4.name.includes("BFE") ? "BFE" : s4.name.includes("SFE") ? "SFE" : s4.name;
+        segments = marketData.segment4ByRegion[shortName] || [];
       }
       const total = segments.reduce((sum, seg) => {
         return sum + (seg.data.find((d) => d.year === selectedYear)?.value ?? 0);
       }, 0);
 
       return {
-        name: equip.name,
+        name: s4.name,
         segments: segments.map((seg) => ({
           name: seg.name,
           value: seg.data.find((d) => d.year === selectedYear)?.value ?? 0,
@@ -212,18 +211,18 @@ export function SegmentDetailTab({
     });
   };
 
-  // Process Type by Region
-  const getProcessTypeByRegionData = () => {
-    if (!marketData.processType || !marketData.processTypeByRegion) return [];
+  // Segment5 by Region
+  const getSegment5ByRegionData = () => {
+    if (!marketData.segment5 || !marketData.segment5ByRegion) return [];
     
-    return marketData.processType.map((pt) => {
-      const segments = marketData.processTypeByRegion?.[pt.name] || [];
+    return marketData.segment5.map((s5) => {
+      const segments = marketData.segment5ByRegion?.[s5.name] || [];
       const total = segments.reduce((sum, seg) => {
         return sum + (seg.data.find((d) => d.year === selectedYear)?.value ?? 0);
       }, 0);
 
       return {
-        name: pt.name,
+        name: s5.name,
         segments: segments.map((seg) => ({
           name: seg.name,
           value: seg.data.find((d) => d.year === selectedYear)?.value ?? 0,
@@ -234,18 +233,18 @@ export function SegmentDetailTab({
     });
   };
 
-  // Material Type by Region
-  const getMaterialTypeByRegionData = () => {
-    if (!marketData.materialType || !marketData.materialTypeByRegion) return [];
+  // Segment6 by Region
+  const getSegment6ByRegionData = () => {
+    if (!marketData.segment6 || !marketData.segment6ByRegion) return [];
     
-    return marketData.materialType.map((mt) => {
-      const segments = marketData.materialTypeByRegion?.[mt.name] || [];
+    return marketData.segment6.map((s6) => {
+      const segments = marketData.segment6ByRegion?.[s6.name] || [];
       const total = segments.reduce((sum, seg) => {
         return sum + (seg.data.find((d) => d.year === selectedYear)?.value ?? 0);
       }, 0);
 
       return {
-        name: mt.name,
+        name: s6.name,
         segments: segments.map((seg) => ({
           name: seg.name,
           value: seg.data.find((d) => d.year === selectedYear)?.value ?? 0,
@@ -256,20 +255,20 @@ export function SegmentDetailTab({
     });
   };
 
-  // Prepare stacked bar data using direct JSON data
-  const aircraftTypeStackedData = segmentType === "endUser" ? getEndUserByAircraftTypeData() : [];
-  const regionStackedDataForEndUser = segmentType === "endUser" ? getEndUserByRegionData() : [];
+  // Prepare stacked bar data
+  const segment2StackedData = segmentType === "segment1" ? getSegment1BySegment2Data() : [];
+  const regionStackedDataForSegment1 = segmentType === "segment1" ? getSegment1ByRegionData() : [];
 
-  const aircraftByRegionData = segmentType === "aircraft" ? getAircraftByRegionData() : [];
-  const aircraftByEndUserData = segmentType === "aircraft" && Object.keys(marketData.endUserByAircraftType || {}).length > 0
-    ? marketData.aircraftType.map((aircraft) => {
-        const segments = endUserNames.map((euName) => {
-          const euData = marketData.endUserByAircraftType?.[euName]?.find(s => s.name === aircraft.name);
-          const value = euData?.data.find(d => d.year === selectedYear)?.value ?? 0;
-          return { name: euName, value, fullData: euData?.data || [] };
+  const segment2ByRegionData = segmentType === "segment2" ? getSegment2ByRegionData() : [];
+  const segment2BySegment1Data = segmentType === "segment2" && Object.keys(marketData.segment1BySegment2 || {}).length > 0
+    ? marketData.segment2.map((s2) => {
+        const segments = segment1Names.map((s1Name) => {
+          const s1Data = marketData.segment1BySegment2?.[s1Name]?.find(s => s.name === s2.name);
+          const value = s1Data?.data.find(d => d.year === selectedYear)?.value ?? 0;
+          return { name: s1Name, value, fullData: s1Data?.data || [] };
         });
         return {
-          name: aircraft.name,
+          name: s2.name,
           segments,
           total: segments.reduce((s, seg) => s + seg.value, 0),
         };
@@ -277,29 +276,29 @@ export function SegmentDetailTab({
     : [];
 
   // For region charts
-  const regionByAircraftData = segmentType === "region" ? marketData.region.map((region) => {
-    const segments = marketData.aircraftType.map((aircraft) => {
-      const aircraftRegionData = marketData.aircraftTypeByRegion?.[aircraft.name]?.find(r => r.name === region.name);
-      const value = aircraftRegionData?.data.find(d => d.year === selectedYear)?.value ?? 0;
-      return { name: aircraft.name, value, fullData: aircraftRegionData?.data || [] };
+  const regionBySegment2Data = segmentType === "region" ? marketData.region.map((region) => {
+    const segments = marketData.segment2.map((s2) => {
+      const s2RegionData = marketData.segment2ByRegion?.[s2.name]?.find(r => r.name === region.name);
+      const value = s2RegionData?.data.find(d => d.year === selectedYear)?.value ?? 0;
+      return { name: s2.name, value, fullData: s2RegionData?.data || [] };
     });
     return { name: region.name, segments, total: segments.reduce((s, seg) => s + seg.value, 0) };
   }) : [];
 
-  const regionByApplicationData = (segmentType === "region" && marketData.application.length > 0 && marketData.applicationByRegion && Object.keys(marketData.applicationByRegion).length > 0) ? marketData.region.map((region) => {
-    const segments = marketData.application.map((app) => {
-      const appRegionData = marketData.applicationByRegion?.[app.name]?.find(r => r.name === region.name);
-      const value = appRegionData?.data.find(d => d.year === selectedYear)?.value ?? 0;
-      return { name: app.name, value, fullData: appRegionData?.data || [] };
+  const regionBySegment3Data = (segmentType === "region" && marketData.segment3.length > 0 && marketData.segment3ByRegion && Object.keys(marketData.segment3ByRegion).length > 0) ? marketData.region.map((region) => {
+    const segments = marketData.segment3.map((s3) => {
+      const s3RegionData = marketData.segment3ByRegion?.[s3.name]?.find(r => r.name === region.name);
+      const value = s3RegionData?.data.find(d => d.year === selectedYear)?.value ?? 0;
+      return { name: s3.name, value, fullData: s3RegionData?.data || [] };
     });
     return { name: region.name, segments, total: segments.reduce((s, seg) => s + seg.value, 0) };
   }) : [];
 
-  const regionByEndUserData = segmentType === "region" ? marketData.region.map((region) => {
-    const segments = endUserNames.map((euName) => {
-      const euRegionData = marketData.endUserByRegion?.[euName]?.find(r => r.name === region.name);
-      const value = euRegionData?.data.find(d => d.year === selectedYear)?.value ?? 0;
-      return { name: euName, value, fullData: euRegionData?.data || [] };
+  const regionBySegment1Data = segmentType === "region" ? marketData.region.map((region) => {
+    const segments = segment1Names.map((s1Name) => {
+      const s1RegionData = marketData.segment1ByRegion?.[s1Name]?.find(r => r.name === region.name);
+      const value = s1RegionData?.data.find(d => d.year === selectedYear)?.value ?? 0;
+      return { name: s1Name, value, fullData: s1RegionData?.data || [] };
     });
     return {
       name: region.name,
@@ -308,47 +307,47 @@ export function SegmentDetailTab({
     };
   }) : [];
 
-  const regionByEquipmentData = segmentType === "region" ? marketData.region.map((region) => {
-    const equipSegments = marketData.furnishedEquipment.map((equip) => {
-      let equipRegionEntries = marketData.equipmentByRegion?.[equip.name];
-      if (!equipRegionEntries) {
-        const shortName = equip.name.includes("BFE") ? "BFE" : equip.name.includes("SFE") ? "SFE" : equip.name;
-        equipRegionEntries = marketData.equipmentByRegion?.[shortName];
+  const regionBySegment4Data = segmentType === "region" ? marketData.region.map((region) => {
+    const s4Segments = marketData.segment4.map((s4) => {
+      let s4RegionEntries = marketData.segment4ByRegion?.[s4.name];
+      if (!s4RegionEntries) {
+        const shortName = s4.name.includes("BFE") ? "BFE" : s4.name.includes("SFE") ? "SFE" : s4.name;
+        s4RegionEntries = marketData.segment4ByRegion?.[shortName];
       }
-      const regionEntry = equipRegionEntries?.find(r => r.name === region.name);
+      const regionEntry = s4RegionEntries?.find(r => r.name === region.name);
       const value = regionEntry?.data.find(d => d.year === selectedYear)?.value ?? 0;
-      return { name: equip.name, value, fullData: regionEntry?.data || [] };
+      return { name: s4.name, value, fullData: regionEntry?.data || [] };
     });
     return {
       name: region.name,
-      segments: equipSegments,
-      total: equipSegments.reduce((s, seg) => s + seg.value, 0),
+      segments: s4Segments,
+      total: s4Segments.reduce((s, seg) => s + seg.value, 0),
     };
   }) : [];
 
-  const regionByProcessData = segmentType === "region" && marketData.processType ? marketData.region.map((region) => {
-    const segments = (marketData.processType || []).map((pt) => {
-      const ptRegionData = marketData.processTypeByRegion?.[pt.name]?.find(r => r.name === region.name);
-      const value = ptRegionData?.data.find(d => d.year === selectedYear)?.value ?? 0;
-      return { name: pt.name, value, fullData: ptRegionData?.data || [] };
+  const regionBySegment5Data = segmentType === "region" && marketData.segment5 ? marketData.region.map((region) => {
+    const segments = (marketData.segment5 || []).map((s5) => {
+      const s5RegionData = marketData.segment5ByRegion?.[s5.name]?.find(r => r.name === region.name);
+      const value = s5RegionData?.data.find(d => d.year === selectedYear)?.value ?? 0;
+      return { name: s5.name, value, fullData: s5RegionData?.data || [] };
     });
     return { name: region.name, segments, total: segments.reduce((s, seg) => s + seg.value, 0) };
   }) : [];
 
-  const applicationByRegionData = segmentType === "application" ? getApplicationByRegionData() : [];
+  const segment3ByRegionData = segmentType === "segment3" ? getSegment3ByRegionData() : [];
 
-  const equipmentByRegionData = segmentType === "equipment" ? getEquipmentByRegionData() : [];
+  const segment4ByRegionData = segmentType === "segment4" ? getSegment4ByRegionData() : [];
 
-  const processTypeByRegionData = segmentType === "process" ? getProcessTypeByRegionData() : [];
+  const segment5ByRegionData = segmentType === "segment5" ? getSegment5ByRegionData() : [];
 
-  const processTypeByApplicationData = segmentType === "process" && marketData.processTypeByApplication
-    ? (marketData.processType || []).map((pt) => {
-        const segments = marketData.processTypeByApplication?.[pt.name] || [];
+  const segment5BySegment3Data = segmentType === "segment5" && marketData.segment5BySegment3
+    ? (marketData.segment5 || []).map((s5) => {
+        const segments = marketData.segment5BySegment3?.[s5.name] || [];
         const total = segments.reduce((sum, seg) => {
           return sum + (seg.data.find((d) => d.year === selectedYear)?.value ?? 0);
         }, 0);
         return {
-          name: pt.name,
+          name: s5.name,
           segments: segments.map((seg) => ({
             name: seg.name,
             value: seg.data.find((d) => d.year === selectedYear)?.value ?? 0,
@@ -359,19 +358,19 @@ export function SegmentDetailTab({
       })
     : [];
 
-  const processTypeApplicationNames = segmentType === "process" && marketData.processTypeByApplication
+  const segment5Segment3Names = segmentType === "segment5" && marketData.segment5BySegment3
     ? [...new Set(
-        Object.values(marketData.processTypeByApplication).flatMap(segments => segments.map(s => s.name))
+        Object.values(marketData.segment5BySegment3).flatMap(segments => segments.map(s => s.name))
       )]
     : [];
 
-  const materialTypeByRegionData = segmentType === "material" ? getMaterialTypeByRegionData() : [];
+  const segment6ByRegionData = segmentType === "segment6" ? getSegment6ByRegionData() : [];
 
-  const regionByMaterialData = segmentType === "region" && marketData.materialType ? marketData.region.map((region) => {
-    const segments = (marketData.materialType || []).map((mt) => {
-      const mtRegionData = marketData.materialTypeByRegion?.[mt.name]?.find(r => r.name === region.name);
-      const value = mtRegionData?.data.find(d => d.year === selectedYear)?.value ?? 0;
-      return { name: mt.name, value, fullData: mtRegionData?.data || [] };
+  const regionBySegment6Data = segmentType === "region" && marketData.segment6 ? marketData.region.map((region) => {
+    const segments = (marketData.segment6 || []).map((s6) => {
+      const s6RegionData = marketData.segment6ByRegion?.[s6.name]?.find(r => r.name === region.name);
+      const value = s6RegionData?.data.find(d => d.year === selectedYear)?.value ?? 0;
+      return { name: s6.name, value, fullData: s6RegionData?.data || [] };
     });
     return { name: region.name, segments, total: segments.reduce((s, seg) => s + seg.value, 0) };
   }) : [];
@@ -383,37 +382,37 @@ export function SegmentDetailTab({
     if (segmentType === "region" && marketData.countryDataByRegion[segmentName]) {
       return { title: `Countries in ${segmentName}`, data: marketData.countryDataByRegion[segmentName] };
     }
-    if (segmentType === "aircraft") {
-      return { title: "Applications for this Aircraft Type", data: marketData.application };
+    if (segmentType === "segment2") {
+      return { title: `${segment3Label} for this ${segment2Label}`, data: marketData.segment3 };
     }
-    if (segmentType === "endUser") {
-      return { title: "Regions for this End User", data: marketData.region };
+    if (segmentType === "segment1") {
+      return { title: "Regions for this segment", data: marketData.region };
     }
-    if (segmentType === "application") {
-      return { title: "Aircraft Types by Application", data: marketData.aircraftType };
+    if (segmentType === "segment3") {
+      return { title: `${segment2Label} by ${segment3Label}`, data: marketData.segment2 };
     }
-    if (segmentType === "equipment") {
-      let regionalData = marketData.equipmentByRegion?.[segmentName];
+    if (segmentType === "segment4") {
+      let regionalData = marketData.segment4ByRegion?.[segmentName];
       if (!regionalData) {
         const shortName = segmentName.includes("BFE") ? "BFE" : segmentName.includes("SFE") ? "SFE" : segmentName;
-        regionalData = marketData.equipmentByRegion?.[shortName];
+        regionalData = marketData.segment4ByRegion?.[shortName];
       }
       if (regionalData) {
         return { title: `Regions for ${segmentName}`, data: regionalData };
       }
       return { title: "Regions", data: marketData.region };
     }
-    if (segmentType === "process") {
-      const processRegionData = marketData.processTypeByRegion?.[segmentName];
-      if (processRegionData) {
-        return { title: `Regions for ${segmentName}`, data: processRegionData };
+    if (segmentType === "segment5") {
+      const s5RegionData = marketData.segment5ByRegion?.[segmentName];
+      if (s5RegionData) {
+        return { title: `Regions for ${segmentName}`, data: s5RegionData };
       }
       return { title: "Regions", data: marketData.region };
     }
-    if (segmentType === "material") {
-      const materialRegionData = marketData.materialTypeByRegion?.[segmentName];
-      if (materialRegionData) {
-        return { title: `Regions for ${segmentName}`, data: materialRegionData };
+    if (segmentType === "segment6") {
+      const s6RegionData = marketData.segment6ByRegion?.[segmentName];
+      if (s6RegionData) {
+        return { title: `Regions for ${segmentName}`, data: s6RegionData };
       }
       return { title: "Regions", data: marketData.region };
     }
@@ -446,20 +445,20 @@ export function SegmentDetailTab({
 
   // Handle drill-down for stacked bar chart
   const handleStackedBarClick = (
-    endUserType: string,
+    parentType: string,
     segmentName: string,
     value: number,
     color: string,
     fullData?: YearlyData[]
   ) => {
-    const displayName = `${segmentName} (${endUserType})`;
+    const displayName = `${segmentName} (${parentType})`;
     if (fullData) {
       openDrillDown(displayName, fullData, color, undefined);
     }
   };
 
   // All segment tabs hide KPI cards
-  const hideKPIs = segmentType === "endUser" || segmentType === "aircraft" || segmentType === "region" || segmentType === "application" || segmentType === "equipment" || segmentType === "process" || segmentType === "material";
+  const hideKPIs = segmentType === "segment1" || segmentType === "segment2" || segmentType === "region" || segmentType === "segment3" || segmentType === "segment4" || segmentType === "segment5" || segmentType === "segment6";
 
   return (
     <div className="space-y-8">
@@ -528,27 +527,27 @@ export function SegmentDetailTab({
         />
       )}
 
-      {/* End User Specific: Stacked Bar Charts */}
-      {segmentType === "endUser" && (
+      {/* Segment1 Specific: Stacked Bar Charts */}
+      {segmentType === "segment1" && (
         <>
-          {aircraftTypeStackedData.length > 0 && aircraftTypeStackedData.some(d => d.total > 0) && (
+          {segment2StackedData.length > 0 && segment2StackedData.some(d => d.total > 0) && (
             <StackedBarChart
-              data={aircraftTypeStackedData}
+              data={segment2StackedData}
               year={selectedYear}
-              title={`OE vs Aftermarket by Aircraft Type`}
-              subtitle={`${selectedYear} breakdown - bars represent ${endUserLabel.toLowerCase()} segments, stacks show aircraft types`}
+              title={`${segment1Label} by ${segment2Label}`}
+              subtitle={`${selectedYear} breakdown - bars represent ${segment1Label.toLowerCase()} segments, stacks show ${segment2Label.toLowerCase()}`}
               segmentColors={SEGMENT_COLORS}
-              segmentNames={aircraftTypeNames}
+              segmentNames={segment2Names}
               onSegmentClick={handleStackedBarClick}
               useMillions={useMillions}
             />
           )}
-          {regionStackedDataForEndUser.length > 0 && regionStackedDataForEndUser.some(d => d.total > 0) && (
+          {regionStackedDataForSegment1.length > 0 && regionStackedDataForSegment1.some(d => d.total > 0) && (
             <StackedBarChart
-              data={regionStackedDataForEndUser}
+              data={regionStackedDataForSegment1}
               year={selectedYear}
-              title={`${endUserLabel} by Region`}
-              subtitle={`${selectedYear} breakdown - bars represent ${endUserLabel.toLowerCase()} segments, stacks show regions`}
+              title={`${segment1Label} by Region`}
+              subtitle={`${selectedYear} breakdown - bars represent ${segment1Label.toLowerCase()} segments, stacks show regions`}
               segmentColors={SEGMENT_COLORS}
               segmentNames={regionNames}
               onSegmentClick={handleStackedBarClick}
@@ -558,29 +557,29 @@ export function SegmentDetailTab({
         </>
       )}
 
-      {/* Aircraft Type Specific: Stacked Bar Charts */}
-      {segmentType === "aircraft" && (
+      {/* Segment2 Specific: Stacked Bar Charts */}
+      {segmentType === "segment2" && (
         <>
-          {aircraftByRegionData.length > 0 && aircraftByRegionData.some(d => d.total > 0) && (
+          {segment2ByRegionData.length > 0 && segment2ByRegionData.some(d => d.total > 0) && (
             <StackedBarChart
-              data={aircraftByRegionData}
+              data={segment2ByRegionData}
               year={selectedYear}
-              title={`${aircraftLabel} by Region`}
-              subtitle={`${selectedYear} breakdown - bars represent ${aircraftLabel.toLowerCase()}, stacks show regions`}
+              title={`${segment2Label} by Region`}
+              subtitle={`${selectedYear} breakdown - bars represent ${segment2Label.toLowerCase()}, stacks show regions`}
               segmentColors={SEGMENT_COLORS}
               segmentNames={regionNames}
               onSegmentClick={handleStackedBarClick}
               useMillions={useMillions}
             />
           )}
-          {aircraftByEndUserData.length > 0 && aircraftByEndUserData.some(d => d.total > 0) && (
+          {segment2BySegment1Data.length > 0 && segment2BySegment1Data.some(d => d.total > 0) && (
             <StackedBarChart
-              data={aircraftByEndUserData}
+              data={segment2BySegment1Data}
               year={selectedYear}
-              title={`${aircraftLabel} by ${endUserLabel}`}
-              subtitle={`${selectedYear} breakdown - bars represent ${aircraftLabel.toLowerCase()}, stacks show ${endUserLabel.toLowerCase()}`}
+              title={`${segment2Label} by ${segment1Label}`}
+              subtitle={`${selectedYear} breakdown - bars represent ${segment2Label.toLowerCase()}, stacks show ${segment1Label.toLowerCase()}`}
               segmentColors={SEGMENT_COLORS}
-              segmentNames={endUserNames}
+              segmentNames={segment1Names}
               onSegmentClick={handleStackedBarClick}
               useMillions={useMillions}
             />
@@ -591,74 +590,74 @@ export function SegmentDetailTab({
       {/* Region Specific: Stacked Bar Charts */}
       {segmentType === "region" && (
         <>
-          {regionByAircraftData.length > 0 && regionByAircraftData.some(d => d.total > 0) && (
+          {regionBySegment2Data.length > 0 && regionBySegment2Data.some(d => d.total > 0) && (
             <StackedBarChart
-              data={regionByAircraftData}
+              data={regionBySegment2Data}
               year={selectedYear}
-              title={`Region by ${aircraftLabel}`}
-              subtitle={`${selectedYear} breakdown - bars represent regions, stacks show ${aircraftLabel.toLowerCase()}`}
+              title={`Region by ${segment2Label}`}
+              subtitle={`${selectedYear} breakdown - bars represent regions, stacks show ${segment2Label.toLowerCase()}`}
               segmentColors={SEGMENT_COLORS}
-              segmentNames={aircraftTypeNames}
+              segmentNames={segment2Names}
               onSegmentClick={handleStackedBarClick}
               useMillions={useMillions}
             />
           )}
-          {regionByApplicationData.length > 0 && regionByApplicationData.some(d => d.total > 0) && (
+          {regionBySegment3Data.length > 0 && regionBySegment3Data.some(d => d.total > 0) && (
             <StackedBarChart
-              data={regionByApplicationData}
+              data={regionBySegment3Data}
               year={selectedYear}
-              title={`Region by ${applicationLabel}`}
-              subtitle={`${selectedYear} breakdown - bars represent regions, stacks show ${applicationLabel.toLowerCase()}`}
+              title={`Region by ${segment3Label}`}
+              subtitle={`${selectedYear} breakdown - bars represent regions, stacks show ${segment3Label.toLowerCase()}`}
               segmentColors={SEGMENT_COLORS}
-              segmentNames={applicationNames}
+              segmentNames={segment3Names}
               onSegmentClick={handleStackedBarClick}
               useMillions={useMillions}
             />
           )}
-          {regionByEndUserData.length > 0 && regionByEndUserData.some(d => d.total > 0) && (
+          {regionBySegment1Data.length > 0 && regionBySegment1Data.some(d => d.total > 0) && (
             <StackedBarChart
-              data={regionByEndUserData}
+              data={regionBySegment1Data}
               year={selectedYear}
-              title={`Region by ${endUserLabel}`}
-              subtitle={`${selectedYear} breakdown - bars represent regions, stacks show ${endUserLabel.toLowerCase()}`}
+              title={`Region by ${segment1Label}`}
+              subtitle={`${selectedYear} breakdown - bars represent regions, stacks show ${segment1Label.toLowerCase()}`}
               segmentColors={SEGMENT_COLORS}
-              segmentNames={endUserNames}
+              segmentNames={segment1Names}
               onSegmentClick={handleStackedBarClick}
               useMillions={useMillions}
             />
           )}
-          {regionByEquipmentData.length > 0 && regionByEquipmentData.some(d => d.total > 0) && (
+          {regionBySegment4Data.length > 0 && regionBySegment4Data.some(d => d.total > 0) && (
             <StackedBarChart
-              data={regionByEquipmentData}
+              data={regionBySegment4Data}
               year={selectedYear}
-              title={`Region by ${equipmentLabel}`}
-              subtitle={`${selectedYear} breakdown - bars represent regions, stacks show ${equipmentLabel.toLowerCase()}`}
+              title={`Region by ${segment4Label}`}
+              subtitle={`${selectedYear} breakdown - bars represent regions, stacks show ${segment4Label.toLowerCase()}`}
               segmentColors={SEGMENT_COLORS}
-              segmentNames={equipmentNames}
+              segmentNames={segment4Names}
               onSegmentClick={handleStackedBarClick}
               useMillions={useMillions}
             />
           )}
-          {regionByProcessData.length > 0 && regionByProcessData.some(d => d.total > 0) && (
+          {regionBySegment5Data.length > 0 && regionBySegment5Data.some(d => d.total > 0) && (
             <StackedBarChart
-              data={regionByProcessData}
+              data={regionBySegment5Data}
               year={selectedYear}
-              title={`Region by ${processTypeLabel}`}
-              subtitle={`${selectedYear} breakdown - bars represent regions, stacks show ${processTypeLabel.toLowerCase()}`}
+              title={`Region by ${segment5Label}`}
+              subtitle={`${selectedYear} breakdown - bars represent regions, stacks show ${segment5Label.toLowerCase()}`}
               segmentColors={SEGMENT_COLORS}
-              segmentNames={processTypeNames}
+              segmentNames={segment5Names}
               onSegmentClick={handleStackedBarClick}
               useMillions={useMillions}
            />
           )}
-          {regionByMaterialData.length > 0 && regionByMaterialData.some(d => d.total > 0) && (
+          {regionBySegment6Data.length > 0 && regionBySegment6Data.some(d => d.total > 0) && (
             <StackedBarChart
-              data={regionByMaterialData}
+              data={regionBySegment6Data}
               year={selectedYear}
-              title={`Region by ${materialTypeLabel}`}
-              subtitle={`${selectedYear} breakdown - bars represent regions, stacks show ${materialTypeLabel.toLowerCase()}`}
+              title={`Region by ${segment6Label}`}
+              subtitle={`${selectedYear} breakdown - bars represent regions, stacks show ${segment6Label.toLowerCase()}`}
               segmentColors={SEGMENT_COLORS}
-              segmentNames={materialTypeNames}
+              segmentNames={segment6Names}
               onSegmentClick={handleStackedBarClick}
               useMillions={useMillions}
             />
@@ -666,13 +665,13 @@ export function SegmentDetailTab({
         </>
       )}
 
-      {/* Application Specific: Stacked Bar Charts */}
-      {segmentType === "application" && applicationByRegionData.length > 0 && applicationByRegionData.some(d => d.total > 0) && (
+      {/* Segment3 Specific: Stacked Bar Charts */}
+      {segmentType === "segment3" && segment3ByRegionData.length > 0 && segment3ByRegionData.some(d => d.total > 0) && (
         <StackedBarChart
-          data={applicationByRegionData}
+          data={segment3ByRegionData}
           year={selectedYear}
-          title={`${applicationLabel} by Region`}
-          subtitle={`${selectedYear} breakdown - bars represent ${applicationLabel.toLowerCase()}, stacks show regions`}
+          title={`${segment3Label} by Region`}
+          subtitle={`${selectedYear} breakdown - bars represent ${segment3Label.toLowerCase()}, stacks show regions`}
           segmentColors={SEGMENT_COLORS}
           segmentNames={regionNames}
           onSegmentClick={handleStackedBarClick}
@@ -680,13 +679,13 @@ export function SegmentDetailTab({
         />
       )}
 
-      {/* Equipment Specific: Stacked Bar Charts */}
-      {segmentType === "equipment" && equipmentByRegionData.length > 0 && equipmentByRegionData.some(d => d.total > 0) && (
+      {/* Segment4 Specific: Stacked Bar Charts */}
+      {segmentType === "segment4" && segment4ByRegionData.length > 0 && segment4ByRegionData.some(d => d.total > 0) && (
         <StackedBarChart
-          data={equipmentByRegionData}
+          data={segment4ByRegionData}
           year={selectedYear}
-          title={`${equipmentLabel} by Region`}
-          subtitle={`${selectedYear} breakdown - bars represent ${equipmentLabel.toLowerCase()}, stacks show regions`}
+          title={`${segment4Label} by Region`}
+          subtitle={`${selectedYear} breakdown - bars represent ${segment4Label.toLowerCase()}, stacks show regions`}
           segmentColors={SEGMENT_COLORS}
           segmentNames={regionNames}
           onSegmentClick={handleStackedBarClick}
@@ -694,39 +693,39 @@ export function SegmentDetailTab({
         />
       )}
 
-      {/* Process Type Specific: Stacked Bar Charts */}
-      {segmentType === "process" && processTypeByRegionData.length > 0 && processTypeByRegionData.some(d => d.total > 0) && (
+      {/* Segment5 Specific: Stacked Bar Charts */}
+      {segmentType === "segment5" && segment5ByRegionData.length > 0 && segment5ByRegionData.some(d => d.total > 0) && (
         <StackedBarChart
-          data={processTypeByRegionData}
+          data={segment5ByRegionData}
           year={selectedYear}
-          title={`${processTypeLabel} by Region`}
-          subtitle={`${selectedYear} breakdown - bars represent ${processTypeLabel.toLowerCase()}, stacks show regions`}
+          title={`${segment5Label} by Region`}
+          subtitle={`${selectedYear} breakdown - bars represent ${segment5Label.toLowerCase()}, stacks show regions`}
           segmentColors={SEGMENT_COLORS}
           segmentNames={regionNames}
           onSegmentClick={handleStackedBarClick}
           useMillions={useMillions}
         />
       )}
-      {segmentType === "process" && processTypeByApplicationData.length > 0 && processTypeByApplicationData.some(d => d.total > 0) && (
+      {segmentType === "segment5" && segment5BySegment3Data.length > 0 && segment5BySegment3Data.some(d => d.total > 0) && (
         <StackedBarChart
-          data={processTypeByApplicationData}
+          data={segment5BySegment3Data}
           year={selectedYear}
-          title={`${processTypeLabel} by Application`}
-          subtitle={`${selectedYear} breakdown - bars represent ${processTypeLabel.toLowerCase()}, stacks show applications`}
+          title={`${segment5Label} by ${segment3Label}`}
+          subtitle={`${selectedYear} breakdown - bars represent ${segment5Label.toLowerCase()}, stacks show ${segment3Label.toLowerCase()}`}
           segmentColors={SEGMENT_COLORS}
-          segmentNames={processTypeApplicationNames}
+          segmentNames={segment5Segment3Names}
           onSegmentClick={handleStackedBarClick}
           useMillions={useMillions}
         />
       )}
 
-      {/* Material Type Specific: Stacked Bar Charts */}
-      {segmentType === "material" && materialTypeByRegionData.length > 0 && materialTypeByRegionData.some(d => d.total > 0) && (
+      {/* Segment6 Specific: Stacked Bar Charts */}
+      {segmentType === "segment6" && segment6ByRegionData.length > 0 && segment6ByRegionData.some(d => d.total > 0) && (
         <StackedBarChart
-          data={materialTypeByRegionData}
+          data={segment6ByRegionData}
           year={selectedYear}
-          title={`${materialTypeLabel} by Region`}
-          subtitle={`${selectedYear} breakdown - bars represent ${materialTypeLabel.toLowerCase()}, stacks show regions`}
+          title={`${segment6Label} by Region`}
+          subtitle={`${selectedYear} breakdown - bars represent ${segment6Label.toLowerCase()}, stacks show regions`}
           segmentColors={SEGMENT_COLORS}
           segmentNames={regionNames}
           onSegmentClick={handleStackedBarClick}

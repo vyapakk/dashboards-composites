@@ -5,20 +5,20 @@ import { SegmentData, YearlyData } from "@/hooks/useMarketData";
 import { MainTabType } from "./MainNavigation";
 
 interface DistributionDonutsRowProps {
-  endUserData: SegmentData[];
-  aircraftData: SegmentData[];
+  segment1Data: SegmentData[];
+  segment2Data: SegmentData[];
   regionData: SegmentData[];
-  applicationData: SegmentData[];
-  equipmentData: SegmentData[];
-  processTypeData?: SegmentData[];
+  segment3Data: SegmentData[];
+  segment4Data: SegmentData[];
+  segment5Data?: SegmentData[];
   year: number;
   onDonutClick?: (tabType: MainTabType) => void;
   onSliceClick?: (segmentName: string, segmentData: YearlyData[], color: string, donutType: MainTabType) => void;
-  endUserLabel?: string;
-  aircraftLabel?: string;
-  applicationLabel?: string;
-  equipmentLabel?: string;
-  processTypeLabel?: string;
+  segment1Label?: string;
+  segment2Label?: string;
+  segment3Label?: string;
+  segment4Label?: string;
+  segment5Label?: string;
 }
 
 const chartColors = [
@@ -110,28 +110,28 @@ function MiniDonut({ data, year, title, tabType, onClick, onSliceClick, delay }:
 }
 
 export function DistributionDonutsRow({
-  endUserData,
-  aircraftData,
+  segment1Data,
+  segment2Data,
   regionData,
-  applicationData,
-  equipmentData,
-  processTypeData,
+  segment3Data,
+  segment4Data,
+  segment5Data,
   year,
   onDonutClick,
   onSliceClick,
-  endUserLabel = "End User",
-  aircraftLabel = "Aircraft Type",
-  applicationLabel = "Application",
-  equipmentLabel = "Equipment",
-  processTypeLabel = "Process Type",
+  segment1Label = "Segment 1",
+  segment2Label = "Segment 2",
+  segment3Label = "Segment 3",
+  segment4Label = "Segment 4",
+  segment5Label = "Segment 5",
 }: DistributionDonutsRowProps) {
-  const hasEndUser = endUserData && endUserData.length > 0;
-  const hasAircraft = aircraftData && aircraftData.length > 0;
+  const hasSegment1 = segment1Data && segment1Data.length > 0;
+  const hasSegment2 = segment2Data && segment2Data.length > 0;
   const hasRegion = regionData && regionData.length > 0;
-  const hasApplication = applicationData && applicationData.length > 0;
-  const hasEquipment = equipmentData && equipmentData.length > 0;
-  const hasProcessType = processTypeData && processTypeData.length > 0;
-  const donutCount = (hasEndUser ? 1 : 0) + (hasAircraft ? 1 : 0) + (hasRegion ? 1 : 0) + (hasApplication ? 1 : 0) + (hasEquipment ? 1 : 0) + (hasProcessType ? 1 : 0);
+  const hasSegment3 = segment3Data && segment3Data.length > 0;
+  const hasSegment4 = segment4Data && segment4Data.length > 0;
+  const hasSegment5 = segment5Data && segment5Data.length > 0;
+  const donutCount = (hasSegment1 ? 1 : 0) + (hasSegment2 ? 1 : 0) + (hasRegion ? 1 : 0) + (hasSegment3 ? 1 : 0) + (hasSegment4 ? 1 : 0) + (hasSegment5 ? 1 : 0);
   const gridCols = donutCount >= 6
     ? "grid-cols-2 sm:grid-cols-3 lg:grid-cols-6"
     : donutCount === 5
@@ -142,23 +142,23 @@ export function DistributionDonutsRow({
 
   return (
     <div className={`grid ${gridCols} gap-4`}>
-      {hasEndUser && (
-        <MiniDonut data={endUserData} year={year} title={endUserLabel} tabType="endUser" onClick={onDonutClick} onSliceClick={onSliceClick} delay={0.1} />
+      {hasSegment1 && (
+        <MiniDonut data={segment1Data} year={year} title={segment1Label} tabType="segment1" onClick={onDonutClick} onSliceClick={onSliceClick} delay={0.1} />
       )}
-      {hasAircraft && (
-        <MiniDonut data={aircraftData} year={year} title={aircraftLabel} tabType="aircraft" onClick={onDonutClick} onSliceClick={onSliceClick} delay={0.15} />
+      {hasSegment2 && (
+        <MiniDonut data={segment2Data} year={year} title={segment2Label} tabType="segment2" onClick={onDonutClick} onSliceClick={onSliceClick} delay={0.15} />
       )}
       {hasRegion && (
         <MiniDonut data={regionData} year={year} title="Region" tabType="region" onClick={onDonutClick} onSliceClick={onSliceClick} delay={0.2} />
       )}
-      {hasApplication && (
-        <MiniDonut data={applicationData} year={year} title={applicationLabel} tabType="application" onClick={onDonutClick} onSliceClick={onSliceClick} delay={0.25} />
+      {hasSegment3 && (
+        <MiniDonut data={segment3Data} year={year} title={segment3Label} tabType="segment3" onClick={onDonutClick} onSliceClick={onSliceClick} delay={0.25} />
       )}
-      {hasEquipment && (
-        <MiniDonut data={equipmentData} year={year} title={equipmentLabel} tabType="equipment" onClick={onDonutClick} onSliceClick={onSliceClick} delay={0.3} />
+      {hasSegment4 && (
+        <MiniDonut data={segment4Data} year={year} title={segment4Label} tabType="segment4" onClick={onDonutClick} onSliceClick={onSliceClick} delay={0.3} />
       )}
-      {hasProcessType && (
-        <MiniDonut data={processTypeData} year={year} title={processTypeLabel} tabType="process" onClick={onDonutClick} onSliceClick={onSliceClick} delay={0.35} />
+      {hasSegment5 && (
+        <MiniDonut data={segment5Data} year={year} title={segment5Label} tabType="segment5" onClick={onDonutClick} onSliceClick={onSliceClick} delay={0.35} />
       )}
     </div>
   );

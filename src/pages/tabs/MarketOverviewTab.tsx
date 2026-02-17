@@ -12,11 +12,11 @@ interface MarketOverviewTabProps {
   selectedYear: number;
   onYearChange: (year: number) => void;
   onNavigateToTab: (tabType: MainTabType) => void;
-  endUserLabel?: string;
-  aircraftLabel?: string;
-  applicationLabel?: string;
-  equipmentLabel?: string;
-  processTypeLabel?: string;
+  segment1Label?: string;
+  segment2Label?: string;
+  segment3Label?: string;
+  segment4Label?: string;
+  segment5Label?: string;
   useMillions?: boolean;
   baseYear?: number;
   forecastYear?: number;
@@ -27,11 +27,11 @@ export function MarketOverviewTab({
   selectedYear,
   onYearChange,
   onNavigateToTab,
-  endUserLabel = "End User",
-  aircraftLabel = "Aircraft Type",
-  applicationLabel = "Application",
-  equipmentLabel = "Equipment",
-  processTypeLabel = "Process Type",
+  segment1Label = "Segment 1",
+  segment2Label = "Segment 2",
+  segment3Label = "Segment 3",
+  segment4Label = "Segment 4",
+  segment5Label = "Segment 5",
   useMillions = false,
   baseYear = 2025,
   forecastYear = 2034,
@@ -53,26 +53,25 @@ export function MarketOverviewTab({
     color: string,
     donutType: MainTabType
   ) => {
-    // Determine related segments based on donut type
     let relatedSegments: { title: string; data: SegmentData[] } | undefined;
     
     switch (donutType) {
-      case "endUser":
+      case "segment1":
         relatedSegments = { title: "By Region", data: marketData.region };
         break;
-      case "aircraft":
-        relatedSegments = { title: "By Application", data: marketData.application };
+      case "segment2":
+        relatedSegments = { title: `By ${segment3Label}`, data: marketData.segment3 };
         break;
       case "region":
-        relatedSegments = { title: `By ${endUserLabel}`, data: marketData.endUser };
+        relatedSegments = { title: `By ${segment1Label}`, data: marketData.segment1 };
         break;
-      case "application":
-        relatedSegments = { title: "By Aircraft Type", data: marketData.aircraftType };
+      case "segment3":
+        relatedSegments = { title: `By ${segment2Label}`, data: marketData.segment2 };
         break;
-      case "equipment":
-        relatedSegments = { title: `By ${endUserLabel}`, data: marketData.endUser };
+      case "segment4":
+        relatedSegments = { title: `By ${segment1Label}`, data: marketData.segment1 };
         break;
-      case "process":
+      case "segment5":
         relatedSegments = { title: "By Region", data: marketData.region };
         break;
     }
@@ -128,20 +127,20 @@ export function MarketOverviewTab({
           Click any slice to see detailed analysis
         </p>
         <DistributionDonutsRow
-          endUserData={marketData.endUser}
-          aircraftData={marketData.aircraftType}
+          segment1Data={marketData.segment1}
+          segment2Data={marketData.segment2}
           regionData={marketData.region}
-          applicationData={marketData.application}
-          equipmentData={marketData.furnishedEquipment?.length ? marketData.furnishedEquipment : (marketData.materialType ?? [])}
-          processTypeData={marketData.processType}
+          segment3Data={marketData.segment3}
+          segment4Data={marketData.segment4.length ? marketData.segment4 : (marketData.segment6 ?? [])}
+          segment5Data={marketData.segment5}
           year={selectedYear}
           onDonutClick={onNavigateToTab}
           onSliceClick={handleSliceClick}
-          endUserLabel={endUserLabel}
-          aircraftLabel={aircraftLabel}
-          applicationLabel={applicationLabel}
-          equipmentLabel={equipmentLabel}
-          processTypeLabel={processTypeLabel}
+          segment1Label={segment1Label}
+          segment2Label={segment2Label}
+          segment3Label={segment3Label}
+          segment4Label={segment4Label}
+          segment5Label={segment5Label}
         />
       </div>
 
