@@ -1,4 +1,16 @@
 {
+  "labels": {
+    "title": "Aircraft Lavatory Market",
+    "subtitle": "Global Market Research Dashboard • 2016-2034",
+    "segment1": "End-User Type",
+    "segment2": "Aircraft Type",
+    "segment3": "Lavatory Type",
+    "segment4": "Furnished Equipment Type",
+    "useMillions": true,
+    "backRoute": "/dataset/aircraft-interiors",
+    "backLabel": "Back to Aircraft Interiors",
+    "footerText": "Aircraft Lavatory Market Research Report"
+  },
   "years": [2016,2017,2018,2019,2020,2021,2022,2023,2024,2025,2026,2027,2028,2029,2030,2031,2032,2033,2034],
   "totalMarket": [437.3,459.6,465.8,505.4,288.7,239.4,300.0,360.3,396.9,440.3,476.2,502.4,518.4,532.6,513.2,521.1,538.5,552.5,564.8],
   "endUser": {
