@@ -96,6 +96,51 @@ function expandNestedSegment(
   return result;
 }
 
+/**
+ * Auto-maps domain-specific JSON keys to generic segment keys.
+ * This allows JSON files to use either format:
+ *   Generic: segment1, segment2, segment3, segment4, segment5, segment6
+ *   Domain:  endUser, aircraftType, application, furnishedEquipment, processType, materialType
+ */
+function normalizeCompactData(raw: Record<string, unknown>): CompactMarketData {
+  const get = (generic: string, ...fallbacks: string[]): Record<string, number[]> | undefined => {
+    if (raw[generic]) return raw[generic] as Record<string, number[]>;
+    for (const fb of fallbacks) {
+      if (raw[fb]) return raw[fb] as Record<string, number[]>;
+    }
+    return undefined;
+  };
+
+  const getNested = (generic: string, ...fallbacks: string[]): Record<string, Record<string, number[]>> | undefined => {
+    if (raw[generic]) return raw[generic] as Record<string, Record<string, number[]>>;
+    for (const fb of fallbacks) {
+      if (raw[fb]) return raw[fb] as Record<string, Record<string, number[]>>;
+    }
+    return undefined;
+  };
+
+  return {
+    years: raw.years as number[],
+    totalMarket: raw.totalMarket as number[],
+    segment1: get("segment1", "endUser"),
+    segment2: get("segment2", "aircraftType"),
+    region: get("region") as Record<string, number[]> | undefined,
+    segment3: get("segment3", "application"),
+    segment4: get("segment4", "furnishedEquipment"),
+    segment5: get("segment5", "processType"),
+    segment6: get("segment6", "materialType"),
+    countryDataByRegion: getNested("countryDataByRegion"),
+    segment1BySegment2: getNested("segment1BySegment2", "endUserByAircraftType"),
+    segment1ByRegion: getNested("segment1ByRegion", "endUserByRegion"),
+    segment2ByRegion: getNested("segment2ByRegion", "aircraftTypeByRegion"),
+    segment3ByRegion: getNested("segment3ByRegion", "applicationByRegion"),
+    segment4ByRegion: getNested("segment4ByRegion", "equipmentByRegion"),
+    segment5ByRegion: getNested("segment5ByRegion", "processTypeByRegion"),
+    segment6ByRegion: getNested("segment6ByRegion", "materialTypeByRegion"),
+    segment5BySegment3: getNested("segment5BySegment3", "processTypeByApplication"),
+  };
+}
+
 export function useMarketData(dataUrl: string = "/data/global-aircraft-interiors-market.json"): UseMarketDataResult {
   const [data, setData] = useState<MarketData | null>(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -110,7 +155,8 @@ export function useMarketData(dataUrl: string = "/data/global-aircraft-interiors
       if (!response.ok) {
         throw new Error(`Failed to fetch market data: ${response.statusText}`);
       }
-      const compact: CompactMarketData = await response.json();
+      const raw = await response.json();
+      const compact = normalizeCompactData(raw);
       const { years } = compact;
 
       const expanded: MarketData = {
