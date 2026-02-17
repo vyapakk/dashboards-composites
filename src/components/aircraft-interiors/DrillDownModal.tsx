@@ -14,19 +14,17 @@ interface DrillDownModalProps {
   segmentData: YearlyData[];
   color: string;
   useMillions?: boolean;
-  baseYear?: number;
-  forecastYear?: number;
 }
 
-export function DrillDownModal({ isOpen, onClose, segmentName, segmentData, color, useMillions = false, baseYear, forecastYear }: DrillDownModalProps) {
+export function DrillDownModal({ isOpen, onClose, segmentName, segmentData, color, useMillions = false }: DrillDownModalProps) {
   const trendChartRef = useRef<HTMLDivElement>(null);
   const { downloadChart } = useChartDownload();
   const gradientId = `drillGradient-${segmentName.replace(/[^a-zA-Z0-9]/g, '-')}`;
 
-  // Derive years from data if not provided
+  // Self-contained: derive year range from the segment's own data
   const years = segmentData?.map(d => d.year) ?? [];
-  const effectiveBaseYear = baseYear ?? (years.find(y => y >= 2025) || years[0] || 2025);
-  const effectiveForecastYear = forecastYear ?? years[years.length - 1] ?? 2034;
+  const effectiveBaseYear = years.find(y => y >= 2025) || years[0] || 2025;
+  const effectiveForecastYear = years[years.length - 1] ?? 2034;
   const yearSpan = effectiveForecastYear - effectiveBaseYear;
 
   const currentValue = segmentData?.find((d) => d.year === effectiveBaseYear)?.value ?? 0;
